@@ -6,6 +6,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import ru.inno.earthquakes.entity.Earthquake;
+import ru.inno.earthquakes.entity.EarthquakeWithDist;
+import ru.inno.earthquakes.entity.Location;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -13,14 +15,24 @@ import ru.inno.earthquakes.entity.Earthquake;
  */
 public class EarthquakesInteractor {
 
-    private EarthquakesRepository earthquakesRepository;
+    private EarthquakesRepository repository;
 
     @Inject
-    public EarthquakesInteractor(EarthquakesRepository earthquakesRepository) {
-        this.earthquakesRepository = earthquakesRepository;
+    public EarthquakesInteractor(EarthquakesRepository repository) {
+        this.repository = repository;
     }
 
-    Observable<List<Earthquake>> getTodaysEartquakes() {
-        return earthquakesRepository.getTodaysEarthquakes();
+    public Observable<List<Earthquake>> getTodaysEartquakes() {
+        return repository.getTodaysEarthquakes();
     }
+
+    public Observable<List<EarthquakeWithDist>> getTodaysEartquakesSortedByLocation(Location.Coordinates coords) {
+        return repository.getTodaysEarthquakes()
+                .flatMapIterable(earthquakes -> earthquakes)
+                .map(earthquake -> new EarthquakeWithDist(earthquake, coords))
+                .sorted((a, b) -> Double.compare(a.getDistance(), b.getDistance()))
+                .toList()
+                .toObservable();
+    }
+
 }

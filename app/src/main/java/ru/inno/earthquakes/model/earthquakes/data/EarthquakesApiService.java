@@ -10,6 +10,6 @@ import ru.inno.earthquakes.model.earthquakes.data.rawmodels.EarthquakesResponse;
  */
 public interface EarthquakesApiService {
 
-    @GET("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson")
+    @GET("earthquakes/feed/v1.0/summary/all_day.geojson")
     Single<EarthquakesResponse> getEarthquakes();
 }

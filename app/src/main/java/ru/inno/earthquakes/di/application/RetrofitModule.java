@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.di;
+package ru.inno.earthquakes.di.application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

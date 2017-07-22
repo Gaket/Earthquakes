@@ -9,6 +9,16 @@ public class Location {
     private String name;
     private Coordinates coords;
 
+    public static double distance(Coordinates from, Location to) {
+        return distance(from, to.getCoords());
+    }
+
+    public static double distance(Coordinates from, Coordinates to) {
+        return Math.hypot(
+                from.getLatitude() - to.getLatitude(),
+                from.getLongtitude() - to.getLongtitude());
+    }
+
     public String getName() {
         return name;
     }
@@ -26,6 +36,7 @@ public class Location {
     }
 
     public static class Coordinates {
+
         private double longtitude;
         private double latitude;
 

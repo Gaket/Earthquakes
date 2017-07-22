@@ -3,8 +3,8 @@ package ru.inno.earthquakes;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.inno.earthquakes.di.AppComponent;
-import ru.inno.earthquakes.di.RetrofitModule;
+import ru.inno.earthquakes.di.application.AppComponent;
+import ru.inno.earthquakes.di.application.RetrofitModule;
 import ru.inno.earthquakes.model.EarthquakesRepositoryImplTest;
 
 /**
