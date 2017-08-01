@@ -16,7 +16,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.inno.earthquakes.model.earthquakes.data.EarthquakesApiService;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesApiService;
 import timber.log.Timber;
 
 /**
@@ -31,7 +31,7 @@ public class RetrofitModule {
     @Singleton
     Retrofit buildRetrofit(OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
-                .baseUrl("https://earthquake.usgs.gov/") // implicit dependency
+                .baseUrl("https://earthquake.usgs.gov/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))

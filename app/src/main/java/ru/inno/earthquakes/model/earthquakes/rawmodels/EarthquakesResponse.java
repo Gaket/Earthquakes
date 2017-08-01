@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.model.earthquakes.data.rawmodels;
+package ru.inno.earthquakes.model.earthquakes.rawmodels;
 
 import com.google.gson.annotations.SerializedName;
 

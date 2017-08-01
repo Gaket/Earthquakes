@@ -1,11 +1,10 @@
-package ru.inno.earthquakes.model.earthquakes.data;
+package ru.inno.earthquakes.model.earthquakes;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import ru.inno.earthquakes.entity.Earthquake;
-import ru.inno.earthquakes.model.earthquakes.business.EarthquakesRepository;
-import ru.inno.earthquakes.model.earthquakes.data.rawmodels.EarthquakesResponse;
+import ru.inno.earthquakes.entities.Earthquake;
+import ru.inno.earthquakes.model.earthquakes.rawmodels.EarthquakesResponse;
 
 /**
  * @author Artur Badretdinov (Gaket)

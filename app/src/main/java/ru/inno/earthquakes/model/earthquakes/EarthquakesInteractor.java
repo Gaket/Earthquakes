@@ -1,13 +1,13 @@
-package ru.inno.earthquakes.model.earthquakes.business;
+package ru.inno.earthquakes.model.earthquakes;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import ru.inno.earthquakes.entity.Earthquake;
-import ru.inno.earthquakes.entity.EarthquakeWithDist;
-import ru.inno.earthquakes.entity.Location;
+import ru.inno.earthquakes.entities.Earthquake;
+import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.entities.Location;
 
 /**
  * @author Artur Badretdinov (Gaket)

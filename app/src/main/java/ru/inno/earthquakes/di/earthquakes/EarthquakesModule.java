@@ -2,11 +2,11 @@ package ru.inno.earthquakes.di.earthquakes;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.inno.earthquakes.model.earthquakes.business.EarthquakesInteractor;
-import ru.inno.earthquakes.model.earthquakes.business.EarthquakesRepository;
-import ru.inno.earthquakes.model.earthquakes.data.EarthquakesApiService;
-import ru.inno.earthquakes.model.earthquakes.data.EarthquakesMapper;
-import ru.inno.earthquakes.model.earthquakes.data.EarthquakesRepositoryImpl;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesRepository;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesApiService;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesMapper;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesRepositoryImpl;
 
 /**
  * @author Artur Badretdinov (Gaket)

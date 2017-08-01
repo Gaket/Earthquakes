@@ -1,22 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/alert_swipe_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context="ru.inno.earthquakes.presentation.alertscreen.MainActivity">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/alert_iv_status"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:src="@drawable/ic_check_white"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context="ru.inno.earthquakes.presentation.alertscreen.AlertActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="@string/msg_no_earthqakes_nearby"/>
+        <ImageView
+            android:id="@+id/alert_iv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/ic_check_white" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/alert_tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/alert_msg_everything_is_ok" />
+
+
+        <TextView
+            android:id="@+id/alert_tv_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/alert_msg_everything_is_ok" />
+
+        <TextView
+            android:id="@+id/alert_tv_magnitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/alert_msg_everything_is_ok" />
+
+        <Button
+            android:id="@+id/alert_btn_show_all"
+            android:text="@string/alert_show_all_earthquakes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

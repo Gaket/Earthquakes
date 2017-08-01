@@ -1,8 +1,8 @@
-package ru.inno.earthquakes.model.earthquakes.data;
+package ru.inno.earthquakes.model.earthquakes;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
-import ru.inno.earthquakes.model.earthquakes.data.rawmodels.EarthquakesResponse;
+import ru.inno.earthquakes.model.earthquakes.rawmodels.EarthquakesResponse;
 
 /**
  * @author Artur Badretdinov (Gaket)

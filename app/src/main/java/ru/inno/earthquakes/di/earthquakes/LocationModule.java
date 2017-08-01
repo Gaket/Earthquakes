@@ -2,9 +2,9 @@ package ru.inno.earthquakes.di.earthquakes;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.inno.earthquakes.model.location.business.LocationRepository;
-import ru.inno.earthquakes.model.location.business.LocationInteractor;
-import ru.inno.earthquakes.model.location.data.LocationRepoStub;
+import ru.inno.earthquakes.model.location.LocationRepository;
+import ru.inno.earthquakes.model.location.LocationInteractor;
+import ru.inno.earthquakes.model.location.LocationRepoStub;
 
 /**
  * @author Artur Badretdinov (Gaket)

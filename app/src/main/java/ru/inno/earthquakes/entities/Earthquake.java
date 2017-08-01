@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.entity;
+package ru.inno.earthquakes.entities;
 
 import java.util.Date;
 
@@ -8,17 +8,26 @@ import java.util.Date;
  */
 public class Earthquake {
 
-    private double magnitude;
+    private String title;
+    private Double magnitude;
     private Date time;
     private AlertLevel alertLevel;
     private Location location;
-    private String url;
+    private String detailsUrl;
 
-    public double getMagnitude() {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Double getMagnitude() {
         return magnitude;
     }
 
-    public void setMagnitude(double magnitude) {
+    public void setMagnitude(Double magnitude) {
         this.magnitude = magnitude;
     }
 
@@ -46,12 +55,12 @@ public class Earthquake {
         this.location = location;
     }
 
-    public String getUrl() {
-        return url;
+    public String getDetailsUrl() {
+        return detailsUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setDetailsUrl(String url) {
+        this.detailsUrl = url;
     }
 
     public enum AlertLevel {

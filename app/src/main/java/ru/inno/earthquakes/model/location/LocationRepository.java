@@ -1,7 +1,7 @@
-package ru.inno.earthquakes.model.location.business;
+package ru.inno.earthquakes.model.location;
 
 import io.reactivex.Observable;
-import ru.inno.earthquakes.entity.Location;
+import ru.inno.earthquakes.entities.Location;
 
 /**
  * @author Artur Badretdinov (Gaket)

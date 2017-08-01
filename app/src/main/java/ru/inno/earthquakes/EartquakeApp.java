@@ -24,7 +24,6 @@ public class EartquakeApp extends Application {
         initAppComponent();
     }
 
-
     private void initAppComponent() {
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))

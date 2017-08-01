@@ -18,10 +18,10 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.inno.earthquakes.entity.Earthquake;
-import ru.inno.earthquakes.model.earthquakes.data.EarthquakesApiService;
-import ru.inno.earthquakes.model.earthquakes.data.EarthquakesMapper;
-import ru.inno.earthquakes.model.earthquakes.data.EarthquakesRepositoryImpl;
+import ru.inno.earthquakes.entities.Earthquake;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesApiService;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesMapper;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesRepositoryImpl;
 
 /**
  * @author Artur Badretdinov (Gaket)

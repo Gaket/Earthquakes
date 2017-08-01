@@ -1,18 +1,18 @@
-package ru.inno.earthquakes.presentation.alertscreen;
+package ru.inno.earthquakes.presentation.earthquakeslist;
 
 import com.arellomobile.mvp.MvpView;
+
+import java.util.List;
 
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 
 /**
  * @author Artur Badretdinov (Gaket)
- *         22.07.17
+ *         01.08.17
  */
-public interface AlertView extends MvpView{
+public interface EarthquakesListView extends MvpView {
 
-    void showThereAreNoAlerts();
-
-    void showEartquakeAlert(EarthquakeWithDist earthquake);
+    void showEarthquakes(List<EarthquakeWithDist> earthquakeWithDists);
 
     // This method better should be in a router. It is here for simplicity now.
     void navigateToEarthquakesList();

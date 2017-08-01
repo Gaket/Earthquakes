@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.entity;
+package ru.inno.earthquakes.entities;
 
 /**
  * @author Artur Badretdinov (Gaket)
