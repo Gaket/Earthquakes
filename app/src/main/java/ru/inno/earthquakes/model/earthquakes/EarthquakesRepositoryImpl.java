@@ -6,8 +6,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import ru.inno.earthquakes.entities.Earthquake;
-import ru.inno.earthquakes.model.models.dbobjects.network.EarthquakesResponse;
 import ru.inno.earthquakes.model.mappers.EarthquakesMapper;
+import ru.inno.earthquakes.model.models.network.EarthquakesResponse;
 import timber.log.Timber;
 
 /**

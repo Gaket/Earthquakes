@@ -1,8 +1,6 @@
 package ru.inno.earthquakes.presentation.settings;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -11,9 +9,8 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListPresenter;
 
-public class SettingsActivity extends MvpAppCompatActivity {
+public class SettingsActivity extends MvpAppCompatActivity implements SettingsView {
 
     @InjectPresenter
     SettingsPresenter presenter;
@@ -28,8 +25,14 @@ public class SettingsActivity extends MvpAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         initToolbar();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.settings_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // According to YAGNI, we have only some hardcoded views here.
+        // If application becomes more complicated, here should be a RecyclerView with options.
+        findViewById(R.id.settings_tv_distance).setOnClickListener((v) -> openDistanceDialog());
+        findViewById(R.id.settings_tv_magnitude).setOnClickListener((v) -> presenter.onChangeMagnitude());
+    }
+
+    private void openDistanceDialog() {
 
     }
 
@@ -37,5 +40,15 @@ public class SettingsActivity extends MvpAppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void setMaxDistance(Double dist) {
+
+    }
+
+    @Override
+    public void setMinMagnitude(Double mag) {
+
     }
 }

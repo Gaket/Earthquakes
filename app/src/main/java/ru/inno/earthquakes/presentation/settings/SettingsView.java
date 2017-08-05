@@ -7,4 +7,7 @@ import com.arellomobile.mvp.MvpView;
  *         05.08.17
  */
 public interface SettingsView extends MvpView {
+    void setMaxDistance(Double dist);
+
+    void setMinMagnitude(Double mag);
 }

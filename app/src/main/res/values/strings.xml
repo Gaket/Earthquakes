@@ -5,4 +5,7 @@
     <string name="alert_show_all_earthquakes">Show all earthquakes</string>
     <string name="error_connection">Connection problems. Only cached data is shown. Check the connection or try again later.</string>
     <string name="action_ok">Ok</string>
+    <string name="title_settings_max_dist">Maximal distance to earthquake, km</string>
+    <string name="title_settings_min_mag">Minimal magnitude to show</string>
+    <string name="menu_settings">Go to settings</string>
 </resources>

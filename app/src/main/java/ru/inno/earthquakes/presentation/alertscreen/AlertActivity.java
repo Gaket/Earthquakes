@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -43,6 +44,12 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
         findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAllAction());
+        initToolbar();
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @ProvidePresenter

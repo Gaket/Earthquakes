@@ -17,7 +17,12 @@ public class EartquakeApp extends Application {
     public void onCreate() {
         super.onCreate();
         initComponentsTree();
+        initAppComponent();
         initLogging();
+    }
+
+    private void initAppComponent() {
+        componentsManager.getAppComponent();
     }
 
     private void initComponentsTree() {

@@ -108,4 +108,5 @@ public class EarthquakeDb {
         this.location = location;
     }
 
+
 }
