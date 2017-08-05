@@ -1,7 +1,5 @@
 package ru.inno.earthquakes.di.settings;
 
-import android.content.SharedPreferences;
-
 import dagger.Module;
 import dagger.Provides;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
@@ -21,9 +19,4 @@ public class SettingsModule {
         return new SettingsInteractor(repository);
     }
 
-    @Provides
-    @SettingsScope
-    SettingsRepository provideRepository(SharedPreferences sharedPreferences) {
-        return new SettingsRepository(sharedPreferences);
-    }
 }

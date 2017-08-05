@@ -69,6 +69,12 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     }
 
     @Override
+    protected void onDestroy() {
+        EartquakeApp.getComponentsManager().clearSettingsComponent();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:

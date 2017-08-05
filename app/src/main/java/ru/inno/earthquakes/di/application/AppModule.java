@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.inno.earthquakes.model.settings.SettingsRepository;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -33,5 +34,11 @@ public class AppModule {
     @Singleton
     SharedPreferences provideSharedPreferences() {
         return context.getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    SettingsRepository provideRepository(SharedPreferences sharedPreferences) {
+        return new SettingsRepository(sharedPreferences);
     }
 }

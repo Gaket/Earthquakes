@@ -22,21 +22,21 @@ public class SettingsRepository {
         this.sharedPreferences = sharedPreferences;
     }
 
-    Single<Double> getAlertMaxDistance() {
+    public Single<Double> getAlertMaxDistance() {
         return Single.fromCallable(this::getMaxDist);
     }
 
-    Single<Double> getAlertMinMagnitude() {
+    public Single<Double> getAlertMinMagnitude() {
         return Single.fromCallable(this::getMinMag);
     }
 
-    void putAlertMaxDistance(double value) {
+    public void putAlertMaxDistance(double value) {
         sharedPreferences.edit()
                 .putFloat(KEY_MAX_DIST, (float)value)
                 .apply();
     }
 
-    void putAlertMinMagnitude(double value) {
+    public void putAlertMinMagnitude(double value) {
         sharedPreferences.edit()
                 .putFloat(KEY_MIN_MAG, (float)value)
                 .apply();
