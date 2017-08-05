@@ -1,7 +1,8 @@
 package ru.inno.earthquakes.presentation.settings;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -24,7 +25,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        initToolbar();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // According to YAGNI, we have only some hardcoded views here.
         // If application becomes more complicated, here should be a RecyclerView with options.
@@ -36,12 +37,6 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
 
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     @Override
     public void setMaxDistance(Double dist) {
 
@@ -51,4 +46,9 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     public void setMinMagnitude(Double mag) {
 
     }
+
+    public static Intent getStartIntent(Context callingContext) {
+        return new Intent(callingContext, SettingsActivity.class);
+    }
+
 }

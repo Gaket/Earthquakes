@@ -65,7 +65,11 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
                 .flatMap(coords -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(coords));
     }
 
-    public void onShowAllAction() {
+    public void onShowAll() {
         getViewState().navigateToEarthquakesList();
+    }
+
+    public void onOpenSettings() {
+        getViewState().navigateToSettings();
     }
 }

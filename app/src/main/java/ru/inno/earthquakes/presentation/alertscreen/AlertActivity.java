@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -18,6 +19,7 @@ import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
+import ru.inno.earthquakes.presentation.settings.SettingsActivity;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -43,13 +45,24 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
         magnitudeView = (TextView) findViewById(R.id.alert_tv_magnitude);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
-        findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAllAction());
-        initToolbar();
+        findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAll());
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                presenter.onOpenSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @ProvidePresenter
@@ -71,12 +84,6 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     }
 
     @Override
-    public void navigateToEarthquakesList() {
-        Intent intent = EarthquakesListActivity.getStartIntent(this);
-        startActivity(intent);
-    }
-
-    @Override
     public void showNetworkError(boolean show) {
         if (show) {
             snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection, BaseTransientBottomBar.LENGTH_INDEFINITE)
@@ -90,5 +97,18 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     @Override
     public void showLoading(boolean show) {
         swipeRefreshLayout.setRefreshing(show);
+    }
+
+
+    @Override
+    public void navigateToEarthquakesList() {
+        Intent intent = EarthquakesListActivity.getStartIntent(this);
+        startActivity(intent);
+    }
+
+    @Override
+    public void navigateToSettings() {
+        Intent intent = SettingsActivity.getStartIntent(this);
+        startActivity(intent);
     }
 }

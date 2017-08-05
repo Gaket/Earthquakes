@@ -18,11 +18,14 @@ public interface AlertView extends MvpView{
 
     void showEartquakeAlert(EarthquakeWithDist earthquake);
 
-    // This method better should be in a router. It is here for simplicity now.
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToEarthquakesList();
-
     void showNetworkError(boolean show);
 
     void showLoading(boolean show);
+
+    // These methods better should be in a router. They are here for simplicity now.
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToEarthquakesList();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToSettings();
 }

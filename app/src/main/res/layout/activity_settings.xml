@@ -6,11 +6,6 @@
     android:orientation="vertical"
     tools:context="ru.inno.earthquakes.presentation.settings.SettingsActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <TextView
         android:id="@+id/settings_tv_distance"
         android:layout_width="wrap_content"
