@@ -6,7 +6,7 @@ import java.util.Date;
  * @author Artur Badretdinov (Gaket)
  *         20.07.17.
  */
-public class EarthquakeEntity {
+public class Earthquake {
 
     private String title;
     private Double magnitude;

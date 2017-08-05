@@ -1,6 +1,7 @@
 package ru.inno.earthquakes.di.application;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
@@ -15,15 +16,22 @@ import dagger.Provides;
 @Singleton
 public class AppModule {
 
-    private Context mContext;
+    public static final String APP_PREFS = "AppPrefs";
+    private Context context;
 
     public AppModule(Context aContext) {
-        mContext = aContext.getApplicationContext();
+        context = aContext.getApplicationContext();
     }
 
     @Provides
     @Singleton
     Context provideAppContext() {
-        return mContext;
+        return context;
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences() {
+        return context.getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
     }
 }

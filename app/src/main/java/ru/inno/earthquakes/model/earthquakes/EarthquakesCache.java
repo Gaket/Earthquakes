@@ -3,7 +3,7 @@ package ru.inno.earthquakes.model.earthquakes;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.inno.earthquakes.entities.EarthquakeEntity;
+import ru.inno.earthquakes.entities.Earthquake;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -12,7 +12,7 @@ import ru.inno.earthquakes.entities.EarthquakeEntity;
 interface EarthquakesCache {
     void clearCache();
 
-    void putEarthquakes(List<EarthquakeEntity> earthquakeEntities);
+    void putEarthquakes(List<Earthquake> earthquakeEntities);
 
-    Single<List<EarthquakeEntity>> getEarthquakes();
+    Single<List<Earthquake>> getEarthquakes();
 }

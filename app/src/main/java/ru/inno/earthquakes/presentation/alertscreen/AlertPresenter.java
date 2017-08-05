@@ -44,13 +44,13 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
     private void updateCurrentState() {
         getSortedEartquakesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showLoading())
-                .doAfterTerminate(() -> getViewState().hideLoading())
+                .doOnSubscribe(disposable -> getViewState().showLoading(true))
+                .doAfterTerminate(() -> getViewState().showLoading(false))
                 .subscribe(earthquakeWithDists -> {
                     if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
-                        getViewState().showNetworkError();
+                        getViewState().showNetworkError(true);
                     } else {
-                        getViewState().hideNetworkError();
+                        getViewState().showNetworkError(false);
                     }
                     if (earthquakeWithDists.getData().isEmpty()) {
                         getViewState().showThereAreNoAlerts();

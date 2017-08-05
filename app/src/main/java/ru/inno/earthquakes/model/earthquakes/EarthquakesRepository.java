@@ -3,7 +3,7 @@ package ru.inno.earthquakes.model.earthquakes;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.inno.earthquakes.entities.EarthquakeEntity;
+import ru.inno.earthquakes.entities.Earthquake;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -11,7 +11,7 @@ import ru.inno.earthquakes.entities.EarthquakeEntity;
  */
 public interface EarthquakesRepository {
 
-    Single<List<EarthquakeEntity>> getTodaysEarthquakes();
+    Single<List<Earthquake>> getTodaysEarthquakes();
 
-    Single<List<EarthquakeEntity>> getCachedTodaysEarthquakes();
+    Single<List<Earthquake>> getCachedTodaysEarthquakes();
 }

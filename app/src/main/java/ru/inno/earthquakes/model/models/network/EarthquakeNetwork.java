@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.model.earthquakes.rawmodels;
+package ru.inno.earthquakes.model.models.network;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +9,7 @@ import java.util.Date;
  * @author Artur Badretdinov (Gaket)
  *         20.07.17.
  */
-public class EarthquakeDataModel {
+public class EarthquakeNetwork {
 
     @SerializedName("properties")
     private Property properties;

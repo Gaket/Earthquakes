@@ -5,8 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import ru.inno.earthquakes.entities.EarthquakeEntity;
-import ru.inno.earthquakes.model.earthquakes.rawmodels.EarthquakesResponse;
+import ru.inno.earthquakes.entities.Earthquake;
+import ru.inno.earthquakes.model.models.dbobjects.network.EarthquakesResponse;
 import ru.inno.earthquakes.model.mappers.EarthquakesMapper;
 import timber.log.Timber;
 
@@ -28,7 +28,7 @@ public class EarthquakesRepositoryImpl implements EarthquakesRepository {
     }
 
     @Override
-    public Single<List<EarthquakeEntity>> getTodaysEarthquakes() {
+    public Single<List<Earthquake>> getTodaysEarthquakes() {
         return apiService.getEarthquakes()
                 .map(EarthquakesResponse::getFeatures)
                 .flattenAsObservable(items -> items)
@@ -42,7 +42,7 @@ public class EarthquakesRepositoryImpl implements EarthquakesRepository {
     }
 
     @Override
-    public Single<List<EarthquakeEntity>> getCachedTodaysEarthquakes() {
+    public Single<List<Earthquake>> getCachedTodaysEarthquakes() {
         return earthquakesCache.getEarthquakes();
     }
 }

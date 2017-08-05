@@ -2,6 +2,7 @@ package ru.inno.earthquakes;
 
 import android.app.Application;
 
+import ru.inno.earthquakes.di.ComponentsManager;
 import timber.log.Timber;
 
 /**
@@ -15,8 +16,15 @@ public class EartquakeApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        componentsManager = new ComponentsManager();
-        componentsManager.initAppComponent(this);
+        initComponentsTree();
+        initLogging();
+    }
+
+    private void initComponentsTree() {
+        componentsManager = new ComponentsManager(this);
+    }
+
+    private void initLogging() {
         Timber.plant(new Timber.DebugTree());
     }
 

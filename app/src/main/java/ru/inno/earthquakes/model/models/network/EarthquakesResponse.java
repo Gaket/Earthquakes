@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.model.earthquakes.rawmodels;
+package ru.inno.earthquakes.model.models.network;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,13 +11,13 @@ import java.util.List;
 public class EarthquakesResponse {
 
     @SerializedName("features")
-    private List<EarthquakeDataModel> features;
+    private List<EarthquakeNetwork> features;
 
-    public List<EarthquakeDataModel> getFeatures() {
+    public List<EarthquakeNetwork> getFeatures() {
         return features;
     }
 
-    public void setFeatures(List<EarthquakeDataModel> features) {
+    public void setFeatures(List<EarthquakeNetwork> features) {
         this.features = features;
     }
 }

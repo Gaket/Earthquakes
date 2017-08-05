@@ -22,7 +22,7 @@ import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
  * @author Artur Badretdinov (Gaket)
  *         22.07.17
  */
-public class AlertActivity extends MvpAppCompatActivity implements AlertView, SwipeRefreshLayout.OnRefreshListener {
+public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
     @InjectPresenter
     AlertPresenter presenter;
@@ -33,7 +33,6 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
     private TextView magnitudeView;
     private Snackbar snackbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +40,9 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
         messageView = (TextView) findViewById(R.id.alert_tv_message);
         detailsView = (TextView) findViewById(R.id.alert_tv_details);
         magnitudeView = (TextView) findViewById(R.id.alert_tv_magnitude);
-        findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAllAction());
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
+        findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAllAction());
     }
 
     @ProvidePresenter
@@ -59,14 +58,9 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
     @Override
     public void showEartquakeAlert(EarthquakeWithDist earthquake) {
         messageView.setText(R.string.alert_msg_earhquake_nearby);
-        detailsView.setText(earthquake.getEarthquakeEntity().getTitle());
-        String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquakeEntity().getMagnitude());
+        detailsView.setText(earthquake.getEarthquake().getTitle());
+        String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquake().getMagnitude());
         magnitudeView.setText(magnitude);
-    }
-
-    @Override
-    public void onRefresh() {
-        presenter.onRefreshAction();
     }
 
     @Override
@@ -76,28 +70,18 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
     }
 
     @Override
-    public void showNetworkError() {
-        snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection, BaseTransientBottomBar.LENGTH_INDEFINITE)
-                .setAction(R.string.action_ok, (d) -> snackbar.dismiss());
-        snackbar.show();
-    }
-
-    @Override
-    public void hideNetworkError() {
-        if (snackbar != null) {
+    public void showNetworkError(boolean show) {
+        if (show) {
+            snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection, BaseTransientBottomBar.LENGTH_INDEFINITE)
+                    .setAction(R.string.action_ok, (d) -> snackbar.dismiss());
+            snackbar.show();
+        } else if (snackbar != null) {
             snackbar.dismiss();
         }
     }
 
     @Override
-    public void showLoading() {
-        if (!swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(true);
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        swipeRefreshLayout.setRefreshing(false);
+    public void showLoading(boolean show) {
+        swipeRefreshLayout.setRefreshing(show);
     }
 }

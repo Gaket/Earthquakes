@@ -41,13 +41,13 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
     private void getEarthquakesList() {
         getSortedEartquakesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe((s) -> getViewState().showLoading())
-                .doAfterTerminate(() -> getViewState().hideLoading())
+                .doOnSubscribe((s) -> getViewState().showLoading(true))
+                .doAfterTerminate(() -> getViewState().showLoading(false))
                 .subscribe(earthquakeWithDists -> {
                     if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
-                        getViewState().showNetworkError();
+                        getViewState().showNetworkError(true);
                     } else {
-                        getViewState().hideNetworkError();
+                        getViewState().showNetworkError(false);
                     }
                     getViewState().showEarthquakes(earthquakeWithDists.getData());
                 }, Timber::e);
@@ -58,7 +58,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
                 .flatMap(coords -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(coords));
     }
 
-    void onRefresh() {
+    void onRefreshAction() {
         getEarthquakesList();
     }
 }

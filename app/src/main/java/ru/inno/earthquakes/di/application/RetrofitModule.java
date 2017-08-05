@@ -29,7 +29,7 @@ public class RetrofitModule {
 
     @Provides
     @Singleton
-    Retrofit buildRetrofit(OkHttpClient client, Gson gson) {
+    Retrofit provideRetrofit(OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl("https://earthquake.usgs.gov/")
                 .client(client)
@@ -40,7 +40,7 @@ public class RetrofitModule {
 
     @Provides
     @Singleton
-    OkHttpClient buildOkHttpClient() {
+    OkHttpClient provideOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.v(message));

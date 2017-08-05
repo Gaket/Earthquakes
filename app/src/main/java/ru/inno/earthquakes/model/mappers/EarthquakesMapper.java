@@ -6,12 +6,12 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-import ru.inno.earthquakes.entities.EarthquakeEntity;
+import ru.inno.earthquakes.entities.Earthquake;
 import ru.inno.earthquakes.entities.Location;
-import ru.inno.earthquakes.model.dbobjects.Coordinates;
-import ru.inno.earthquakes.model.dbobjects.DbLocation;
-import ru.inno.earthquakes.model.dbobjects.Earthquake;
-import ru.inno.earthquakes.model.earthquakes.rawmodels.EarthquakeDataModel;
+import ru.inno.earthquakes.model.models.dbobjects.CoordinatesDb;
+import ru.inno.earthquakes.model.models.dbobjects.EarthquakeDb;
+import ru.inno.earthquakes.model.models.dbobjects.LocationDb;
+import ru.inno.earthquakes.model.models.network.EarthquakeNetwork;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -20,13 +20,13 @@ import ru.inno.earthquakes.model.earthquakes.rawmodels.EarthquakeDataModel;
 @Mapper
 public abstract class EarthquakesMapper {
 
-    public abstract EarthquakeEntity earthquakeToEntity(Earthquake car);
+    public abstract Earthquake earthquakeToEntity(EarthquakeDb car);
 
-    public abstract Earthquake entityToDb(EarthquakeEntity earthquakes);
+    public abstract EarthquakeDb entityToDb(Earthquake earthquakes);
 
-    public abstract List<EarthquakeEntity> earthquakesToEntities(List<Earthquake> earthquakes);
+    public abstract List<Earthquake> earthquakesToEntities(List<EarthquakeDb> earthquakeDbs);
 
-    public abstract List<Earthquake> entitiesToDb(List<EarthquakeEntity> earthquakes);
+    public abstract List<EarthquakeDb> entitiesToDb(List<Earthquake> earthquakes);
 
     @Mappings({
             @Mapping(source = "properties.title", target = "title"),
@@ -36,24 +36,24 @@ public abstract class EarthquakesMapper {
             @Mapping(source = "properties.place", target = "location.name"),
             @Mapping(source = "geometry.coordinates", target = "location.coords")
     })
-    public abstract EarthquakeEntity earthquakeDataToEntity(EarthquakeDataModel car);
+    public abstract Earthquake earthquakeDataToEntity(EarthquakeNetwork car);
 
     public Location.Coordinates arrayToCoords(double[] coords) {
         return new Location.Coordinates(coords[0], coords[1]);
     }
 
-    public Location.Coordinates coords(Coordinates coordinates) {
-        return new Location.Coordinates(coordinates.getLongtitude(), coordinates.getLatitude());
+    public Location.Coordinates coords(CoordinatesDb coordinatesDb) {
+        return new Location.Coordinates(coordinatesDb.getLongtitude(), coordinatesDb.getLatitude());
     }
 
-    public Location loc(DbLocation loc) {
+    public Location loc(LocationDb loc) {
         Location location = new Location();
         location.setCoords(coords(loc.getCoords()));
         location.setName(loc.getName());
         return location;
     }
 
-    public abstract DbLocation loc(Location loc);
+    public abstract LocationDb loc(Location loc);
 
-    public abstract Coordinates coords(Location.Coordinates coordinates);
+    public abstract CoordinatesDb coords(Location.Coordinates coordinates);
 }

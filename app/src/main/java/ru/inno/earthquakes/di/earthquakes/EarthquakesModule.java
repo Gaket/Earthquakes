@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 import dagger.Module;
 import dagger.Provides;
 import io.objectbox.BoxStore;
-import ru.inno.earthquakes.model.dbobjects.MyObjectBox;
+import ru.inno.earthquakes.model.models.dbobjects.MyObjectBox;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesApiService;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesCacheBox;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
