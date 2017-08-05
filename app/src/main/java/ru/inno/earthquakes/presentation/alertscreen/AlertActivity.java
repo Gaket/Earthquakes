@@ -2,6 +2,8 @@ package ru.inno.earthquakes.presentation.alertscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
     private TextView messageView;
     private TextView detailsView;
     private TextView magnitudeView;
+    private Snackbar snackbar;
 
 
     @Override
@@ -56,8 +59,8 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
     @Override
     public void showEartquakeAlert(EarthquakeWithDist earthquake) {
         messageView.setText(R.string.alert_msg_earhquake_nearby);
-        detailsView.setText(earthquake.getEarthquake().getTitle());
-        String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquake().getMagnitude());
+        detailsView.setText(earthquake.getEarthquakeEntity().getTitle());
+        String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquakeEntity().getMagnitude());
         magnitudeView.setText(magnitude);
     }
 
@@ -70,5 +73,31 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
     public void navigateToEarthquakesList() {
         Intent intent = EarthquakesListActivity.getStartIntent(this);
         startActivity(intent);
+    }
+
+    @Override
+    public void showNetworkError() {
+        snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection, BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(R.string.action_ok, (d) -> snackbar.dismiss());
+        snackbar.show();
+    }
+
+    @Override
+    public void hideNetworkError() {
+        if (snackbar != null) {
+            snackbar.dismiss();
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        if (!swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

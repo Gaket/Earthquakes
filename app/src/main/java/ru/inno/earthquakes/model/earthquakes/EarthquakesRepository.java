@@ -2,8 +2,8 @@ package ru.inno.earthquakes.model.earthquakes;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import ru.inno.earthquakes.entities.Earthquake;
+import io.reactivex.Single;
+import ru.inno.earthquakes.entities.EarthquakeEntity;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -11,5 +11,7 @@ import ru.inno.earthquakes.entities.Earthquake;
  */
 public interface EarthquakesRepository {
 
-    Observable<List<Earthquake>> getTodaysEarthquakes();
+    Single<List<EarthquakeEntity>> getTodaysEarthquakes();
+
+    Single<List<EarthquakeEntity>> getCachedTodaysEarthquakes();
 }

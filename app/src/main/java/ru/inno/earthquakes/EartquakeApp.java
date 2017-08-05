@@ -7,6 +7,7 @@ import ru.inno.earthquakes.di.application.AppModule;
 import ru.inno.earthquakes.di.application.DaggerAppComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesModule;
+import timber.log.Timber;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -20,8 +21,8 @@ public class EartquakeApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         initAppComponent();
+        Timber.plant(new Timber.DebugTree());
     }
 
     private void initAppComponent() {

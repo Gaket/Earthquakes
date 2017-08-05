@@ -9,10 +9,6 @@ public class Location {
     private String name;
     private Coordinates coords;
 
-    public static double distance(Coordinates from, Location to) {
-        return distance(from, to.getCoords());
-    }
-
     public static double distance(Coordinates from, Coordinates to) {
         return Math.hypot(
                 from.getLatitude() - to.getLatitude(),
@@ -33,6 +29,10 @@ public class Location {
 
     public void setCoords(Coordinates coords) {
         this.coords = coords;
+    }
+
+    public void setCoords(double[] coordinates) {
+        this.coords = new Coordinates(coordinates[0], coordinates[1]);
     }
 
     public static class Coordinates {

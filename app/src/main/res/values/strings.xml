@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Earthquakes</string>
-    <string name="alert_msg_everything_is_ok">Всё хорошо, опасности нет</string>
-    <string name="alert_msg_earhquake_nearby">Внимание! Обнаружено землятресение.</string>
+    <string name="alert_msg_everything_is_ok">There are now earthquakes near you.</string>
+    <string name="alert_msg_earhquake_nearby">Attention! Earthquake found.</string>
     <string name="alert_show_all_earthquakes">Show all earthquakes</string>
+    <string name="error_connection">Connection problems. Only cached data is shown. Check the connection or try again later.</string>
+    <string name="action_ok">Ok</string>
 </resources>

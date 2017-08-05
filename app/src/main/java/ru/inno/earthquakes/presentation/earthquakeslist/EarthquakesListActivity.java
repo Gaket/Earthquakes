@@ -3,6 +3,9 @@ package ru.inno.earthquakes.presentation.earthquakeslist;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -17,18 +20,22 @@ import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 
 public class EarthquakesListActivity extends MvpAppCompatActivity
-        implements EarthquakesListView {
+        implements EarthquakesListView, SwipeRefreshLayout.OnRefreshListener {
 
     @InjectPresenter
     EarthquakesListPresenter presenter;
 
-    RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
     private EarthquakesListAdapter earthquakesListAdapter;
+    private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_earth_quakes_list);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.earthquakes_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.earthquakes_recycler);
         earthquakesListAdapter = new EarthquakesListAdapter();
         recyclerView.setAdapter(earthquakesListAdapter);
@@ -50,7 +57,36 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     }
 
     @Override
+    public void showNetworkError() {
+        snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection, BaseTransientBottomBar.LENGTH_INDEFINITE)
+                .setAction(R.string.action_ok, (d) -> snackbar.dismiss());
+        snackbar.show();
+    }
+
+    @Override
+    public void hideNetworkError() {
+        if (snackbar != null) {
+            snackbar.dismiss();
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void showEarthquakes(List<EarthquakeWithDist> earthquakeWithDists) {
         earthquakesListAdapter.setItems(earthquakeWithDists);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.onRefresh();
     }
 }

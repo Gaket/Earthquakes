@@ -7,7 +7,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import io.reactivex.Observable;
+import java.util.ArrayList;
+
+import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 import ru.inno.earthquakes.entities.Location;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
@@ -33,30 +35,8 @@ public class EarthquakesInteractorTest {
     }
 
     @Test
-    public void getTodaysEartquakes() throws Exception {
-        Mockito.when(repository.getTodaysEarthquakes()).thenReturn(Observable.empty());
-
-        TestObserver testObserver = interactor.getTodaysEartquakes().test();
-        testObserver.awaitTerminalEvent();
-
-        testObserver.assertNoErrors();
-        Mockito.verify(repository).getTodaysEarthquakes();
-    }
-
-    @Test
-    public void getTodaysEartquakes_error() throws Exception {
-        Mockito.when(repository.getTodaysEarthquakes()).thenReturn(Observable.error(testError));
-
-        TestObserver testObserver = interactor.getTodaysEartquakes().test();
-        testObserver.awaitTerminalEvent();
-
-        testObserver.assertError(testError);
-        Mockito.verify(repository).getTodaysEarthquakes();
-    }
-
-    @Test
     public void getTodaysEartquakesSortedByLocation() throws Exception {
-        Mockito.when(repository.getTodaysEarthquakes()).thenReturn(Observable.empty());
+        Mockito.when(repository.getTodaysEarthquakes()).thenReturn(Single.just(new ArrayList<>()));
         Location.Coordinates testCoords = new Location.Coordinates(0, 0);
 
         TestObserver testObserver = interactor.getTodaysEartquakesSortedByLocation(testCoords).test();
@@ -68,7 +48,7 @@ public class EarthquakesInteractorTest {
 
     @Test
     public void getTodaysEartquakesSortedByLocation_error() throws Exception {
-        Mockito.when(repository.getTodaysEarthquakes()).thenReturn(Observable.empty());
+        Mockito.when(repository.getTodaysEarthquakes()).thenReturn(Single.just(new ArrayList<>()));
         Location.Coordinates testCoords = new Location.Coordinates(0, 0);
 
         TestObserver testObserver = interactor.getTodaysEartquakesSortedByLocation(testCoords).test();

@@ -11,6 +11,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import timber.log.Timber;
@@ -27,7 +28,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
     @Inject
     LocationInteractor locationInteractor;
 
-    public EarthquakesListPresenter(EarthquakesComponent earthquakesComponent) {
+    EarthquakesListPresenter(EarthquakesComponent earthquakesComponent) {
         earthquakesComponent.inject(this);
     }
 
@@ -40,15 +41,24 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
     private void getEarthquakesList() {
         getSortedEartquakesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe((s) -> getViewState().showLoading())
+                .doAfterTerminate(() -> getViewState().hideLoading())
                 .subscribe(earthquakeWithDists -> {
-                    if (!earthquakeWithDists.isEmpty()) {
-                        getViewState().showEarthquakes(earthquakeWithDists);
+                    if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
+                        getViewState().showNetworkError();
+                    } else {
+                        getViewState().hideNetworkError();
                     }
+                    getViewState().showEarthquakes(earthquakeWithDists.getData());
                 }, Timber::e);
     }
 
-    private Observable<List<EarthquakeWithDist>> getSortedEartquakesObservable() {
+    private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEartquakesObservable() {
         return locationInteractor.getCurrentCoordinates()
                 .flatMap(coords -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(coords));
+    }
+
+    void onRefresh() {
+        getEarthquakesList();
     }
 }

@@ -11,6 +11,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import timber.log.Timber;
@@ -43,16 +44,23 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
     private void updateCurrentState() {
         getSortedEartquakesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getViewState().showLoading())
+                .doAfterTerminate(() -> getViewState().hideLoading())
                 .subscribe(earthquakeWithDists -> {
-                    if (earthquakeWithDists.isEmpty()) {
+                    if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
+                        getViewState().showNetworkError();
+                    } else {
+                        getViewState().hideNetworkError();
+                    }
+                    if (earthquakeWithDists.getData().isEmpty()) {
                         getViewState().showThereAreNoAlerts();
                     } else {
-                        getViewState().showEartquakeAlert(earthquakeWithDists.get(0));
+                        getViewState().showEartquakeAlert(earthquakeWithDists.getData().get(0));
                     }
                 }, Timber::e);
     }
 
-    private Observable<List<EarthquakeWithDist>> getSortedEartquakesObservable() {
+    private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEartquakesObservable() {
         return locationInteractor.getCurrentCoordinates()
                 .flatMap(coords -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(coords));
     }

@@ -8,22 +8,22 @@ import java.util.Date;
  */
 public class EarthquakeWithDist {
 
-    private Earthquake earthquake;
+    private EarthquakeEntity earthquakeEntity;
     private double distance;
     private Location.Coordinates currentPosition;
 
-    public EarthquakeWithDist(Earthquake earthquake, Location.Coordinates currentPosition) {
-        this.earthquake = earthquake;
+    public EarthquakeWithDist(EarthquakeEntity earthquakeEntity, Location.Coordinates currentPosition) {
+        this.earthquakeEntity = earthquakeEntity;
         this.currentPosition = currentPosition;
         updateDistance();
     }
 
-    public Earthquake getEarthquake() {
-        return earthquake;
+    public EarthquakeEntity getEarthquakeEntity() {
+        return earthquakeEntity;
     }
 
-    public void setEarthquake(Earthquake earthquake) {
-        this.earthquake = earthquake;
+    public void setEarthquakeEntity(EarthquakeEntity earthquakeEntity) {
+        this.earthquakeEntity = earthquakeEntity;
         updateDistance();
     }
 
@@ -41,54 +41,46 @@ public class EarthquakeWithDist {
     }
 
     public String getTitle() {
-        return earthquake.getTitle();
+        return earthquakeEntity.getTitle();
     }
 
     public void setTitle(String title) {
-        earthquake.setTitle(title);
+        earthquakeEntity.setTitle(title);
     }
 
     public Double getMagnitude() {
-        return earthquake.getMagnitude();
+        return earthquakeEntity.getMagnitude();
     }
 
     public void setMagnitude(Double magnitude) {
-        earthquake.setMagnitude(magnitude);
-    }
-
-    public Earthquake.AlertLevel getAlertLevel() {
-        return earthquake.getAlertLevel();
-    }
-
-    public void setAlertLevel(Earthquake.AlertLevel alertLevel) {
-        earthquake.setAlertLevel(alertLevel);
+        earthquakeEntity.setMagnitude(magnitude);
     }
 
     public Date getTime() {
-        return earthquake.getTime();
+        return earthquakeEntity.getTime();
     }
 
     public void setTime(Date time) {
-        earthquake.setTime(time);
+        earthquakeEntity.setTime(time);
     }
 
     public Location getLocation() {
-        return earthquake.getLocation();
+        return earthquakeEntity.getLocation();
     }
 
     public void setLocation(Location location) {
-        earthquake.setLocation(location);
+        earthquakeEntity.setLocation(location);
     }
 
     public String getDetailsUrl() {
-        return earthquake.getDetailsUrl();
+        return earthquakeEntity.getDetailsUrl();
     }
 
     public void setDetailsUrl(String url) {
-        earthquake.setDetailsUrl(url);
+        earthquakeEntity.setDetailsUrl(url);
     }
 
     private void updateDistance() {
-        distance = Location.distance(currentPosition, earthquake.getLocation());
+        distance = Location.distance(currentPosition, earthquakeEntity.getLocation().getCoords());
     }
 }

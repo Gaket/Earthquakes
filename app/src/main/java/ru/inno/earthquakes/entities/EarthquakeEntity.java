@@ -6,14 +6,13 @@ import java.util.Date;
  * @author Artur Badretdinov (Gaket)
  *         20.07.17.
  */
-public class Earthquake {
+public class EarthquakeEntity {
 
     private String title;
     private Double magnitude;
     private Date time;
-    private AlertLevel alertLevel;
-    private Location location;
     private String detailsUrl;
+    private Location location;
 
     public String getTitle() {
         return title;
@@ -29,14 +28,6 @@ public class Earthquake {
 
     public void setMagnitude(Double magnitude) {
         this.magnitude = magnitude;
-    }
-
-    public AlertLevel getAlertLevel() {
-        return alertLevel;
-    }
-
-    public void setAlertLevel(AlertLevel alertLevel) {
-        this.alertLevel = alertLevel;
     }
 
     public Date getTime() {
@@ -61,13 +52,5 @@ public class Earthquake {
 
     public void setDetailsUrl(String url) {
         this.detailsUrl = url;
-    }
-
-    public enum AlertLevel {
-        GREEN,
-        YELLOW,
-        ORANGE,
-        RED,
-        UNDEFINED
     }
 }

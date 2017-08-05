@@ -2,9 +2,13 @@ package ru.inno.earthquakes.model.earthquakes;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import ru.inno.earthquakes.entities.Earthquake;
+import javax.inject.Inject;
+
+import io.reactivex.Single;
+import ru.inno.earthquakes.entities.EarthquakeEntity;
 import ru.inno.earthquakes.model.earthquakes.rawmodels.EarthquakesResponse;
+import ru.inno.earthquakes.model.mappers.EarthquakesMapper;
+import timber.log.Timber;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -14,19 +18,31 @@ public class EarthquakesRepositoryImpl implements EarthquakesRepository {
 
     private EarthquakesApiService apiService;
     private EarthquakesMapper earthquakesMapper;
+    private EarthquakesCache earthquakesCache;
 
-    public EarthquakesRepositoryImpl(EarthquakesApiService apiService, EarthquakesMapper earthquakesMapper) {
+    @Inject
+    public EarthquakesRepositoryImpl(EarthquakesApiService apiService, EarthquakesMapper earthquakesMapper, EarthquakesCache earthquakesCache) {
         this.apiService = apiService;
         this.earthquakesMapper = earthquakesMapper;
+        this.earthquakesCache = earthquakesCache;
     }
 
     @Override
-    public Observable<List<Earthquake>> getTodaysEarthquakes() {
+    public Single<List<EarthquakeEntity>> getTodaysEarthquakes() {
         return apiService.getEarthquakes()
                 .map(EarthquakesResponse::getFeatures)
                 .flattenAsObservable(items -> items)
-                .map(earthquakesMapper::map)
+                .map(earthquakesMapper::earthquakeDataToEntity)
                 .toList()
-                .toObservable();
+                .doOnSuccess(earthquakeEntities -> {
+                    earthquakesCache.clearCache();
+                    earthquakesCache.putEarthquakes(earthquakeEntities);
+                })
+                .doOnSuccess(earthquakeEntities -> Timber.d("%d entities came from server", earthquakeEntities.size()));
+    }
+
+    @Override
+    public Single<List<EarthquakeEntity>> getCachedTodaysEarthquakes() {
+        return earthquakesCache.getEarthquakes();
     }
 }

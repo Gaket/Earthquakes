@@ -46,7 +46,7 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
 
     public static class EarthquakeViewHolder extends RecyclerView.ViewHolder {
 
-        private DateFormat dateFormat = new SimpleDateFormat("hh:mm MMM, dd", Locale.GERMANY);
+        private DateFormat dateFormat = new SimpleDateFormat("HH:mm MMMM, dd", Locale.GERMANY);
 
         private TextView magnitude;
         private TextView place;
