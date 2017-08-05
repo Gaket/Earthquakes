@@ -48,7 +48,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView, Sw
 
     @ProvidePresenter
     AlertPresenter providePresenter() {
-        return new AlertPresenter(EartquakeApp.getEarthquakesComponent());
+        return new AlertPresenter(EartquakeApp.getComponentsManager().getEarthquakesComponent());
     }
 
     @Override

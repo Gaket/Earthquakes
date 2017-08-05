@@ -9,7 +9,7 @@ import dagger.Provides;
 import io.objectbox.BoxStore;
 import ru.inno.earthquakes.model.dbobjects.MyObjectBox;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesApiService;
-import ru.inno.earthquakes.model.earthquakes.EarthquakesCache;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesCacheBox;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesRepository;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesRepositoryImpl;
@@ -31,14 +31,14 @@ public class EarthquakesModule {
 
     @Provides
     @EarthquakesScope
-    EarthquakesRepository provideRepository(EarthquakesApiService apiService, EarthquakesMapper mapper, EarthquakesCache earthquakesCache) {
+    EarthquakesRepository provideRepository(EarthquakesApiService apiService, EarthquakesMapper mapper, EarthquakesCacheBox earthquakesCache) {
         return new EarthquakesRepositoryImpl(apiService, mapper, earthquakesCache);
     }
 
     @Provides
     @EarthquakesScope
-    EarthquakesCache provideCache(BoxStore boxStore, EarthquakesMapper mapper) {
-        return new EarthquakesCache(boxStore, mapper);
+    EarthquakesCacheBox provideCache(BoxStore boxStore, EarthquakesMapper mapper) {
+        return new EarthquakesCacheBox(boxStore, mapper);
     }
 
     @Provides

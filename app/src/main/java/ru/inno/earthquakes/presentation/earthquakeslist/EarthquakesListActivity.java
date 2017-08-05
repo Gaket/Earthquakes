@@ -44,7 +44,7 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
 
     @ProvidePresenter
     EarthquakesListPresenter providePresenter() {
-        return new EarthquakesListPresenter(EartquakeApp.getEarthquakesComponent());
+        return new EarthquakesListPresenter(EartquakeApp.getComponentsManager().getEarthquakesComponent());
     }
 
     public static Intent getStartIntent(Context callingContext) {
