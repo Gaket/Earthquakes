@@ -18,14 +18,28 @@ import ru.inno.earthquakes.model.EntitiesWrapper;
 public class EarthquakesInteractor {
 
     private EarthquakesRepository repository;
+    private Comparator<EarthquakeWithDist> distanceComparator;
 
     @Inject
     public EarthquakesInteractor(EarthquakesRepository repository) {
         this.repository = repository;
+        distanceComparator = (a, b) -> Double.compare(a.getDistance(), b.getDistance());
+    }
+
+    public Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert(Location.Coordinates coords) {
+        return getApiData(coords, distanceComparator)
+                .map(listEntitiesWrapper -> {
+                    List<EarthquakeWithDist> data = listEntitiesWrapper.getData();
+                    if (data.isEmpty()) {
+                        return new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY, null);
+                    } else {
+                        return new EntitiesWrapper<>(EntitiesWrapper.State.SUCCESS, data.get(0));
+                    }
+                })
+                .onErrorReturnItem(new EntitiesWrapper<>(EntitiesWrapper.State.ERROR_NETWORK, null));
     }
 
     public Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getTodaysEartquakesSortedByLocation(Location.Coordinates coords) {
-        Comparator<EarthquakeWithDist> distanceComparator = (a, b) -> Double.compare(a.getDistance(), b.getDistance());
         return getCachedData(EntitiesWrapper.State.LOADING, coords, distanceComparator)
                 .mergeWith(getApiData(coords, distanceComparator)
                         .onErrorResumeNext((t) -> getCachedData(EntitiesWrapper.State.ERROR_NETWORK, coords, distanceComparator)))

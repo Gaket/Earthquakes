@@ -50,7 +50,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        getMenuInflater().inflate(R.menu.menu_alert, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -21,8 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.earthquakeslist.EarthquakesListActivity" />
-        <activity android:name=".presentation.settings.SettingsActivity"></activity>
+        <activity
+            android:name=".presentation.earthquakeslist.EarthquakesListActivity"
+            android:parentActivityName=".presentation.alertscreen.AlertActivity" />
+        <activity
+            android:name=".presentation.settings.SettingsActivity"
+            android:parentActivityName=".presentation.alertscreen.AlertActivity" />
     </application>
 
 </manifest>

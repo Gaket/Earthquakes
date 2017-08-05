@@ -24,4 +24,9 @@ public class SettingsInteractor {
     public Single<Double> getAlertMinMagnitude() {
         return repository.getAlertMinMagnitude();
     }
+
+    public void saveAlertSettings(double maxDistance, double minMagnitude) {
+        repository.putAlertMaxDistance(maxDistance);
+        repository.putAlertMinMagnitude(minMagnitude);
+    }
 }

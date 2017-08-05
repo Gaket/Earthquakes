@@ -31,6 +31,7 @@ public class EntitiesWrapper<T> {
     }
 
     public enum State {
+        EMPTY,
         LOADING,
         SUCCESS,
         ERROR_NETWORK

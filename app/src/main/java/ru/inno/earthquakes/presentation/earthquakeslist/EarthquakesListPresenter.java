@@ -55,7 +55,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
 
     private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEartquakesObservable() {
         return locationInteractor.getCurrentCoordinates()
-                .flatMap(coords -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(coords));
+                .flatMapObservable(coords -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(coords));
     }
 
     void onRefreshAction() {

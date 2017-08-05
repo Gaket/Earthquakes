@@ -1,6 +1,6 @@
 package ru.inno.earthquakes.model.location;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.inno.earthquakes.entities.Location;
 
 /**
@@ -9,5 +9,5 @@ import ru.inno.earthquakes.entities.Location;
  */
 public interface LocationRepository {
 
-    Observable<Location.Coordinates> getCurrentCoordinates();
+    Single<Location.Coordinates> getCurrentCoordinates();
 }

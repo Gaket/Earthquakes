@@ -3,11 +3,9 @@ package ru.inno.earthquakes.presentation.alertscreen;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
@@ -52,17 +50,17 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
                     } else {
                         getViewState().showNetworkError(false);
                     }
-                    if (earthquakeWithDists.getData().isEmpty()) {
+                    if (earthquakeWithDists.getState() == EntitiesWrapper.State.EMPTY) {
                         getViewState().showThereAreNoAlerts();
-                    } else {
-                        getViewState().showEartquakeAlert(earthquakeWithDists.getData().get(0));
+                    } else if (earthquakeWithDists.getState() == EntitiesWrapper.State.SUCCESS) {
+                        getViewState().showEartquakeAlert(earthquakeWithDists.getData());
                     }
                 }, Timber::e);
     }
 
-    private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEartquakesObservable() {
+    private Single<EntitiesWrapper<EarthquakeWithDist>> getSortedEartquakesObservable() {
         return locationInteractor.getCurrentCoordinates()
-                .flatMap(coords -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(coords));
+                .flatMap(coords -> earthquakesInteractor.getEarthquakeAlert(coords));
     }
 
     public void onShowAll() {

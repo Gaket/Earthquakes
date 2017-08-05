@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context="ru.inno.earthquakes.presentation.settings.SettingsActivity">
 
     <TextView
-        android:id="@+id/settings_tv_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text = "100"/>
+        android:text="@string/title_settings_max_dist" />
+
+    <EditText
+        android:id="@+id/settings_ev_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        tools:text="300" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_settings_max_dist"/>
+        android:text="@string/title_settings_min_mag" />
 
     <TextView
         android:id="@+id/settings_tv_magnitude"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text = "5.0"/>
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <SeekBar
+        android:id="@+id/settings_sb_magnitude"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_settings_min_mag"/>
+        android:max="95"
+        tools:text="5.0" />
 
 </LinearLayout>

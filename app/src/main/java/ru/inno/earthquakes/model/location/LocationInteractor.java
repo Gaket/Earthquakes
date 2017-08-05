@@ -2,7 +2,7 @@ package ru.inno.earthquakes.model.location;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.inno.earthquakes.entities.Location;
 
 /**
@@ -18,7 +18,7 @@ public class LocationInteractor {
         this.repository = repository;
     }
 
-    public Observable<Location.Coordinates> getCurrentCoordinates() {
+    public Single<Location.Coordinates> getCurrentCoordinates() {
         return repository.getCurrentCoordinates();
     }
 }

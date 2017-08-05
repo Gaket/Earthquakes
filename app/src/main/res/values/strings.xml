@@ -8,4 +8,5 @@
     <string name="title_settings_max_dist">Maximal distance to earthquake, km</string>
     <string name="title_settings_min_mag">Minimal magnitude to show</string>
     <string name="menu_settings">Go to settings</string>
+    <string name="msg_save_success">Changes succesfully saved</string>
 </resources>

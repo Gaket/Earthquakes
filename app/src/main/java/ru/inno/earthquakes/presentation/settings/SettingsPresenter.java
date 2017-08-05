@@ -5,7 +5,6 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import javax.inject.Inject;
 
-import ru.inno.earthquakes.di.application.AppComponent;
 import ru.inno.earthquakes.di.settings.SettingsComponent;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
 
@@ -36,11 +35,7 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
                 });
     }
 
-    public void onChangeDistance() {
-
-    }
-
-    public void onChangeMagnitude() {
-
+    void onSave(int km, double magnitude) {
+        interactor.saveAlertSettings(km, magnitude);
     }
 }
