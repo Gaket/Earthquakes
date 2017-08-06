@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.presentation;
+package ru.inno.earthquakes.presentation.common;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -103,7 +103,7 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
      * @param margin in dp
      */
     public void setLeftMargin(int margin) {
-        leftMargin = ImageUtils.dpToPx(mContext, margin);
+        leftMargin = Utils.dpToPx(mContext, margin);
     }
 
     /**
@@ -133,7 +133,7 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
                     left = leftMargin + child.getRight() + params.rightMargin;
                     right = rightMargin + left + divider.getIntrinsicWidth();
                 } else {
-                    left = ImageUtils.dpToPx(mContext, marginProvider.getMargin(childPosition, parent)) + parent.getPaddingLeft();
+                    left = Utils.dpToPx(mContext, marginProvider.getMargin(childPosition, parent)) + parent.getPaddingLeft();
                     right = parent.getWidth() - parent.getPaddingRight();
 
                     top = child.getBottom() + params.bottomMargin;

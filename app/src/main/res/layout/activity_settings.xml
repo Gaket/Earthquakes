@@ -1,40 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp"
     tools:context="ru.inno.earthquakes.presentation.settings.SettingsActivity">
 
+
     <TextView
+        android:id="@+id/settings_tv_title_dist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:text="@string/title_settings_max_dist" />
 
     <EditText
         android:id="@+id/settings_ev_distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/settings_tv_title_dist"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/title_settings_max_dist"
         android:inputType="number"
         tools:text="300" />
 
     <TextView
+        android:id="@+id/settings_tv_title_mag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/settings_ev_distance"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
         android:text="@string/title_settings_min_mag" />
 
     <TextView
         android:id="@+id/settings_tv_magnitude"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/settings_tv_title_mag"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="0"
+        android:textColor="@color/textPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <SeekBar
         android:id="@+id/settings_sb_magnitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/settings_tv_title_mag"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="4dp"
         android:max="95"
         tools:text="5.0" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/settings_bt_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/action_save"
+        android:paddingLeft="80dp"
+        android:paddingRight="80dp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

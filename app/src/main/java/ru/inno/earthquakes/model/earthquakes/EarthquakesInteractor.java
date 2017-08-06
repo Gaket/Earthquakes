@@ -66,6 +66,4 @@ public class EarthquakesInteractor {
                 .toSortedList(distanceComparator)
                 .map(earthquakeWithDists -> new EntitiesWrapper<>(state, earthquakeWithDists));
     }
-
-
 }

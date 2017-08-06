@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ru.inno.earthquakes.presentation.EmptyRecyclerView
+        <ru.inno.earthquakes.presentation.common.EmptyRecyclerView
             android:id="@+id/earthquakes_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

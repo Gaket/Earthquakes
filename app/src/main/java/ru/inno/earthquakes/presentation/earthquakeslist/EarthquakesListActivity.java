@@ -17,8 +17,8 @@ import java.util.List;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
-import ru.inno.earthquakes.presentation.EmptyRecyclerView;
-import ru.inno.earthquakes.presentation.SmartDividerItemDecoration;
+import ru.inno.earthquakes.presentation.common.EmptyRecyclerView;
+import ru.inno.earthquakes.presentation.common.SmartDividerItemDecoration;
 
 public class EarthquakesListActivity extends MvpAppCompatActivity
         implements EarthquakesListView {

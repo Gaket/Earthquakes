@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,7 @@ import java.util.Locale;
 
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.presentation.common.Utils;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -78,13 +77,12 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
                 magnitude.setAlpha(0.5f);
             }
             magnitude.setText(String.format(Locale.GERMANY, "%.1f", model.getMagnitude()));
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-            symbols.setGroupingSeparator(' ');
-            DecimalFormat formatter = new DecimalFormat("###,###", symbols);
-            String formattedDist = formatter.format(model.getDistance());
+            String formattedDist = Utils.formatDistanceString(model.getDistance());
             dist.setText(String.format(Locale.GERMANY, "%s km from you \u2022", formattedDist));
             place.setText(model.getLocation().getName());
             time.setText(dateFormat.format(model.getTime()));
         }
+
+
     }
 }

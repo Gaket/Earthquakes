@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -18,6 +19,7 @@ import java.util.Locale;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
 
@@ -34,15 +36,19 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     private TextView messageView;
     private TextView detailsView;
     private TextView magnitudeView;
+    private TextView distanceView;
+    private ImageView alertImageView;
     private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        messageView = (TextView) findViewById(R.id.alert_tv_message);
+        messageView = (TextView) findViewById(R.id.alert_tv_main);
         detailsView = (TextView) findViewById(R.id.alert_tv_details);
         magnitudeView = (TextView) findViewById(R.id.alert_tv_magnitude);
+        distanceView = (TextView) findViewById(R.id.alert_tv_distance);
+        alertImageView = (ImageView) findViewById(R.id.alert_iv_status);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
         findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAll());
@@ -73,12 +79,15 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     @Override
     public void showThereAreNoAlerts() {
         messageView.setText(R.string.alert_msg_everything_is_ok);
+        alertImageView.setImageResource(R.drawable.earth_normal);
     }
 
     @Override
     public void showEartquakeAlert(EarthquakeWithDist earthquake) {
+        alertImageView.setImageResource(R.drawable.earth_alarm);
         messageView.setText(R.string.alert_msg_earhquake_nearby);
         detailsView.setText(earthquake.getEarthquake().getTitle());
+        distanceView.setText(String.format("\u2248 %s km from you", Utils.formatDistanceString(earthquake.getDistance())));
         String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquake().getMagnitude());
         magnitudeView.setText(magnitude);
     }

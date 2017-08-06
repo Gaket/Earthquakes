@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.presentation;
+package ru.inno.earthquakes.presentation.common;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -61,7 +61,7 @@ public class EmptyRecyclerView extends FrameLayout {
      */
     private void initializeViews(Context context) {
         recyclerView = new RecyclerView(context);
-        recyclerView.setPadding(0, 0, 0, ImageUtils.dpToPx(getContext(), 16));
+        recyclerView.setPadding(0, 0, 0, Utils.dpToPx(getContext(), 16));
         recyclerView.setClipToPadding(false);
         this.addView(recyclerView);
         this.context = context;

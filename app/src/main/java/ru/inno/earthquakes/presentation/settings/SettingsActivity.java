@@ -3,12 +3,9 @@ package ru.inno.earthquakes.presentation.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -42,6 +39,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
         // According to YAGNI, we have only some hardcoded views here.
         // If application becomes more complicated, here should be a RecyclerView with options.
         distanceView = (EditText) findViewById(R.id.settings_ev_distance);
+
         magnitudeValueView = (TextView) findViewById(R.id.settings_tv_magnitude);
         magnitudeView = (SeekBar) findViewById(R.id.settings_sb_magnitude);
         magnitudeView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -60,32 +58,18 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
                 // do nothing
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
-        return super.onCreateOptionsMenu(menu);
+        findViewById(R.id.settings_bt_save).setOnClickListener(v -> {
+            Integer km = Integer.valueOf(distanceView.getText().toString());
+            double magnitude = magnitudeView.getProgress() / 100.0;
+            presenter.onSave(km, magnitude);
+            finish();
+        });
     }
 
     @Override
     protected void onDestroy() {
         EartquakeApp.getComponentsManager().clearSettingsComponent();
         super.onDestroy();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                Integer km = Integer.valueOf(distanceView.getText().toString());
-                double magnitude = magnitudeView.getProgress() / 100.0;
-                presenter.onSave(km, magnitude);
-                Toast.makeText(this, R.string.msg_save_success, Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -101,5 +85,4 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     public static Intent getStartIntent(Context callingContext) {
         return new Intent(callingContext, SettingsActivity.class);
     }
-
 }
