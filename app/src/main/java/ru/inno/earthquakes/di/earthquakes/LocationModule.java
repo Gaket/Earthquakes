@@ -1,10 +1,16 @@
 package ru.inno.earthquakes.di.earthquakes;
 
+import android.content.Context;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 import dagger.Module;
 import dagger.Provides;
-import ru.inno.earthquakes.model.location.LocationRepository;
+import ru.inno.earthquakes.model.PermissionsManager;
 import ru.inno.earthquakes.model.location.LocationInteractor;
-import ru.inno.earthquakes.model.location.LocationRepoStub;
+import ru.inno.earthquakes.model.location.LocationRepoAndroid;
+import ru.inno.earthquakes.model.location.LocationRepository;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -16,14 +22,19 @@ public class LocationModule {
 
     @Provides
     @EarthquakesScope
-    LocationInteractor provideInteractor(LocationRepository repository) {
-        return new LocationInteractor(repository);
+    LocationInteractor provideInteractor(LocationRepository repository, PermissionsManager permissionsManager) {
+        return new LocationInteractor(repository, permissionsManager);
     }
-
 
     @Provides
     @EarthquakesScope
-    LocationRepository provideRepository() {
-        return new LocationRepoStub();
+    LocationRepository provideRepository(FusedLocationProviderClient locationProviderClient) {
+        return new LocationRepoAndroid(locationProviderClient);
+    }
+
+    @Provides
+    @EarthquakesScope
+    FusedLocationProviderClient provideLocationClient(Context context) {
+        return LocationServices.getFusedLocationProviderClient(context);
     }
 }

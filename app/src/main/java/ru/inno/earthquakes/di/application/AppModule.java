@@ -3,10 +3,13 @@ package ru.inno.earthquakes.di.application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.inno.earthquakes.model.PermissionsManager;
 import ru.inno.earthquakes.model.settings.SettingsRepository;
 
 /**
@@ -38,7 +41,19 @@ public class AppModule {
 
     @Provides
     @Singleton
-    SettingsRepository provideRepository(SharedPreferences sharedPreferences) {
+    SettingsRepository provideSettingsRepository(SharedPreferences sharedPreferences) {
         return new SettingsRepository(sharedPreferences);
+    }
+
+    @Provides
+    @Singleton
+    PermissionsManager providePermissionsManager(RxPermissions rxPermissions) {
+        return new PermissionsManager(rxPermissions);
+    }
+
+    @Provides
+    @Singleton
+    RxPermissions provideRxPermissions(Context context) {
+        return RxPermissions.getInstance(context);
     }
 }

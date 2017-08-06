@@ -27,8 +27,6 @@ android {
     }
 }
 
-
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -37,8 +35,10 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'io.reactivex.rxjava2:rxjava:2.1.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.8.2@aar'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -51,6 +51,7 @@ dependencies {
     compile 'io.objectbox:objectbox-android:0.9.13'
     compile 'io.objectbox:objectbox-rxjava:0.9.8'
     compile 'org.mapstruct:mapstruct:1.1.0.Final'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.47'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
