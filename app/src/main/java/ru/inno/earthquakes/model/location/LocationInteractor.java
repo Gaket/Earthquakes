@@ -27,7 +27,9 @@ public class LocationInteractor {
                 .first(false)
                 .flatMap(permGiven -> {
                     if (permGiven) {
-                        return repository.getCurrentCoordinates();
+                        return repository.getCurrentCoordinates()
+                                // Return Moscow coordinates by default
+                                .onErrorReturnItem(new Location.Coordinates(55.755826, 37.6173));
                     } else {
                         // Return Moscow coordinates by default
                         return Single.just(new Location.Coordinates(55.755826, 37.6173));

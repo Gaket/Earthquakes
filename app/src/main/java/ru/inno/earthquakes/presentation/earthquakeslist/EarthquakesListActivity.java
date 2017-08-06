@@ -7,7 +7,6 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -18,6 +17,8 @@ import java.util.List;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.presentation.EmptyRecyclerView;
+import ru.inno.earthquakes.presentation.SmartDividerItemDecoration;
 
 public class EarthquakesListActivity extends MvpAppCompatActivity
         implements EarthquakesListView {
@@ -26,7 +27,7 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     EarthquakesListPresenter presenter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
+    private EmptyRecyclerView recyclerView;
     private EarthquakesListAdapter earthquakesListAdapter;
     private Snackbar snackbar;
 
@@ -36,10 +37,19 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
         setContentView(R.layout.activity_earth_quakes_list);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.earthquakes_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
-        recyclerView = (RecyclerView) findViewById(R.id.earthquakes_recycler);
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+        recyclerView = (EmptyRecyclerView) findViewById(R.id.earthquakes_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setEmptyViewLayout(R.layout.empty_earthquakes);
+        SmartDividerItemDecoration itemDecoration = new SmartDividerItemDecoration.Builder(this)
+                .setMarginProvider((position, parent) -> 56)
+                .build();
+        recyclerView.addItemDecoration(itemDecoration);
         earthquakesListAdapter = new EarthquakesListAdapter();
         recyclerView.setAdapter(earthquakesListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @ProvidePresenter

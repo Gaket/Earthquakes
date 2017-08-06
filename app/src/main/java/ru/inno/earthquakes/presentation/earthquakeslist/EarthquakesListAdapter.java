@@ -1,5 +1,7 @@
 package ru.inno.earthquakes.presentation.earthquakeslist;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,7 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
     @Override
     public EarthquakeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_earthqake, parent, false);
-        return new EarthquakeViewHolder(v);
+        return new EarthquakeViewHolder(v, parent.getContext());
     }
 
     @Override
@@ -46,27 +50,41 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
 
     public static class EarthquakeViewHolder extends RecyclerView.ViewHolder {
 
-        private DateFormat dateFormat = new SimpleDateFormat("HH:mm MMMM, dd", Locale.GERMANY);
+        public static final double DANGEROUS_LEVEL = 4;
+        private Context context;
+
+        private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm", Locale.GERMANY);
 
         private TextView magnitude;
         private TextView place;
         private TextView time;
         private TextView dist;
 
-        public EarthquakeViewHolder(View itemView) {
+        public EarthquakeViewHolder(View itemView, Context context) {
             super(itemView);
             magnitude = (TextView) itemView.findViewById(R.id.earthquake_tv_mag);
             place = (TextView) itemView.findViewById(R.id.earthquake_tv_place);
             time = (TextView) itemView.findViewById(R.id.earthquake_tv_time);
             dist = (TextView) itemView.findViewById(R.id.earthquake_tv_dist);
+            this.context = context;
         }
 
         public void bind(EarthquakeWithDist model) {
+            if (model.getMagnitude() >= DANGEROUS_LEVEL) {
+                magnitude.setTextColor(ContextCompat.getColor(context, R.color.colorAlert));
+                magnitude.setAlpha(1);
+            } else {
+                magnitude.setTextColor(ContextCompat.getColor(context, R.color.textPrimary));
+                magnitude.setAlpha(0.5f);
+            }
             magnitude.setText(String.format(Locale.GERMANY, "%.1f", model.getMagnitude()));
-            dist.setText(String.format(Locale.GERMANY, "%.2f km from you", model.getDistance()));
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+            symbols.setGroupingSeparator(' ');
+            DecimalFormat formatter = new DecimalFormat("###,###", symbols);
+            String formattedDist = formatter.format(model.getDistance());
+            dist.setText(String.format(Locale.GERMANY, "%s km from you \u2022", formattedDist));
             place.setText(model.getLocation().getName());
             time.setText(dateFormat.format(model.getTime()));
         }
     }
-
 }

@@ -32,7 +32,7 @@ public class LocationRepoAndroid implements LocationRepository {
                             if (location != null) {
                                 emitter.onSuccess(location);
                             } else {
-                                emitter.onError(new RuntimeException("Last location is unknown"));
+                                emitter.onError(new UnknownLocationException("Last location is unknown"));
                             }
                         })
                         .addOnFailureListener(e -> emitter.onError(e));

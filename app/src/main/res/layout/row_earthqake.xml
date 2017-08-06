@@ -10,42 +10,50 @@
         android:id="@+id/earthquake_tv_mag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="4.5"
-        android:layout_marginLeft="24dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp" />
+        android:textColor="@color/textPrimary"
+        tools:text="4.5" />
 
     <TextView
         android:id="@+id/earthquake_tv_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="10 km from Moscow"
-        app:layout_constraintLeft_toRightOf="@+id/earthquake_tv_mag"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="@+id/earthquake_tv_mag"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="0dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/earthquake_tv_mag"
-        android:layout_marginBottom="0dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/earthquake_tv_mag"
+        app:layout_constraintVertical_bias="0.0"
+        android:textColor="@color/textPrimary"
+        tools:text="10 km from Moscow" />
 
     <TextView
         android:id="@+id/earthquake_tv_dist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="24 km"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/earthquake_tv_mag"
         android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/earthquake_tv_mag" />
+        android:textColor="@color/textSecondary"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/earthquake_tv_place"
+        app:layout_constraintTop_toBottomOf="@+id/earthquake_tv_mag"
+        tools:text="24 km" />
 
     <TextView
         android:id="@+id/earthquake_tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="15:20 Sept, 22"
-        app:layout_constraintLeft_toRightOf="@+id/earthquake_tv_dist"
+        android:textColor="@color/textSecondary"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/earthquake_tv_dist"
         app:layout_constraintTop_toTopOf="@+id/earthquake_tv_dist"
-        android:layout_marginTop="0dp" />
+        tools:text="15:20 Sept, 22" />
 
 </android.support.constraint.ConstraintLayout>
