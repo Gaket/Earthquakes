@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.model;
+package ru.inno.earthquakes.model.permissions;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -8,11 +8,11 @@ import io.reactivex.Observable;
  * @author Artur Badretdinov (Gaket)
  *         06.08.17
  */
-public class PermissionsManager {
+public class PermissionsRepository {
 
-    RxPermissions rxPermissions;
+    private RxPermissions rxPermissions;
 
-    public PermissionsManager(RxPermissions rxPermissions) {
+    public PermissionsRepository(RxPermissions rxPermissions) {
         this.rxPermissions = rxPermissions;
     }
 

@@ -10,4 +10,6 @@ public interface SettingsView extends MvpView {
     void setMaxDistance(Double dist);
 
     void setMinMagnitude(Double mag);
+
+    void navigateToInfo();
 }

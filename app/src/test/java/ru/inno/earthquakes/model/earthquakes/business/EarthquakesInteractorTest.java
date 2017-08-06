@@ -14,6 +14,7 @@ import io.reactivex.observers.TestObserver;
 import ru.inno.earthquakes.entities.Location;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesRepository;
+import ru.inno.earthquakes.model.settings.SettingsRepository;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -26,11 +27,13 @@ public class EarthquakesInteractorTest {
 
     @Mock
     EarthquakesRepository repository;
+    @Mock
+    SettingsRepository settingsRepository;
     private RuntimeException testError;
 
     @Before
     public void setUp() throws Exception {
-        interactor = new EarthquakesInteractor(repository);
+        interactor = new EarthquakesInteractor(repository,settingsRepository);
         testError = new RuntimeException("Test error");
     }
 

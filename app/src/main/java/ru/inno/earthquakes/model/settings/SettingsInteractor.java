@@ -2,26 +2,24 @@ package ru.inno.earthquakes.model.settings;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
-
 /**
  * @author Artur Badretdinov (Gaket)
  *         05.08.17
  */
 public class SettingsInteractor {
 
-    private SettingsRepository repository;
+    private SettingsRepositoryInt repository;
 
     @Inject
-    public SettingsInteractor(SettingsRepository repository) {
+    public SettingsInteractor(SettingsRepositoryInt repository) {
         this.repository = repository;
     }
 
-    public Single<Double> getAlertMaxDistance() {
+    public double getAlertMaxDistance() {
         return repository.getAlertMaxDistance();
     }
 
-    public Single<Double> getAlertMinMagnitude() {
+    public double getAlertMinMagnitude() {
         return repository.getAlertMinMagnitude();
     }
 

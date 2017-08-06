@@ -1,6 +1,7 @@
 package ru.inno.earthquakes.di.earthquakes;
 
 import dagger.Subcomponent;
+import ru.inno.earthquakes.presentation.alertscreen.AlertActivity;
 import ru.inno.earthquakes.presentation.alertscreen.AlertPresenter;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListPresenter;
 
@@ -12,7 +13,7 @@ import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListPresenter
 @EarthquakesScope
 public interface EarthquakesComponent {
 
-    void inject(AlertPresenter alertPresenter);
+    void inject(AlertActivity alertPresenter);
 
     void inject(EarthquakesListPresenter alertPresenter);
 }

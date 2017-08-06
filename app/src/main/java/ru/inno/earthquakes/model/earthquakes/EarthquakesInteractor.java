@@ -30,28 +30,26 @@ public class EarthquakesInteractor {
     }
 
     public Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert(Location.Coordinates coords) {
-        return getApiData(coords, distanceComparator)
+        return getApiDataSorted(coords, distanceComparator)
                 .map(EntitiesWrapper::getData)
-//                .flattenAsObservable(earthquakeWithDists -> earthquakeWithDists)
-//                .filter(earthquakeWithDist -> earthquakeWithDist.getDistance() < )
-                .map(earthquakeWithDists -> {
-                    if (earthquakeWithDists.isEmpty()) {
-                        return new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY, null);
-                    } else {
-                        return new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.SUCCESS, earthquakeWithDists.get(0));
-                    }
-                })
+                .flattenAsObservable(earthquakeWithDists -> earthquakeWithDists)
+                .filter(earthquakeWithDist -> earthquakeWithDist.getDistance() < settingsRepository.getAlertMaxDistance())
+                .filter(earthquakeWithDist -> earthquakeWithDist.getMagnitude() >= settingsRepository.getAlertMinMagnitude())
+                .toList()
+                .map(earthquakeWithDists -> earthquakeWithDists.isEmpty() ?
+                        new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY, null) :
+                        new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.SUCCESS, earthquakeWithDists.get(0)))
                 .onErrorReturnItem(new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.ERROR_NETWORK, null));
     }
 
     public Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getTodaysEartquakesSortedByLocation(Location.Coordinates coords) {
-        return getCachedData(EntitiesWrapper.State.LOADING, coords, distanceComparator)
-                .mergeWith(getApiData(coords, distanceComparator)
-                        .onErrorResumeNext((t) -> getCachedData(EntitiesWrapper.State.ERROR_NETWORK, coords, distanceComparator)))
+        return getCachedDataSorted(EntitiesWrapper.State.LOADING, coords, distanceComparator)
+                .concatWith(getApiDataSorted(coords, distanceComparator)
+                        .onErrorReturnItem(new EntitiesWrapper<>(EntitiesWrapper.State.ERROR_NETWORK, null)))
                 .toObservable();
     }
 
-    private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getApiData(Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
+    private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getApiDataSorted(Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
         return repository.getTodaysEarthquakes()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
@@ -59,7 +57,7 @@ public class EarthquakesInteractor {
                 .map(earthquakeWithDists -> new EntitiesWrapper<>(EntitiesWrapper.State.SUCCESS, earthquakeWithDists));
     }
 
-    private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getCachedData(EntitiesWrapper.State state, Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
+    private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getCachedDataSorted(EntitiesWrapper.State state, Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
         return repository.getCachedTodaysEarthquakes()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))

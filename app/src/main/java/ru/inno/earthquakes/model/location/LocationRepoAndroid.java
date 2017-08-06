@@ -28,14 +28,19 @@ public class LocationRepoAndroid implements LocationRepository {
             try {
                 fusedLocationClient.getLastLocation()
                         .addOnSuccessListener(location -> {
+                            if (emitter.isDisposed()) {
+                                return;
+                            }
+
                             // GPS location can be null if GPS is switched off
                             if (location != null) {
                                 emitter.onSuccess(location);
                             } else {
+                                // TODO: add here call for a new location update
                                 emitter.onError(new UnknownLocationException("Last location is unknown"));
                             }
                         })
-                        .addOnFailureListener(e -> emitter.onError(e));
+                        .addOnFailureListener(emitter::onError);
             } catch (SecurityException ex) {
                 emitter.onError(ex);
             }

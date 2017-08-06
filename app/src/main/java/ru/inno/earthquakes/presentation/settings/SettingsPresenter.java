@@ -25,17 +25,15 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        interactor.getAlertMaxDistance()
-                .subscribe(dist -> {
-                    getViewState().setMaxDistance(dist);
-                });
-        interactor.getAlertMinMagnitude()
-                .subscribe(mag -> {
-                    getViewState().setMinMagnitude(mag);
-                });
+        getViewState().setMaxDistance(interactor.getAlertMaxDistance());
+        getViewState().setMinMagnitude(interactor.getAlertMinMagnitude());
     }
 
     void onSave(int km, double magnitude) {
         interactor.saveAlertSettings(km, magnitude);
+    }
+
+    public void onInfoAction() {
+        getViewState().navigateToInfo();
     }
 }

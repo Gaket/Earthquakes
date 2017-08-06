@@ -11,7 +11,7 @@ import io.objectbox.query.Query;
 import io.objectbox.rx.RxQuery;
 import io.reactivex.Single;
 import ru.inno.earthquakes.entities.Earthquake;
-import ru.inno.earthquakes.model.models.dbobjects.EarthquakeDb;
+import ru.inno.earthquakes.model.models.db.EarthquakeDb;
 import ru.inno.earthquakes.model.mappers.EarthquakesMapper;
 import timber.log.Timber;
 

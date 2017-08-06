@@ -48,8 +48,8 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
                         getViewState().showNetworkError(true);
                     } else {
                         getViewState().showNetworkError(false);
+                        getViewState().showEarthquakes(earthquakeWithDists.getData());
                     }
-                    getViewState().showEarthquakes(earthquakeWithDists.getData());
                 }, Timber::e);
     }
 

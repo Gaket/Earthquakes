@@ -7,7 +7,7 @@ import com.google.android.gms.location.LocationServices;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.inno.earthquakes.model.PermissionsManager;
+import ru.inno.earthquakes.model.permissions.PermissionsRepository;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.model.location.LocationRepoAndroid;
 import ru.inno.earthquakes.model.location.LocationRepository;
@@ -22,8 +22,8 @@ public class LocationModule {
 
     @Provides
     @EarthquakesScope
-    LocationInteractor provideInteractor(LocationRepository repository, PermissionsManager permissionsManager) {
-        return new LocationInteractor(repository, permissionsManager);
+    LocationInteractor provideInteractor(LocationRepository repository, PermissionsRepository permissionsRepository) {
+        return new LocationInteractor(repository, permissionsRepository);
     }
 
     @Provides

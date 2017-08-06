@@ -10,7 +10,9 @@ import java.text.DecimalFormatSymbols;
  * @author Artur Badretdinov (Gaket)
  *         06.08.17
  */
-public class Utils {
+public final class Utils {
+
+    private Utils(){};
 
     public static int dpToPx(Context context, int dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();

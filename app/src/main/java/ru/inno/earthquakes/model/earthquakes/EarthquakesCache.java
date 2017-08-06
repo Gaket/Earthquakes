@@ -10,6 +10,7 @@ import ru.inno.earthquakes.entities.Earthquake;
  *         05.08.17
  */
 interface EarthquakesCache {
+
     void clearCache();
 
     void putEarthquakes(List<Earthquake> earthquakeEntities);

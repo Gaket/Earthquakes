@@ -3,6 +3,8 @@ package ru.inno.earthquakes.presentation.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import java.util.Locale;
 
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
+import ru.inno.earthquakes.presentation.info.InfoActivity;
 
 public class SettingsActivity extends MvpAppCompatActivity implements SettingsView {
 
@@ -67,6 +70,23 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+                presenter.onInfoAction();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         EartquakeApp.getComponentsManager().clearSettingsComponent();
         super.onDestroy();
@@ -80,6 +100,12 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     @Override
     public void setMinMagnitude(Double mag) {
         magnitudeView.setProgress((int) (mag * 100));
+    }
+
+    @Override
+    public void navigateToInfo() {
+        Intent intent = InfoActivity.getStartInfo(this);
+        startActivity(intent);
     }
 
     public static Intent getStartIntent(Context callingContext) {

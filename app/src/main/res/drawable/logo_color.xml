@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="81dp"
+    android:height="81dp"
+    android:viewportWidth="81"
+    android:viewportHeight="81">
+
+    <group
+            android:translateX="-140.000000"
+            android:translateY="-257.000000">
+        <group
+                android:translateX="90.000000"
+                android:translateY="257.000000">
+            <group
+                    android:translateX="50.000000">
+                <path
+                    android:fillType="evenOdd"
+                    android:strokeColor="#2CF97C"
+                    android:strokeWidth="3"
+                    android:pathData="M 40.5 1.5 C 62.0391052434 1.5 79.5 18.9608947566 79.5 40.5 C 79.5 62.0391052434 62.0391052434 79.5 40.5 79.5 C 18.9608947566 79.5 1.5 62.0391052434 1.5 40.5 C 1.5 18.9608947566 18.9608947566 1.5 40.5 1.5 Z" />
+                <path
+                    android:fillType="evenOdd"
+                    android:strokeColor="#2CF97C"
+                    android:strokeWidth="3"
+                    android:pathData="M23,5.5 C22.3333333,8.5 22.6666667,9.66666667 24,9 C26,8 30.5,-6.61692923e-14
+32,5.5 C33.5,11 18,13.5 26,15 C34,16.5 35.5,9 38.5,9 C41.5,9 44,8.5 46,7.5
+C48,6.5 50.5,1 52.5,5.5 C54.5,10 53,16 49,16 C45,16 44.5,12 42.5,15 C40.5,18
+38.5,18 39,21 C39.5,24 40,16.5 43,18.5 C46,20.5 45.5,23 43,24.5 C40.5,26 34,25
+32,22 C30,19 33.5,26.5 32,29.5 C30.5,32.5 27,33 30,33.5 C33,34 34.5,31.5
+36.5,32.5 C38.5,33.5 37.5,37 40,37.5 C42.5,38 41,34.5 43,34.5 C45,34.5 43,38.5
+46,38 C49,37.5 49,34 51.5,36 C54,38 55,48 61.5,47 C68,46 68,45 68.5,41.5 C69,38
+68,35.5 70.5,35.5 C73,35.5 72,39.5 75.5,39.5 C77.8333333,39.5
+79.1666667,39.8333333 79.5,40.5" />
+                <path
+                    android:fillType="evenOdd"
+                    android:strokeColor="#2CF97C"
+                    android:strokeWidth="3"
+                    android:pathData="M5.5,23.5 C8.5,31.5 9.33333333,36.8333333 8,39.5 C6.66666667,42.1666667
+4.66666667,44.6666667 2,47" />
+                <path
+                    android:fillType="evenOdd"
+                    android:strokeColor="#2CF97C"
+                    android:strokeWidth="3"
+                    android:pathData="M26,76 C27.3333333,71 25.6666667,68.6666667 21,69 C16.3333333,69.3333333
+11.8333333,66.6666667 7.5,61 C6.16666667,56.6666667 8,53.5 13,51.5 C20.5,48.5
+19.5,48 24,49 C28.5,50 26.5,52 30,52.5 C33.5,53 34.5,51.2340208 39,53
+C43.5,54.7659792 46,59.5 46.5,61 C46.8333333,62 50.5,62.1666667 57.5,61.5
+C56.8333333,65.8333333 55.5,68.6666667 53.5,70 C50.5,72 49.5,75.5 50.5,78" />
+            </group>
+        </group>
+    </group>
+</vector>

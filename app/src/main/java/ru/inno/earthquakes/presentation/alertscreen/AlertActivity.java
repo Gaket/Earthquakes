@@ -16,9 +16,13 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
+import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
@@ -31,6 +35,15 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
     @InjectPresenter
     AlertPresenter presenter;
+    @Inject
+    EarthquakesInteractor earthquakesInteractor;
+    @Inject
+    LocationInteractor locationInteractor;
+
+    @ProvidePresenter
+    AlertPresenter providePresenter() {
+        return new AlertPresenter(earthquakesInteractor, locationInteractor);
+    }
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView messageView;
@@ -42,7 +55,9 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         messageView = (TextView) findViewById(R.id.alert_tv_main);
         detailsView = (TextView) findViewById(R.id.alert_tv_details);
@@ -71,10 +86,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
         }
     }
 
-    @ProvidePresenter
-    AlertPresenter providePresenter() {
-        return new AlertPresenter(EartquakeApp.getComponentsManager().getEarthquakesComponent());
-    }
+
 
     @Override
     public void showThereAreNoAlerts() {

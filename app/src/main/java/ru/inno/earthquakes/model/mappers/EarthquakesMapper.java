@@ -8,9 +8,9 @@ import java.util.List;
 
 import ru.inno.earthquakes.entities.Earthquake;
 import ru.inno.earthquakes.entities.Location;
-import ru.inno.earthquakes.model.models.dbobjects.CoordinatesDb;
-import ru.inno.earthquakes.model.models.dbobjects.EarthquakeDb;
-import ru.inno.earthquakes.model.models.dbobjects.LocationDb;
+import ru.inno.earthquakes.model.models.db.CoordinatesDb;
+import ru.inno.earthquakes.model.models.db.EarthquakeDb;
+import ru.inno.earthquakes.model.models.db.LocationDb;
 import ru.inno.earthquakes.model.models.network.EarthquakeNetwork;
 
 /**
@@ -28,15 +28,9 @@ public abstract class EarthquakesMapper {
 
     public abstract List<EarthquakeDb> entitiesToDb(List<Earthquake> earthquakes);
 
-    @Mappings({
-            @Mapping(source = "properties.title", target = "title"),
-            @Mapping(source = "properties.time", target = "time"),
-            @Mapping(source = "properties.mag", target = "magnitude"),
-            @Mapping(source = "properties.url", target = "detailsUrl"),
-            @Mapping(source = "properties.place", target = "location.name"),
-            @Mapping(source = "geometry.coordinates", target = "location.coords")
-    })
-    public abstract Earthquake earthquakeDataToEntity(EarthquakeNetwork car);
+    public abstract LocationDb loc(Location loc);
+
+    public abstract CoordinatesDb coords(Location.Coordinates coordinates);
 
     public Location.Coordinates arrayToCoords(double[] coords) {
         return new Location.Coordinates(coords[0], coords[1]);
@@ -53,7 +47,13 @@ public abstract class EarthquakesMapper {
         return location;
     }
 
-    public abstract LocationDb loc(Location loc);
-
-    public abstract CoordinatesDb coords(Location.Coordinates coordinates);
+    @Mappings({
+            @Mapping(source = "properties.title", target = "title"),
+            @Mapping(source = "properties.time", target = "time"),
+            @Mapping(source = "properties.mag", target = "magnitude"),
+            @Mapping(source = "properties.url", target = "detailsUrl"),
+            @Mapping(source = "properties.place", target = "location.name"),
+            @Mapping(source = "geometry.coordinates", target = "location.coords")
+    })
+    public abstract Earthquake earthquakeDataToEntity(EarthquakeNetwork car);
 }

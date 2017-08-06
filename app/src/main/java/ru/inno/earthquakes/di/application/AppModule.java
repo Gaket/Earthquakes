@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.inno.earthquakes.model.PermissionsManager;
+import ru.inno.earthquakes.model.permissions.PermissionsRepository;
 import ru.inno.earthquakes.model.settings.SettingsRepository;
 
 /**
@@ -47,8 +47,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    PermissionsManager providePermissionsManager(RxPermissions rxPermissions) {
-        return new PermissionsManager(rxPermissions);
+    PermissionsRepository providePermissionsManager(RxPermissions rxPermissions) {
+        return new PermissionsRepository(rxPermissions);
     }
 
     @Provides

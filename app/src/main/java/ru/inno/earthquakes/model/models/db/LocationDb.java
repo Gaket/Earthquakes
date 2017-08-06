@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.model.models.dbobjects;
+package ru.inno.earthquakes.model.models.db;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;

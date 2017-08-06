@@ -28,6 +28,7 @@
         <activity
             android:name=".presentation.settings.SettingsActivity"
             android:parentActivityName=".presentation.alertscreen.AlertActivity" />
+        <activity android:name=".presentation.info.InfoActivity"></activity>
     </application>
 
 </manifest>

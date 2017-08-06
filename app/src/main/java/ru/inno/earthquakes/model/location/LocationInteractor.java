@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Single;
 import ru.inno.earthquakes.entities.Location;
-import ru.inno.earthquakes.model.PermissionsManager;
+import ru.inno.earthquakes.model.permissions.PermissionsRepository;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -13,16 +13,16 @@ import ru.inno.earthquakes.model.PermissionsManager;
 public class LocationInteractor {
 
     private LocationRepository repository;
-    private PermissionsManager permissionsManager;
+    private PermissionsRepository permissionsRepository;
 
     @Inject
-    public LocationInteractor(LocationRepository repository, PermissionsManager permissionsManager) {
+    public LocationInteractor(LocationRepository repository, PermissionsRepository permissionsRepository) {
         this.repository = repository;
-        this.permissionsManager = permissionsManager;
+        this.permissionsRepository = permissionsRepository;
     }
 
     public Single<Location.Coordinates> getCurrentCoordinates() {
-        return permissionsManager
+        return permissionsRepository
                 .requestLocationPermissions()
                 .first(false)
                 .flatMap(permGiven -> {

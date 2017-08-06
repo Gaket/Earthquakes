@@ -3,11 +3,8 @@ package ru.inno.earthquakes.presentation.alertscreen;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import javax.inject.Inject;
-
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
@@ -21,13 +18,13 @@ import timber.log.Timber;
 @InjectViewState
 public class AlertPresenter extends MvpPresenter<AlertView> {
 
-    @Inject
     EarthquakesInteractor earthquakesInteractor;
-    @Inject
     LocationInteractor locationInteractor;
 
-    public AlertPresenter(EarthquakesComponent earthquakesComponent) {
-        earthquakesComponent.inject(this);
+    public AlertPresenter(EarthquakesInteractor earthquakesInteractor,
+                          LocationInteractor locationInteractor) {
+        this.earthquakesInteractor = earthquakesInteractor;
+        this.locationInteractor = locationInteractor;
     }
 
     @Override
@@ -44,18 +41,20 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getViewState().showLoading(true))
                 .doAfterTerminate(() -> getViewState().showLoading(false))
-                .subscribe(earthquakeWithDists -> {
-                    if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
-                        getViewState().showNetworkError(true);
-                    } else {
-                        getViewState().showNetworkError(false);
-                    }
-                    if (earthquakeWithDists.getState() == EntitiesWrapper.State.EMPTY) {
-                        getViewState().showThereAreNoAlerts();
-                    } else if (earthquakeWithDists.getState() == EntitiesWrapper.State.SUCCESS) {
-                        getViewState().showEartquakeAlert(earthquakeWithDists.getData());
-                    }
-                }, Timber::e);
+                .subscribe(this::handleEartquakesAnswer, Timber::e);
+    }
+
+    private void handleEartquakesAnswer(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
+        if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
+            getViewState().showNetworkError(true);
+        } else {
+            getViewState().showNetworkError(false);
+        }
+        if (earthquakeWithDists.getState() == EntitiesWrapper.State.EMPTY) {
+            getViewState().showThereAreNoAlerts();
+        } else if (earthquakeWithDists.getState() == EntitiesWrapper.State.SUCCESS) {
+            getViewState().showEartquakeAlert(earthquakeWithDists.getData());
+        }
     }
 
     private Single<EntitiesWrapper<EarthquakeWithDist>> getSortedEartquakesObservable() {
