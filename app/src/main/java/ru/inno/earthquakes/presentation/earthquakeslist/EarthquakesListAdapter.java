@@ -73,7 +73,7 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
                 magnitude.setTextColor(ContextCompat.getColor(context, R.color.colorAlert));
                 magnitude.setAlpha(1);
             } else {
-                magnitude.setTextColor(ContextCompat.getColor(context, R.color.textPrimary));
+                magnitude.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary));
                 magnitude.setAlpha(0.5f);
             }
             magnitude.setText(String.format(Locale.GERMANY, "%.1f", model.getMagnitude()));

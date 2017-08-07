@@ -8,7 +8,6 @@ import ru.inno.earthquakes.di.application.DaggerAppComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesModule;
 import ru.inno.earthquakes.di.settings.SettingsComponent;
-import ru.inno.earthquakes.di.settings.SettingsModule;
 
 public class ComponentsManager {
 
@@ -60,7 +59,7 @@ public class ComponentsManager {
             synchronized (SettingsComponent.class) {
                 component = settingsComponent;
                 if (component == null) {
-                    settingsComponent = component = appComponent.plusSettingsComponent(new SettingsModule());
+                    settingsComponent = component = appComponent.plusSettingsComponent();
                 }
             }
         }

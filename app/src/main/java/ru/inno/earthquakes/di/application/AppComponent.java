@@ -12,12 +12,12 @@ import ru.inno.earthquakes.di.settings.SettingsModule;
  * @author Artur Badretdinov (Gaket)
  *         21.07.17.
  */
-@Component(modules = {AppModule.class, RetrofitModule.class})
+@Component(modules = {AppModule.class, RetrofitModule.class, SettingsModule.class})
 @Singleton
 public interface AppComponent {
 
     EarthquakesComponent plusEarthquakesComponent(EarthquakesModule module);
 
-    SettingsComponent plusSettingsComponent(SettingsModule settingsModule);
+    SettingsComponent plusSettingsComponent();
 
 }

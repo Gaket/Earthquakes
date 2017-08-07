@@ -19,6 +19,8 @@ import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.presentation.info.InfoActivity;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
+
 public class SettingsActivity extends MvpAppCompatActivity implements SettingsView {
 
     @InjectPresenter
@@ -42,6 +44,14 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
         // According to YAGNI, we have only some hardcoded views here.
         // If application becomes more complicated, here should be a RecyclerView with options.
         distanceView = (EditText) findViewById(R.id.settings_ev_distance);
+        distanceView.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == IME_ACTION_DONE) {
+                saveSettings();
+                return true;
+            } else {
+                return false;
+            }
+        });
 
         magnitudeValueView = (TextView) findViewById(R.id.settings_tv_magnitude);
         magnitudeView = (SeekBar) findViewById(R.id.settings_sb_magnitude);
@@ -62,11 +72,15 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
             }
         });
         findViewById(R.id.settings_bt_save).setOnClickListener(v -> {
-            Integer km = Integer.valueOf(distanceView.getText().toString());
-            double magnitude = magnitudeView.getProgress() / 100.0;
-            presenter.onSave(km, magnitude);
-            finish();
+            saveSettings();
         });
+    }
+
+    private void saveSettings() {
+        Integer km = Integer.valueOf(distanceView.getText().toString());
+        double magnitude = magnitudeView.getProgress() / 10.0;
+        presenter.onSave(km, magnitude);
+        finish();
     }
 
     @Override
@@ -80,6 +94,9 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
         switch (item.getItemId()) {
             case R.id.action_info:
                 presenter.onInfoAction();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -99,7 +116,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
 
     @Override
     public void setMinMagnitude(Double mag) {
-        magnitudeView.setProgress((int) (mag * 100));
+        magnitudeView.setProgress((int) (mag * 10));
     }
 
     @Override

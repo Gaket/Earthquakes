@@ -7,7 +7,7 @@ import ru.inno.earthquakes.presentation.settings.SettingsPresenter;
  * @author Artur Badretdinov (Gaket)
  *         22.07.17.
  */
-@Subcomponent(modules = {SettingsModule.class})
+@Subcomponent()
 @SettingsScope
 public interface SettingsComponent {
 

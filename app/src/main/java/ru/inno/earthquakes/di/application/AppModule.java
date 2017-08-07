@@ -39,11 +39,7 @@ public class AppModule {
         return context.getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
     }
 
-    @Provides
-    @Singleton
-    SettingsRepository provideSettingsRepository(SharedPreferences sharedPreferences) {
-        return new SettingsRepository(sharedPreferences);
-    }
+
 
     @Provides
     @Singleton

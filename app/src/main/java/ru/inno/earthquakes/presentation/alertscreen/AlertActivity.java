@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
+import ru.inno.earthquakes.model.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
@@ -39,10 +41,12 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     EarthquakesInteractor earthquakesInteractor;
     @Inject
     LocationInteractor locationInteractor;
+    @Inject
+    SettingsInteractor settinsInteractor;
 
     @ProvidePresenter
     AlertPresenter providePresenter() {
-        return new AlertPresenter(earthquakesInteractor, locationInteractor);
+        return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor);
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -86,12 +90,13 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
         }
     }
 
-
-
     @Override
     public void showThereAreNoAlerts() {
         messageView.setText(R.string.alert_msg_everything_is_ok);
         alertImageView.setImageResource(R.drawable.earth_normal);
+        detailsView.setVisibility(View.GONE);
+        distanceView.setVisibility(View.GONE);
+        magnitudeView.setVisibility(View.GONE);
     }
 
     @Override
@@ -102,6 +107,9 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
         distanceView.setText(String.format("\u2248 %s km from you", Utils.formatDistanceString(earthquake.getDistance())));
         String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquake().getMagnitude());
         magnitudeView.setText(magnitude);
+        detailsView.setVisibility(View.VISIBLE);
+        distanceView.setVisibility(View.VISIBLE);
+        magnitudeView.setVisibility(View.VISIBLE);
     }
 
     @Override

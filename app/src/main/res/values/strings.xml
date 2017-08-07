@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Earthquakes</string>
-    <string name="alert_msg_everything_is_ok">There are no earthquakes near you.</string>
-    <string name="alert_msg_earhquake_nearby">Attention!\nEarthquake found.</string>
+    <string name="alert_msg_everything_is_ok">There are no earthquakes satisfying your criteria near you.</string>
+    <string name="alert_msg_earhquake_nearby">Attention!\nAn earthquake found.</string>
     <string name="alert_show_all_earthquakes">Show all earthquakes</string>
-    <string name="error_connection">Connection problems. Only cached data is shown. Check the connection or try again later.</string>
+    <string name="error_connection">Connection problems, only cached data is shown. Check the connection or try again later.</string>
     <string name="action_ok">OK</string>
     <string name="title_settings_max_dist">Maximal distance to earthquake, km</string>
     <string name="title_settings_min_mag">Minimal magnitude to show</string>
     <string name="menu_settings">Go to settings</string>
-    <string name="msg_save_success">Changes successfully saved</string>
     <string name="msg_empty_earthquakes">There are no earthquakes here. Check again later!</string>
     <string name="action_save">Save</string>
-    <string name="info_product_goal">This app helps you to know if there are some earthquakes near you, so I could call your relatives in case of emergency</string>
+    <string name="info_product_goal">This app helps you to know if there are some earthquakes near you. You could call your relatives in case of emergency</string>
+    <string name="action_got_it">Got it</string>
 </resources>

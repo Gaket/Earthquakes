@@ -27,6 +27,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="16dp"
         android:hint="@string/title_settings_max_dist"
+        android:imeOptions="actionDone"
         android:inputType="number"
         tools:text="300" />
 
@@ -49,7 +50,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="0"
-        android:textColor="@color/textPrimary"
+        android:textColor="@color/textColorPrimary"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -68,9 +69,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/action_save"
+        android:layout_centerHorizontal="true"
         android:paddingLeft="80dp"
         android:paddingRight="80dp"
-        android:layout_centerHorizontal="true"/>
+        android:text="@string/action_save" />
 
 </RelativeLayout>
