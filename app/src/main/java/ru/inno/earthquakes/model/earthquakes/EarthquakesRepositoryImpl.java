@@ -28,7 +28,7 @@ public class EarthquakesRepositoryImpl implements EarthquakesRepository {
     }
 
     @Override
-    public Single<List<Earthquake>> getTodaysEarthquakes() {
+    public Single<List<Earthquake>> getNetworkTodaysEarthquakes() {
         return apiService.getEarthquakes()
                 .map(EarthquakesResponse::getFeatures)
                 .flattenAsObservable(items -> items)

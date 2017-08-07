@@ -9,7 +9,7 @@ public class Location {
     private String name;
     private Coordinates coords;
 
-    public static double distance(Coordinates from, Coordinates to) {
+    static double distance(Coordinates from, Coordinates to) {
         return distFrom(from.getLatitude(), from.getLongtitude(), to.getLatitude(), to.getLongtitude());
     }
 
@@ -68,6 +68,28 @@ public class Location {
 
         public void setLatitude(double latitude) {
             this.latitude = latitude;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Coordinates that = (Coordinates) o;
+
+            return Double.compare(that.longtitude, longtitude) == 0
+                    && Double.compare(that.latitude, latitude) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            int result;
+            long temp;
+            temp = Double.doubleToLongBits(longtitude);
+            result = (int) (temp ^ (temp >>> 32));
+            temp = Double.doubleToLongBits(latitude);
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
         }
     }
 }

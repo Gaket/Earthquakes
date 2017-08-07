@@ -18,13 +18,13 @@ import ru.inno.earthquakes.model.settings.SettingsRepository;
  */
 public class EarthquakesInteractor {
 
-    private EarthquakesRepository repository;
+    private EarthquakesRepository earthquakesRepository;
     private SettingsRepository settingsRepository;
     private Comparator<EarthquakeWithDist> distanceComparator;
 
     @Inject
-    public EarthquakesInteractor(EarthquakesRepository repository, SettingsRepository settingsRepository) {
-        this.repository = repository;
+    public EarthquakesInteractor(EarthquakesRepository earthquakesRepository, SettingsRepository settingsRepository) {
+        this.earthquakesRepository = earthquakesRepository;
         this.settingsRepository = settingsRepository;
         distanceComparator = (a, b) -> Double.compare(a.getDistance(), b.getDistance());
     }
@@ -50,7 +50,7 @@ public class EarthquakesInteractor {
     }
 
     private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getApiDataSorted(Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
-        return repository.getTodaysEarthquakes()
+        return earthquakesRepository.getNetworkTodaysEarthquakes()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
                 .toSortedList(distanceComparator)
@@ -58,7 +58,7 @@ public class EarthquakesInteractor {
     }
 
     private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getCachedDataSorted(EntitiesWrapper.State state, Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
-        return repository.getCachedTodaysEarthquakes()
+        return earthquakesRepository.getCachedTodaysEarthquakes()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
                 .toSortedList(distanceComparator)

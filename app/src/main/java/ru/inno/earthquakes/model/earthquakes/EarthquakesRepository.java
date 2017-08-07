@@ -11,7 +11,7 @@ import ru.inno.earthquakes.entities.Earthquake;
  */
 public interface EarthquakesRepository {
 
-    Single<List<Earthquake>> getTodaysEarthquakes();
+    Single<List<Earthquake>> getNetworkTodaysEarthquakes();
 
     Single<List<Earthquake>> getCachedTodaysEarthquakes();
 }

@@ -12,6 +12,8 @@ import ru.inno.earthquakes.model.permissions.PermissionsRepository;
  */
 public class LocationInteractor {
 
+    // Return Moscow coordinates by default
+    private final Location.Coordinates DEFAULT_COORDINATES = new Location.Coordinates(55.755826, 37.6173);
     private LocationRepository repository;
     private PermissionsRepository permissionsRepository;
 
@@ -28,11 +30,9 @@ public class LocationInteractor {
                 .flatMap(permGiven -> {
                     if (permGiven) {
                         return repository.getCurrentCoordinates()
-                                // Return Moscow coordinates by default
-                                .onErrorReturnItem(new Location.Coordinates(55.755826, 37.6173));
+                                .onErrorReturnItem(DEFAULT_COORDINATES);
                     } else {
-                        // Return Moscow coordinates by default
-                        return Single.just(new Location.Coordinates(55.755826, 37.6173));
+                        return Single.just(DEFAULT_COORDINATES);
                     }
                 });
     }

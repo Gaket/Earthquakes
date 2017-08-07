@@ -11,4 +11,5 @@
     <string name="msg_save_success">Changes successfully saved</string>
     <string name="msg_empty_earthquakes">There are no earthquakes here. Check again later!</string>
     <string name="action_save">Save</string>
+    <string name="info_product_goal">This app helps you to know if there are some earthquakes near you, so I could call your relatives in case of emergency</string>
 </resources>
