@@ -33,6 +33,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
 
     EarthquakesListPresenter(EarthquakesComponent earthquakesComponent) {
         earthquakesComponent.inject(this);
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override

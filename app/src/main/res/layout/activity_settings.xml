@@ -26,7 +26,7 @@
         android:layout_below="@id/settings_tv_title_dist"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="16dp"
-        android:hint="@string/title_settings_max_dist"
+        android:hint="@string/hint_settings_dist"
         android:imeOptions="actionDone"
         android:inputType="number"
         tools:text="300" />

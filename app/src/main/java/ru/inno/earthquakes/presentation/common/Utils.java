@@ -12,7 +12,10 @@ import java.text.DecimalFormatSymbols;
  */
 public final class Utils {
 
-    private Utils(){};
+    private Utils() {
+    }
+
+    ;
 
     public static int dpToPx(Context context, int dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -25,5 +28,19 @@ public final class Utils {
         symbols.setGroupingSeparator(' ');
         DecimalFormat formatter = new DecimalFormat("###,###", symbols);
         return formatter.format(distance);
+    }
+
+    /**
+     * Returns whether the given CharSequence contains only digits.
+     */
+    public static boolean isDigitsOnly(CharSequence str) {
+        final int len = str.length();
+        for (int cp, i = 0; i < len; i += Character.charCount(cp)) {
+            cp = Character.codePointAt(str, i);
+            if (!Character.isDigit(cp)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

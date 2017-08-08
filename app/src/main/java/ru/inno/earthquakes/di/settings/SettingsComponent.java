@@ -1,7 +1,7 @@
 package ru.inno.earthquakes.di.settings;
 
 import dagger.Subcomponent;
-import ru.inno.earthquakes.presentation.settings.SettingsPresenter;
+import ru.inno.earthquakes.presentation.settings.SettingsActivity;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -11,5 +11,5 @@ import ru.inno.earthquakes.presentation.settings.SettingsPresenter;
 @SettingsScope
 public interface SettingsComponent {
 
-    void inject(SettingsPresenter settingsPresenter);
+    void inject(SettingsActivity settingsPresenter);
 }

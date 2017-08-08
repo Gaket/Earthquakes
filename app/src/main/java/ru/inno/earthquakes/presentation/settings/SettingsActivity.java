@@ -15,8 +15,11 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
+import ru.inno.earthquakes.model.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.info.InfoActivity;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
@@ -25,6 +28,8 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
 
     @InjectPresenter
     SettingsPresenter presenter;
+    @Inject
+    SettingsInteractor settingsInteractor;
 
     private EditText distanceView;
     private SeekBar magnitudeView;
@@ -32,7 +37,8 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
 
     @ProvidePresenter
     SettingsPresenter providePresenter() {
-        return new SettingsPresenter(EartquakeApp.getComponentsManager().getSettingsComponent());
+        EartquakeApp.getComponentsManager().getSettingsComponent().inject(this);
+        return new SettingsPresenter(settingsInteractor);
     }
 
     @Override
@@ -77,10 +83,8 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     }
 
     private void saveSettings() {
-        Integer km = Integer.valueOf(distanceView.getText().toString());
         double magnitude = magnitudeView.getProgress() / 10.0;
-        presenter.onSave(km, magnitude);
-        finish();
+        presenter.onSave(distanceView.getText().toString(), magnitude);
     }
 
     @Override
@@ -117,6 +121,16 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     @Override
     public void setMinMagnitude(Double mag) {
         magnitudeView.setProgress((int) (mag * 10));
+    }
+
+    @Override
+    public void showDistanceFormatError() {
+        distanceView.setError(getResources().getString(R.string.error_settings_distance));
+    }
+
+    @Override
+    public void close() {
+        onBackPressed();
     }
 
     @Override

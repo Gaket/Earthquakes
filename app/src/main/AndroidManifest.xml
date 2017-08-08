@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.alertscreen.AlertActivity">
+        <activity
+            android:name=".presentation.alertscreen.AlertActivity"
+            android:label="@string/title_alert">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,12 +26,16 @@
         </activity>
         <activity
             android:name=".presentation.earthquakeslist.EarthquakesListActivity"
+            android:label="@string/title_earthquake_list"
             android:parentActivityName=".presentation.alertscreen.AlertActivity" />
         <activity
             android:name=".presentation.settings.SettingsActivity"
+            android:label="@string/title_settings"
             android:parentActivityName=".presentation.alertscreen.AlertActivity" />
-        <activity android:name=".presentation.info.InfoActivity"
-            android:theme="@style/AppTheme.Fullscreen"/>
+        <activity
+            android:name=".presentation.info.InfoActivity"
+            android:label="@string/title_info"
+            android:theme="@style/AppTheme.Fullscreen" />
     </application>
 
 </manifest>
