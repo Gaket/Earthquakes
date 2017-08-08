@@ -18,4 +18,10 @@ public interface SettingsView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToInfo();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void close();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showDistanceFormatError();
 }

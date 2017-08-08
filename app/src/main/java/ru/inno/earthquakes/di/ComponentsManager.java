@@ -18,7 +18,7 @@ public class ComponentsManager {
     private SettingsComponent settingsComponent;
 
     public ComponentsManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     public AppComponent getAppComponent() {

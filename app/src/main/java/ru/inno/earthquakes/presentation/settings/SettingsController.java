@@ -1,5 +1,6 @@
 package ru.inno.earthquakes.presentation.settings;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -7,19 +8,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bluelinelabs.conductor.RouterTransaction;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.presentation.common.MvpController;
+import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.presentation.common.BaseController;
 import ru.inno.earthquakes.presentation.info.InfoController;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
@@ -28,10 +35,12 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
  * @author Artur Badretdinov (Gaket)
  *         08.08.17
  */
-public class SettingsController extends MvpController implements SettingsView {
+public class SettingsController extends BaseController implements SettingsView {
 
     @InjectPresenter
     SettingsPresenter presenter;
+    @Inject
+    SettingsInteractor interactor;
 
     @BindView(R.id.settings_distance)
     EditText distanceView;
@@ -39,6 +48,12 @@ public class SettingsController extends MvpController implements SettingsView {
     SeekBar magnitudeView;
     @BindView(R.id.settings_magnitude_value)
     TextView magnitudeValueView;
+
+    @ProvidePresenter
+    SettingsPresenter providePresenter() {
+        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
+        return new SettingsPresenter(interactor);
+    }
 
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -55,11 +70,16 @@ public class SettingsController extends MvpController implements SettingsView {
         setHasOptionsMenu(true);
     }
 
+    @NonNull
+    @Override
+    protected String getTitle() {
+        return getResources().getString(R.string.title_settings);
+    }
+
     @Override
     public void setMaxDistance(Double dist) {
         distanceView.setText(String.format(Locale.GERMANY, "%.0f", dist));
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -83,9 +103,16 @@ public class SettingsController extends MvpController implements SettingsView {
     @Override
     public void navigateToInfo() {
         getRouter().pushController(RouterTransaction.with(new InfoController()));
+    }
 
-//        Intent intent = InfoActivity.getStartInfo(this);
-//        startActivity(intent);
+    @Override
+    public void close() {
+        getRouter().popCurrentController();
+    }
+
+    @Override
+    public void showDistanceFormatError() {
+        distanceView.setError(getResources().getString(R.string.error_settings_distance));
     }
 
     private void setMagnitudeView() {
@@ -125,9 +152,9 @@ public class SettingsController extends MvpController implements SettingsView {
     }
 
     private void saveSettings() {
-        Integer km = Integer.valueOf(distanceView.getText().toString());
+        String dist = distanceView.getText().toString();
         double magnitude = magnitudeView.getProgress() / 10.0;
-        presenter.onSave(km, magnitude);
+        presenter.onSave(dist, magnitude);
     }
 
     @Override
@@ -135,4 +162,11 @@ public class SettingsController extends MvpController implements SettingsView {
         inflater.inflate(R.menu.menu_settings, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    @Override
+    protected void onDetach(@NonNull View view) {
+        InputMethodManager imm = (InputMethodManager) distanceView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(distanceView.getWindowToken(), 0);
+    }
+
 }

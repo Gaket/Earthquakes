@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
 
+import ru.inno.earthquakes.EartquakeApp;
+
 public abstract class RefWatchingController extends ButterKnifeController {
 
     protected RefWatchingController() { }
@@ -16,12 +18,12 @@ public abstract class RefWatchingController extends ButterKnifeController {
     private boolean hasExited;
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
 
-//        if (hasExited) {
-//            DemoApplication.refWatcher.watch(this);
-//        }
+        if (hasExited) {
+            EartquakeApp.getRefWatcher(getActivity()).watch(this);
+        }
     }
 
     @Override
@@ -29,8 +31,8 @@ public abstract class RefWatchingController extends ButterKnifeController {
         super.onChangeEnded(changeHandler, changeType);
 
         hasExited = !changeType.isEnter;
-//        if (isDestroyed()) {
-//            DemoApplication.refWatcher.watch(this);
-//        }
+        if (isDestroyed()) {
+            EartquakeApp.getRefWatcher(getActivity()).watch(this);
+        }
     }
 }

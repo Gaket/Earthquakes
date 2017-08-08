@@ -17,9 +17,6 @@ public interface EarthquakesListView extends MvpView {
 
     void showEarthquakes(List<EarthquakeWithDist> earthquakeWithDists);
 
-    // This method better should be in a router. It is here for simplicity now.
-    void navigateToEarthquakesList();
-
     void showNetworkError(boolean show);
 
     void showLoading(boolean show);

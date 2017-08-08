@@ -5,13 +5,10 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
@@ -25,14 +22,14 @@ import timber.log.Timber;
 @InjectViewState
 public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> {
 
-    @Inject
-    EarthquakesInteractor earthquakesInteractor;
-    @Inject
-    LocationInteractor locationInteractor;
+    private EarthquakesInteractor earthquakesInteractor;
+    private LocationInteractor locationInteractor;
     private CompositeDisposable compositeDisposable;
 
-    EarthquakesListPresenter(EarthquakesComponent earthquakesComponent) {
-        earthquakesComponent.inject(this);
+    EarthquakesListPresenter(EarthquakesInteractor earthquakesInteractor, LocationInteractor locationInteractor) {
+        this.earthquakesInteractor = earthquakesInteractor;
+        this.locationInteractor = locationInteractor;
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override

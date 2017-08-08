@@ -1,9 +1,9 @@
 package ru.inno.earthquakes.di.earthquakes;
 
 import dagger.Subcomponent;
-import ru.inno.earthquakes.presentation.alertscreen.AlertActivity;
-import ru.inno.earthquakes.presentation.alertscreen.AlertPresenter;
-import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListPresenter;
+import ru.inno.earthquakes.presentation.alertscreen.AlertController;
+import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListController;
+import ru.inno.earthquakes.presentation.settings.SettingsController;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -13,7 +13,9 @@ import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListPresenter
 @EarthquakesScope
 public interface EarthquakesComponent {
 
-    void inject(AlertActivity alertPresenter);
+    void inject(AlertController alertController);
 
-    void inject(EarthquakesListPresenter alertPresenter);
+    void inject(SettingsController settingsController);
+
+    void inject(EarthquakesListController earthquakesListController);
 }

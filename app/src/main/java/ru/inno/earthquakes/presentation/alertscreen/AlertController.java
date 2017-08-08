@@ -1,26 +1,27 @@
 package ru.inno.earthquakes.presentation.alertscreen;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.bluelinelabs.conductor.RouterTransaction;
 
 import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
@@ -28,15 +29,16 @@ import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.presentation.common.BaseController;
 import ru.inno.earthquakes.presentation.common.Utils;
-import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
-import ru.inno.earthquakes.presentation.settings.SettingsActivity;
+import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListController;
+import ru.inno.earthquakes.presentation.settings.SettingsController;
 
 /**
  * @author Artur Badretdinov (Gaket)
- *         22.07.17
+ *         08.08.17
  */
-public class AlertActivity extends MvpAppCompatActivity implements AlertView {
+public class AlertController extends BaseController implements AlertView {
 
     @InjectPresenter
     AlertPresenter presenter;
@@ -63,22 +65,32 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
     @ProvidePresenter
     AlertPresenter providePresenter() {
+        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
         return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
+    protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
+        return inflater.inflate(R.layout.activity_main, container, false);
+    }
+
+    @NonNull
+    @Override
+    protected String getTitle() {
+        return getResources().getString(R.string.title_alert);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_alert, menu);
-        return super.onCreateOptionsMenu(menu);
+    protected void onViewBound(@NonNull View view) {
+        super.onViewBound(view);
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_alert, menu);
     }
 
     @Override
@@ -138,13 +150,11 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
     @Override
     public void navigateToEarthquakesList() {
-        Intent intent = EarthquakesListActivity.getStartIntent(this);
-        startActivity(intent);
+        getRouter().pushController(RouterTransaction.with(new EarthquakesListController()));
     }
 
     @Override
     public void navigateToSettings() {
-        Intent intent = SettingsActivity.getStartIntent(this);
-        startActivity(intent);
+        getRouter().pushController(RouterTransaction.with(new SettingsController()));
     }
 }

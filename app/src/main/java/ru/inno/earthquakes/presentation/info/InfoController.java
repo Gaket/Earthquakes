@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 
 import butterknife.OnClick;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.presentation.common.ButterKnifeController;
+import ru.inno.earthquakes.presentation.common.BaseController;
 
 /**
  * @author Artur Badretdinov (Gaket)
  *         08.08.17
  */
-public class InfoController extends ButterKnifeController {
+public class InfoController extends BaseController {
 
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -25,4 +25,9 @@ public class InfoController extends ButterKnifeController {
         getRouter().popCurrentController();
     }
 
+    @NonNull
+    @Override
+    protected String getTitle() {
+        return getResources().getString(R.string.title_info);
+    }
 }

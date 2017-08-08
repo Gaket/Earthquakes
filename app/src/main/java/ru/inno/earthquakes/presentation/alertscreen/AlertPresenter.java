@@ -31,6 +31,7 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
 
         this.earthquakesInteractor = earthquakesInteractor;
         this.locationInteractor = locationInteractor;
+        compositeDisposable = new CompositeDisposable();
         Disposable disposable = settingsInteractor.getSettingsChangeObservable()
                 .subscribe(updated -> onRefreshAction(), Timber::e);
         compositeDisposable.add(disposable);
