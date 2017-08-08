@@ -40,18 +40,14 @@ public class Location {
         this.coords = coords;
     }
 
-    public void setCoords(double[] coordinates) {
-        this.coords = new Coordinates(coordinates[0], coordinates[1]);
-    }
-
     public static class Coordinates {
 
         private double longtitude;
         private double latitude;
 
-        public Coordinates(double longtitude, double latitude) {
-            this.longtitude = longtitude;
+        public Coordinates(double latitude, double longtitude) {
             this.latitude = latitude;
+            this.longtitude = longtitude;
         }
 
         public double getLongtitude() {

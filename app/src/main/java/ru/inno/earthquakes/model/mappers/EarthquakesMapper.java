@@ -33,11 +33,12 @@ public abstract class EarthquakesMapper {
     public abstract CoordinatesDb coords(Location.Coordinates coordinates);
 
     public Location.Coordinates arrayToCoords(double[] coords) {
-        return new Location.Coordinates(coords[0], coords[1]);
+        // coordinates come in order: longtitude, latitude, depth
+        return new Location.Coordinates(coords[1], coords[0]);
     }
 
     public Location.Coordinates coords(CoordinatesDb coordinatesDb) {
-        return new Location.Coordinates(coordinatesDb.getLongtitude(), coordinatesDb.getLatitude());
+        return new Location.Coordinates(coordinatesDb.getLatitude(), coordinatesDb.getLongtitude());
     }
 
     public Location loc(LocationDb loc) {

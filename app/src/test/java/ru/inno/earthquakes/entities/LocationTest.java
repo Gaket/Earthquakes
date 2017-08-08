@@ -20,7 +20,6 @@ public class LocationTest {
 
         double distance = Location.distance(Moscow, LosAngeles);
 
-        Assert.assertEquals(expectedDistance, distance, 10);
-
+        Assert.assertEquals(expectedDistance, distance, 5);
     }
 }
