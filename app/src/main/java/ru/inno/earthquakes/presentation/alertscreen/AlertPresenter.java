@@ -5,6 +5,8 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
@@ -21,6 +23,7 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
 
     private EarthquakesInteractor earthquakesInteractor;
     private LocationInteractor locationInteractor;
+    private CompositeDisposable compositeDisposable;
 
     AlertPresenter(EarthquakesInteractor earthquakesInteractor,
                    LocationInteractor locationInteractor,
@@ -28,13 +31,20 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
 
         this.earthquakesInteractor = earthquakesInteractor;
         this.locationInteractor = locationInteractor;
-        settingsInteractor.getSettingsChangeObservable()
+        Disposable disposable = settingsInteractor.getSettingsChangeObservable()
                 .subscribe(updated -> onRefreshAction(), Timber::e);
+        compositeDisposable.add(disposable);
     }
 
     @Override
     protected void onFirstViewAttach() {
         updateCurrentState();
+    }
+
+    @Override
+    public void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
     }
 
     void onRefreshAction() {
@@ -50,11 +60,12 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
     }
 
     private void updateCurrentState() {
-        getEarthquakeAlert()
+        Disposable disposable = getEarthquakeAlert()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getViewState().showLoading(true))
+                .doOnSubscribe(disp -> getViewState().showLoading(true))
                 .doAfterTerminate(() -> getViewState().showLoading(false))
                 .subscribe(this::handleEartquakesAnswer, Timber::e);
+        compositeDisposable.add(disposable);
     }
 
     private void handleEartquakesAnswer(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
