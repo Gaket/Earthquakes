@@ -29,9 +29,9 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
                    LocationInteractor locationInteractor,
                    SettingsInteractor settingsInteractor) {
 
+        compositeDisposable = new CompositeDisposable();
         this.earthquakesInteractor = earthquakesInteractor;
         this.locationInteractor = locationInteractor;
-        compositeDisposable = new CompositeDisposable();
         Disposable disposable = settingsInteractor.getSettingsChangeObservable()
                 .subscribe(updated -> onRefreshAction(), Timber::e);
         compositeDisposable.add(disposable);
@@ -92,6 +92,19 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
 
     private Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert() {
         return locationInteractor.getCurrentCoordinates()
-                .flatMap(coords -> earthquakesInteractor.getEarthquakeAlert(coords));
+                .doOnSuccess(locationAnswer -> {
+                    switch (locationAnswer.getState()) {
+                        case SUCCESS:
+                            // do nothing
+                            break;
+                        case PERMISSION_DENIED:
+                            getViewState().showPermissionDeniedAlert();
+                            break;
+                        case NO_DATA:
+                            getViewState().showNoDataAlert();
+                            break;
+                    }
+                })
+                .flatMap(locationAnswer -> earthquakesInteractor.getEarthquakeAlert(locationAnswer.getCoordinates()));
     }
 }

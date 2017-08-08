@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -156,5 +157,15 @@ public class AlertController extends BaseController implements AlertView {
     @Override
     public void navigateToSettings() {
         getRouter().pushController(RouterTransaction.with(new SettingsController()));
+    }
+
+    @Override
+    public void showPermissionDeniedAlert() {
+        Toast.makeText(getActivity(), R.string.error_prohibited_location_access, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNoDataAlert() {
+        Toast.makeText(getActivity(), R.string.error_no_data, Toast.LENGTH_LONG).show();
     }
 }

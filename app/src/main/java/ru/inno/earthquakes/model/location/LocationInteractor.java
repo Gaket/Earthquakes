@@ -23,17 +23,50 @@ public class LocationInteractor {
         this.permissionsRepository = permissionsRepository;
     }
 
-    public Single<Location.Coordinates> getCurrentCoordinates() {
+    public Single<LocationAnswer> getCurrentCoordinates() {
         return permissionsRepository
                 .requestLocationPermissions()
                 .first(false)
                 .flatMap(permGiven -> {
                     if (permGiven) {
                         return repository.getCurrentCoordinates()
-                                .onErrorReturnItem(DEFAULT_COORDINATES);
+                                .map(coordinates -> new LocationAnswer(coordinates, State.SUCCESS))
+                                .onErrorReturnItem(new LocationAnswer(DEFAULT_COORDINATES, State.NO_DATA));
                     } else {
-                        return Single.just(DEFAULT_COORDINATES);
+                        return Single.just(new LocationAnswer(DEFAULT_COORDINATES, State.PERMISSION_DENIED));
                     }
                 });
+    }
+
+    public static class LocationAnswer {
+        private Location.Coordinates coordinates;
+        private State state;
+
+        public LocationAnswer(Location.Coordinates coordinates, State state) {
+            this.coordinates = coordinates;
+            this.state = state;
+        }
+
+        public Location.Coordinates getCoordinates() {
+            return coordinates;
+        }
+
+        public void setCoordinates(Location.Coordinates coordinates) {
+            this.coordinates = coordinates;
+        }
+
+        public State getState() {
+            return state;
+        }
+
+        public void setState(State state) {
+            this.state = state;
+        }
+    }
+
+    public enum State {
+        SUCCESS,
+        PERMISSION_DENIED,
+        NO_DATA
     }
 }

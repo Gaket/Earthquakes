@@ -19,4 +19,7 @@
     <string name="title_earthquake_list">All eartqhuakes</string>
     <string name="title_info">About</string>
     <string name="title_alert">Earthquakes</string>
+    <string name="error_prohibited_location_access">We show data relatively to the default location, because you prohibited access to location</string>
+    <string name="error_no_data">We show data relatively to the default location, because we can\'t get your current position</string>
+
 </resources>
