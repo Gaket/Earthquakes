@@ -5,7 +5,6 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import javax.inject.Inject;
 
-import ru.inno.earthquakes.di.settings.SettingsComponent;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
 
 /**
@@ -18,8 +17,8 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
     @Inject
     SettingsInteractor interactor;
 
-    public SettingsPresenter(SettingsComponent settingsComponent) {
-        settingsComponent.inject(this);
+    public SettingsPresenter(SettingsInteractor settingsInteractor) {
+        this.interactor = settingsInteractor;
     }
 
     @Override

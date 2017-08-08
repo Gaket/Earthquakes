@@ -50,6 +50,7 @@ dependencies {
     compile 'io.objectbox:objectbox-android:0.9.13'
     compile 'io.objectbox:objectbox-rxjava:0.9.8'
     compile 'org.mapstruct:mapstruct:1.1.0.Final'
+    compile 'com.bluelinelabs:conductor:2.1.4'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.8.47'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'

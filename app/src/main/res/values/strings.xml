@@ -8,6 +8,7 @@
     <string name="title_settings_max_dist">Maximal distance to earthquake, km</string>
     <string name="title_settings_min_mag">Minimal magnitude to show</string>
     <string name="menu_settings">Go to settings</string>
+    <string name="menu_info">Show program info</string>
     <string name="msg_empty_earthquakes">There are no earthquakes here. Check again later!</string>
     <string name="action_save">Save</string>
     <string name="info_product_goal">This app helps you to know if there are some earthquakes near you. You could call your relatives in case of emergency</string>
