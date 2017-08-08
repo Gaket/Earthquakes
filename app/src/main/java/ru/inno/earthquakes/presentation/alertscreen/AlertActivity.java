@@ -19,6 +19,9 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
@@ -44,33 +47,32 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     @Inject
     SettingsInteractor settinsInteractor;
 
+    @BindView(R.id.alert_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.alert_message)
+    TextView messageView;
+    @BindView(R.id.alert_details)
+    TextView detailsView;
+    @BindView(R.id.alert_magnitude)
+    TextView magnitudeView;
+    @BindView(R.id.alert_distance)
+    TextView distanceView;
+    @BindView(R.id.alert_status)
+    ImageView alertImageView;
+    private Snackbar snackbar;
+
     @ProvidePresenter
     AlertPresenter providePresenter() {
         return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor);
     }
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView messageView;
-    private TextView detailsView;
-    private TextView magnitudeView;
-    private TextView distanceView;
-    private ImageView alertImageView;
-    private Snackbar snackbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        messageView = (TextView) findViewById(R.id.alert_tv_main);
-        detailsView = (TextView) findViewById(R.id.alert_tv_details);
-        magnitudeView = (TextView) findViewById(R.id.alert_tv_magnitude);
-        distanceView = (TextView) findViewById(R.id.alert_tv_distance);
-        alertImageView = (ImageView) findViewById(R.id.alert_iv_status);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
+        ButterKnife.bind(this);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
-        findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAll());
     }
 
     @Override
@@ -88,6 +90,11 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @OnClick(R.id.alert_show_all)
+    void onShowAllAction() {
+        presenter.onShowAll();
     }
 
     @Override

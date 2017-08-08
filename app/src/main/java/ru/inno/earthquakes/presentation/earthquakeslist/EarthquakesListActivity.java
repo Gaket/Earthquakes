@@ -15,11 +15,14 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.presentation.common.EmptyRecyclerView;
 import ru.inno.earthquakes.presentation.common.SmartDividerItemDecoration;
+import timber.log.Timber;
 
 public class EarthquakesListActivity extends MvpAppCompatActivity
         implements EarthquakesListView {
@@ -27,8 +30,10 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     @InjectPresenter
     EarthquakesListPresenter presenter;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private EmptyRecyclerView recyclerView;
+    @BindView(R.id.earthquakes_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.earthquakes_recycler)
+    EmptyRecyclerView earthquakesView;
     private EarthquakesListAdapter earthquakesListAdapter;
     private Snackbar snackbar;
 
@@ -36,9 +41,12 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_earth_quakes_list);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.earthquakes_swipe_refresh);
+        ButterKnife.bind(this);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            Timber.e("Action bar is null in Earthquakes Activity");
+        }
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
         initRecyclerView();
     }
@@ -55,15 +63,14 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     }
 
     private void initRecyclerView() {
-        recyclerView = (EmptyRecyclerView) findViewById(R.id.earthquakes_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setEmptyViewLayout(R.layout.empty_earthquakes);
+        earthquakesView.setLayoutManager(new LinearLayoutManager(this));
+        earthquakesView.setEmptyViewLayout(R.layout.empty_earthquakes);
         SmartDividerItemDecoration itemDecoration = new SmartDividerItemDecoration.Builder(this)
                 .setMarginProvider((position, parent) -> 56)
                 .build();
-        recyclerView.addItemDecoration(itemDecoration);
+        earthquakesView.addItemDecoration(itemDecoration);
         earthquakesListAdapter = new EarthquakesListAdapter();
-        recyclerView.setAdapter(earthquakesListAdapter);
+        earthquakesView.setAdapter(earthquakesListAdapter);
     }
 
     @ProvidePresenter

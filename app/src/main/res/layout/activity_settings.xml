@@ -20,7 +20,7 @@
         android:text="@string/title_settings_max_dist" />
 
     <EditText
-        android:id="@+id/settings_ev_distance"
+        android:id="@+id/settings_distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_tv_title_dist"
@@ -35,14 +35,14 @@
         android:id="@+id/settings_tv_title_mag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/settings_ev_distance"
+        android:layout_below="@id/settings_distance"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/title_settings_min_mag" />
 
     <TextView
-        android:id="@+id/settings_tv_magnitude"
+        android:id="@+id/settings_magnitude_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/settings_tv_title_mag"
@@ -55,7 +55,7 @@
         android:textStyle="bold" />
 
     <SeekBar
-        android:id="@+id/settings_sb_magnitude"
+        android:id="@+id/settings_magnitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_tv_title_mag"

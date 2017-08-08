@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ru.inno.earthquakes.R;
 
 public class InfoActivity extends AppCompatActivity {
@@ -17,7 +19,12 @@ public class InfoActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_info);
-        findViewById(R.id.info_got_it).setOnClickListener(v -> finish());
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.info_got_it)
+    void onReadyAction(){
+        finish();
     }
 
     public static Intent getStartInfo(Context callingContext) {
