@@ -14,6 +14,9 @@ public class EntitiesWrapper<T> {
     @Nullable
     private T data;
 
+    public EntitiesWrapper() {
+    }
+
     public EntitiesWrapper(@NonNull State state, @Nullable T data) {
         this.state = state;
         this.data = data;
