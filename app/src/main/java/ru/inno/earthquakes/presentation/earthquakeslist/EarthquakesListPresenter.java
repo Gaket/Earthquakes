@@ -9,6 +9,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.EntitiesWrapper;
@@ -27,6 +29,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
     EarthquakesInteractor earthquakesInteractor;
     @Inject
     LocationInteractor locationInteractor;
+    private CompositeDisposable compositeDisposable;
 
     EarthquakesListPresenter(EarthquakesComponent earthquakesComponent) {
         earthquakesComponent.inject(this);
@@ -38,8 +41,14 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
         getEarthquakesList();
     }
 
+    @Override
+    public void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
+    }
+
     private void getEarthquakesList() {
-        getSortedEartquakesObservable()
+        Disposable disposable = getSortedEartquakesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe((s) -> getViewState().showLoading(true))
                 .doAfterTerminate(() -> getViewState().showLoading(false))
@@ -51,6 +60,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
                         getViewState().showEarthquakes(earthquakeWithDists.getData());
                     }
                 }, Timber::e);
+        compositeDisposable.add(disposable);
     }
 
     private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEartquakesObservable() {

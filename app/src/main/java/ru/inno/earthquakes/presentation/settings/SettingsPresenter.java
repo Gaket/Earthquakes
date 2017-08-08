@@ -18,7 +18,7 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
     @Inject
     SettingsInteractor interactor;
 
-    public SettingsPresenter(SettingsComponent settingsComponent) {
+    SettingsPresenter(SettingsComponent settingsComponent) {
         settingsComponent.inject(this);
     }
 
