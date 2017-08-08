@@ -28,4 +28,10 @@ public interface AlertView extends MvpView{
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSettings();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showPermissionDeniedAlert();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showNoDataAlert();
 }

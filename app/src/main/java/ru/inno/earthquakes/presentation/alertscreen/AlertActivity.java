@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -139,5 +140,15 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     public void navigateToSettings() {
         Intent intent = SettingsActivity.getStartIntent(this);
         startActivity(intent);
+    }
+
+    @Override
+    public void showPermissionDeniedAlert() {
+        Toast.makeText(this, R.string.error_prohibited_location_access, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNoDataAlert() {
+        Toast.makeText(this, R.string.error_no_data, Toast.LENGTH_LONG).show();
     }
 }
