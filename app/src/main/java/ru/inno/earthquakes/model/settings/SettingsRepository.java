@@ -20,21 +20,37 @@ public class SettingsRepository {
         this.sharedPreferences = sharedPreferences;
     }
 
+    /**
+     * @return maximal distance to which an Earthquake alert should be shown
+     */
     public double getAlertMaxDistance() {
         return (double) sharedPreferences.getFloat(KEY_MAX_DIST, 0);
     }
 
+    /**
+     * @return maximal magnitude from which an Earthquake alert should be shown
+     */
     public double getAlertMinMagnitude() {
         return (double) sharedPreferences.getFloat(KEY_MIN_MAG, 0);
     }
 
-    public void putAlertMaxDistance(double value) {
+    /**
+     * Save maximal distance for alert
+     *
+     * @param value in meters
+     */
+    void putAlertMaxDistance(double value) {
         sharedPreferences.edit()
                 .putFloat(KEY_MAX_DIST, (float) value)
                 .apply();
     }
 
-    public void putAlertMinMagnitude(double value) {
+    /**
+     * Save minimal magnitude for alert
+     *
+     * @param value in Richter scale
+     */
+    void putAlertMinMagnitude(double value) {
         sharedPreferences.edit()
                 .putFloat(KEY_MIN_MAG, (float) value)
                 .apply();

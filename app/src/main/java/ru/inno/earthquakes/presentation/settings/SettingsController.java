@@ -134,7 +134,6 @@ public class SettingsController extends BaseController implements SettingsView {
         });
     }
 
-
     private void setDistanceView() {
         distanceView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == IME_ACTION_DONE) {

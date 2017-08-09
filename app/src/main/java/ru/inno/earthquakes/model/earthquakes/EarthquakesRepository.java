@@ -45,6 +45,11 @@ public class EarthquakesRepository {
                 .doOnSuccess(earthquakeEntities -> Timber.d("%d entities came from server", earthquakeEntities.size()));
     }
 
+    /**
+     * Get earthquakes from cache
+     *
+     * @return list of cached earthquakes
+     */
     Single<List<Earthquake>> getCachedTodaysEarthquakes() {
         return earthquakesCache.getEarthquakes()
                 .map(earthquakesMapper::earthquakesToEntities);

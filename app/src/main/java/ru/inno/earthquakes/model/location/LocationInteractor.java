@@ -3,7 +3,7 @@ package ru.inno.earthquakes.model.location;
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import ru.inno.earthquakes.entities.Location;
+import ru.inno.earthquakes.entities.Location.Coordinates;
 import ru.inno.earthquakes.model.permissions.PermissionsRepository;
 
 /**
@@ -13,7 +13,7 @@ import ru.inno.earthquakes.model.permissions.PermissionsRepository;
 public class LocationInteractor {
 
     // Return Moscow coordinates by default
-    private final Location.Coordinates DEFAULT_COORDINATES = new Location.Coordinates(55.755826, 37.6173);
+    private final Coordinates DEFAULT_COORDINATES = new Coordinates(55.755826, 37.6173);
     private LocationRepository repository;
     private PermissionsRepository permissionsRepository;
 
@@ -23,6 +23,13 @@ public class LocationInteractor {
         this.permissionsRepository = permissionsRepository;
     }
 
+    /**
+     * Check for permission and get current coordinates.
+     * Use states to show if location found successfully, or permission denied.
+     *
+     * @return state of request and current {@link Coordinates}.
+     * In case of problems, default coordinates are returned. In this case, coordinates of Moscow, Russia
+     */
     public Single<LocationAnswer> getCurrentCoordinates() {
         return permissionsRepository
                 .requestLocationPermissions()
@@ -38,20 +45,23 @@ public class LocationInteractor {
                 });
     }
 
+    /**
+     * Class containing coordinates and their state
+     */
     public static class LocationAnswer {
-        private Location.Coordinates coordinates;
+        private Coordinates coordinates;
         private State state;
 
-        public LocationAnswer(Location.Coordinates coordinates, State state) {
+        public LocationAnswer(Coordinates coordinates, State state) {
             this.coordinates = coordinates;
             this.state = state;
         }
 
-        public Location.Coordinates getCoordinates() {
+        public Coordinates getCoordinates() {
             return coordinates;
         }
 
-        public void setCoordinates(Location.Coordinates coordinates) {
+        public void setCoordinates(Coordinates coordinates) {
             this.coordinates = coordinates;
         }
 

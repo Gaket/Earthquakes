@@ -17,7 +17,12 @@ public class LocationRepository {
         this.fusedLocationClient = fusedLocationClient;
     }
 
-    public Single<Location.Coordinates> getCurrentCoordinates() {
+    /**
+     * @return Current coordinates, taken from the Android system
+     * @throws {@link UnknownLocationException} if the last position is unknown
+     * @throws {@link SecurityException} if we try to get position without permissions
+     */
+    Single<Location.Coordinates> getCurrentCoordinates() {
         return getLastLocation()
                 .map(location -> new Location.Coordinates(location.getLongitude(), location.getLatitude()));
     }

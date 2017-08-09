@@ -14,6 +14,8 @@ import ru.inno.earthquakes.model.models.db.LocationDb;
 import ru.inno.earthquakes.model.models.network.EarthquakeNetwork;
 
 /**
+ * Maps Earthquakes entities back and forth from business to network and db models
+ *
  * @author Artur Badretdinov (Gaket)
  *         05.08.17
  */
