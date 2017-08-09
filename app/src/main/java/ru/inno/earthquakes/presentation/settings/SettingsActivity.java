@@ -37,7 +37,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
 
     @ProvidePresenter
     SettingsPresenter providePresenter() {
-        EartquakeApp.getComponentsManager().getSettingsComponent().inject(this);
+        EartquakeApp.getComponentsManager().getAppComponent().inject(this);
         return new SettingsPresenter(settingsInteractor);
     }
 
@@ -64,7 +64,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
         magnitudeView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                magnitudeValueView.setText(String.format(Locale.GERMANY, "%.1f", progress / 10.0));
+                magnitudeValueView.setText(String.format(Locale.getDefault(), "%.1f", progress / 10.0));
             }
 
             @Override
@@ -108,14 +108,8 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     }
 
     @Override
-    protected void onDestroy() {
-        EartquakeApp.getComponentsManager().clearSettingsComponent();
-        super.onDestroy();
-    }
-
-    @Override
     public void setMaxDistance(Double dist) {
-        distanceView.setText(String.format(Locale.GERMANY, "%.0f", dist));
+        distanceView.setText(String.format(Locale.getDefault(), "%.0f", dist));
     }
 
     @Override

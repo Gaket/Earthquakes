@@ -1,11 +1,6 @@
 package ru.inno.earthquakes.presentation.settings;
 
 import com.arellomobile.mvp.InjectViewState;
-<<<<<<< HEAD
-import com.arellomobile.mvp.MvpPresenter;
-=======
->>>>>>> 141c0f1... Code cleaning
-
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.common.BasePresenter;
 import ru.inno.earthquakes.presentation.common.Utils;

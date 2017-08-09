@@ -15,7 +15,5 @@ public interface EarthquakesComponent {
 
     void inject(AlertActivity alertPresenter);
 
-    void inject(EarthquakesListPresenter alertPresenter);
-
     void inject(EarthquakesListActivity earthquakesListActivity);
 }
