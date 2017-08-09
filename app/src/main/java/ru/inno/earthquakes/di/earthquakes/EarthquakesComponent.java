@@ -15,7 +15,5 @@ public interface EarthquakesComponent {
 
     void inject(AlertController alertController);
 
-    void inject(SettingsController settingsController);
-
     void inject(EarthquakesListController earthquakesListController);
 }

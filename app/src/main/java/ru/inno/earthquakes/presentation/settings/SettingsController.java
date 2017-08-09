@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 
 import java.util.Locale;
 
@@ -51,7 +52,7 @@ public class SettingsController extends BaseController implements SettingsView {
 
     @ProvidePresenter
     SettingsPresenter providePresenter() {
-        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
+        EartquakeApp.getComponentsManager().getAppComponent().inject(this);
         return new SettingsPresenter(interactor);
     }
 
@@ -68,6 +69,7 @@ public class SettingsController extends BaseController implements SettingsView {
         setDistanceView();
         setMagnitudeView();
         setHasOptionsMenu(true);
+        showActionBarBackButton(true);
     }
 
     @NonNull
@@ -82,13 +84,10 @@ public class SettingsController extends BaseController implements SettingsView {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_info:
                 presenter.onInfoAction();
-                return true;
-            case android.R.id.home:
-                getRouter().popCurrentController();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,7 +101,9 @@ public class SettingsController extends BaseController implements SettingsView {
 
     @Override
     public void navigateToInfo() {
-        getRouter().pushController(RouterTransaction.with(new InfoController()));
+        getRouter().pushController(RouterTransaction.with(new InfoController())
+                .pushChangeHandler(new FadeChangeHandler())
+                .popChangeHandler(new FadeChangeHandler()));
     }
 
     @Override

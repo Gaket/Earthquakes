@@ -16,7 +16,10 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.bluelinelabs.conductor.ControllerChangeHandler;
+import com.bluelinelabs.conductor.ControllerChangeType;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 
 import java.util.Locale;
 
@@ -30,9 +33,9 @@ import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
-import ru.inno.earthquakes.presentation.common.controller.BaseController;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.Utils;
+import ru.inno.earthquakes.presentation.common.controller.BaseController;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListController;
 import ru.inno.earthquakes.presentation.settings.SettingsController;
 
@@ -42,6 +45,9 @@ import ru.inno.earthquakes.presentation.settings.SettingsController;
  */
 public class AlertController extends BaseController implements AlertView {
 
+    // Here, and in other controllers, controller works as a root for some model components
+    // dependency tree. As a result, we inject them here and deeper all injections are made
+    // through the constructors.
     @InjectPresenter
     AlertPresenter presenter;
     @Inject
@@ -89,6 +95,7 @@ public class AlertController extends BaseController implements AlertView {
         super.onViewBound(view);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
         setHasOptionsMenu(true);
+        showActionBarBackButton(false);
     }
 
     @Override
@@ -98,7 +105,7 @@ public class AlertController extends BaseController implements AlertView {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 presenter.onOpenSettings();
@@ -145,20 +152,33 @@ public class AlertController extends BaseController implements AlertView {
         }
     }
 
+    // This code is needed to hide action bar item when routing animation starts
+    @Override
+    protected void onChangeStarted(@NonNull ControllerChangeHandler changeHandler, @NonNull ControllerChangeType changeType) {
+        setOptionsMenuHidden(!changeType.isEnter);
+
+        if (changeType.isEnter) {
+            setTitle();
+        }
+    }
+
     @Override
     public void showLoading(boolean show) {
         swipeRefreshLayout.setRefreshing(show);
     }
 
-
     @Override
     public void navigateToEarthquakesList() {
-        getRouter().pushController(RouterTransaction.with(new EarthquakesListController()));
+        getRouter().pushController(RouterTransaction.with(new EarthquakesListController())
+                .pushChangeHandler(new FadeChangeHandler())
+                .popChangeHandler(new FadeChangeHandler()));
     }
 
     @Override
     public void navigateToSettings() {
-        getRouter().pushController(RouterTransaction.with(new SettingsController()));
+        getRouter().pushController(RouterTransaction.with(new SettingsController())
+                .pushChangeHandler(new FadeChangeHandler())
+                .popChangeHandler(new FadeChangeHandler()));
     }
 
     @Override

@@ -19,6 +19,8 @@ public class InfoController extends BaseController {
 
     @Override
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
+        showActionBarBackButton(true);
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.activity_info, container, false);
     }
 

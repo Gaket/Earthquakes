@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -57,21 +56,12 @@ public class EarthquakesListController extends BaseController
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getRouter().popCurrentController();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
         initRecyclerView();
+        setHasOptionsMenu(true);
+        showActionBarBackButton(true);
     }
 
     @NonNull
@@ -90,8 +80,6 @@ public class EarthquakesListController extends BaseController
         earthquakesListAdapter = new EarthquakesListAdapter(earthquakeWithDist -> presenter.onEarthquakeClick(earthquakeWithDist));
         earthquakesView.setAdapter(earthquakesListAdapter);
     }
-
-
 
     @Override
     public void showNetworkError(boolean show) {

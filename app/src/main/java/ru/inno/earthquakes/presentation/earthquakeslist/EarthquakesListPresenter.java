@@ -43,6 +43,8 @@ public class EarthquakesListPresenter extends BasePresenter<EarthquakesListView>
      * Download earthquakes and inform user about problems, if they were encountered
      */
     private void getEarthquakesList() {
+        // Check if we already updating the list. This method is called in main thread,
+        // so we don't have to think about concurrency issues
         if (isAlreadyUpdating) {
             return;
         }

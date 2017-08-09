@@ -1,7 +1,9 @@
 package ru.inno.earthquakes.presentation.common.controller;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.bluelinelabs.conductor.Controller;
@@ -23,6 +25,7 @@ public abstract class BaseController extends MvpController {
         super.onAttach(view);
     }
 
+    @Nullable
     protected ActionBar getActionBar() {
         ActionBarProvider actionBarProvider = ((ActionBarProvider) getActivity());
         return actionBarProvider != null ? actionBarProvider.getSupportActionBar() : null;
@@ -44,6 +47,21 @@ public abstract class BaseController extends MvpController {
         } else {
             Timber.e("Trying to set title on null action bar");
         }
+    }
+
+    protected void showActionBarBackButton(boolean show) {
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(show);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getRouter().popCurrentController();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @NonNull
