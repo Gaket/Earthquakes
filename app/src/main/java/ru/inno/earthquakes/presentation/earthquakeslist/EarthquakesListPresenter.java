@@ -6,13 +6,13 @@ import com.arellomobile.mvp.MvpPresenter;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import timber.log.Timber;
 
 /**
@@ -24,11 +24,13 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
 
     private EarthquakesInteractor earthquakesInteractor;
     private LocationInteractor locationInteractor;
+    private SchedulersProvider schedulersProvider;
     private CompositeDisposable compositeDisposable;
 
-    EarthquakesListPresenter(EarthquakesInteractor earthquakesInteractor, LocationInteractor locationInteractor) {
+    EarthquakesListPresenter(EarthquakesInteractor earthquakesInteractor, LocationInteractor locationInteractor, SchedulersProvider schedulersProvider) {
         this.earthquakesInteractor = earthquakesInteractor;
         this.locationInteractor = locationInteractor;
+        this.schedulersProvider = schedulersProvider;
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -46,7 +48,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
 
     private void getEarthquakesList() {
         Disposable disposable = getSortedEartquakesObservable()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .doOnSubscribe((s) -> getViewState().showLoading(true))
                 .doAfterTerminate(() -> getViewState().showLoading(false))
                 .subscribe(earthquakeWithDists -> {

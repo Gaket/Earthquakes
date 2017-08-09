@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.presentation.common;
+package ru.inno.earthquakes.presentation.common.controller;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.bluelinelabs.conductor.Controller;
 
+import ru.inno.earthquakes.presentation.common.ActionBarProvider;
 import timber.log.Timber;
 
 /**

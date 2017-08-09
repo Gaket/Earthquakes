@@ -26,7 +26,7 @@ import butterknife.OnClick;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
-import ru.inno.earthquakes.presentation.common.BaseController;
+import ru.inno.earthquakes.presentation.common.controller.BaseController;
 import ru.inno.earthquakes.presentation.info.InfoController;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;

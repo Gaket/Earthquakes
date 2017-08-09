@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ru.inno.earthquakes.model.permissions.PermissionsRepository;
-import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -39,8 +39,6 @@ public class AppModule {
         return context.getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
     }
 
-
-
     @Provides
     @Singleton
     PermissionsRepository providePermissionsManager(RxPermissions rxPermissions) {
@@ -51,5 +49,12 @@ public class AppModule {
     @Singleton
     RxPermissions provideRxPermissions(Context context) {
         return RxPermissions.getInstance(context);
+    }
+
+
+    @Provides
+    @Singleton
+    SchedulersProvider provideSchedulersProvider() {
+        return new SchedulersProvider();
     }
 }

@@ -30,7 +30,8 @@ import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
-import ru.inno.earthquakes.presentation.common.BaseController;
+import ru.inno.earthquakes.presentation.common.controller.BaseController;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListController;
 import ru.inno.earthquakes.presentation.settings.SettingsController;
@@ -48,7 +49,9 @@ public class AlertController extends BaseController implements AlertView {
     @Inject
     LocationInteractor locationInteractor;
     @Inject
-    SettingsInteractor settinsInteractor;
+    SettingsInteractor settingsInteractor;
+    @Inject
+    SchedulersProvider schedulersProvider;
 
     @BindView(R.id.alert_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -67,7 +70,7 @@ public class AlertController extends BaseController implements AlertView {
     @ProvidePresenter
     AlertPresenter providePresenter() {
         EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
-        return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor);
+        return new AlertPresenter(earthquakesInteractor, locationInteractor, settingsInteractor, schedulersProvider);
     }
 
     @Override

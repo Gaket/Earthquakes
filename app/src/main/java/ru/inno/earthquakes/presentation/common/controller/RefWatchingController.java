@@ -1,14 +1,18 @@
-package ru.inno.earthquakes.presentation.common;
+package ru.inno.earthquakes.presentation.common.controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.bluelinelabs.conductor.Controller;
 import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
 
 import ru.inno.earthquakes.EartquakeApp;
-
-public abstract class RefWatchingController extends ButterKnifeController {
+/**
+ * Extension of  {@link Controller} that works with the LeakCanary library
+ * to check if something has leaked.
+ */
+ public abstract class RefWatchingController extends ButterKnifeController {
 
     protected RefWatchingController() { }
     protected RefWatchingController(Bundle args) {

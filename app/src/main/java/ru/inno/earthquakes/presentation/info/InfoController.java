@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import butterknife.OnClick;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.presentation.common.BaseController;
+import ru.inno.earthquakes.presentation.common.controller.BaseController;
 
 /**
  * @author Artur Badretdinov (Gaket)

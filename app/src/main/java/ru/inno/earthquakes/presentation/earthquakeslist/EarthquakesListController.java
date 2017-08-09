@@ -23,8 +23,9 @@ import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
-import ru.inno.earthquakes.presentation.common.BaseController;
+import ru.inno.earthquakes.presentation.common.controller.BaseController;
 import ru.inno.earthquakes.presentation.common.EmptyRecyclerView;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.SmartDividerItemDecoration;
 
 public class EarthquakesListController extends BaseController
@@ -32,6 +33,12 @@ public class EarthquakesListController extends BaseController
 
     @InjectPresenter
     EarthquakesListPresenter presenter;
+    @Inject
+    EarthquakesInteractor earthquakesInteractor;
+    @Inject
+    LocationInteractor locationInteractor;
+    @Inject
+    SchedulersProvider schedulersProvider;
 
     @BindView(R.id.earthquakes_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -39,10 +46,13 @@ public class EarthquakesListController extends BaseController
     EmptyRecyclerView earthquakesView;
     private EarthquakesListAdapter earthquakesListAdapter;
     private Snackbar snackbar;
-    @Inject
-    EarthquakesInteractor earthquakesInteractor;
-    @Inject
-    LocationInteractor locationInteractor;
+
+
+    @ProvidePresenter
+    EarthquakesListPresenter providePresenter() {
+        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
+        return new EarthquakesListPresenter(earthquakesInteractor, locationInteractor, schedulersProvider);
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -79,11 +89,7 @@ public class EarthquakesListController extends BaseController
         earthquakesView.setAdapter(earthquakesListAdapter);
     }
 
-    @ProvidePresenter
-    EarthquakesListPresenter providePresenter() {
-        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
-        return new EarthquakesListPresenter(earthquakesInteractor, locationInteractor);
-    }
+
 
     @Override
     public void showNetworkError(boolean show) {

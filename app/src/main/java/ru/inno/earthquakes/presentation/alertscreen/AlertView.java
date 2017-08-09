@@ -22,16 +22,15 @@ public interface AlertView extends MvpView{
 
     void showLoading(boolean show);
 
-    // These methods better should be in a router. They are here for simplicity now.
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToEarthquakesList();
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToSettings();
-
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showPermissionDeniedAlert();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showNoDataAlert();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToEarthquakesList();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToSettings();
 }

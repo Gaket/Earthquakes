@@ -21,49 +21,33 @@ public class ComponentsManager {
         this.context = context.getApplicationContext();
     }
 
+    // We don't have to think about multithreading here, because we get our components
+    // only from Activity/Component classes on main thread
     public AppComponent getAppComponent() {
-        AppComponent component = appComponent;
-        if (component == null) {
-            synchronized (AppComponent.class) {
-                component = appComponent;
-                if (component == null) {
-                    appComponent = component = DaggerAppComponent.builder()
-                            .appModule(new AppModule(context))
-                            .build();
-                }
-            }
+        if (appComponent == null) {
+            appComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(context))
+                    .build();
         }
-        return component;
+        return appComponent;
     }
 
     public EarthquakesComponent getEarthquakesComponent() {
-        EarthquakesComponent component = earthquakesComponent;
-        if (component == null) {
-            synchronized (EarthquakesComponent.class) {
-                component = earthquakesComponent;
-                if (component == null) {
-                    earthquakesComponent = component = appComponent.plusEarthquakesComponent(new EarthquakesModule());
-                }
-            }
+        if (earthquakesComponent == null) {
+            earthquakesComponent = appComponent.plusEarthquakesComponent(new EarthquakesModule());
         }
-        return component;
+        return earthquakesComponent;
+    }
+
+    public SettingsComponent getSettingsComponent() {
+        if (settingsComponent == null) {
+            settingsComponent = appComponent.plusSettingsComponent();
+        }
+        return settingsComponent;
     }
 
     public void clearEarthquakesComponent() {
         earthquakesComponent = null;
-    }
-
-    public SettingsComponent getSettingsComponent() {
-        SettingsComponent component = settingsComponent;
-        if (component == null) {
-            synchronized (SettingsComponent.class) {
-                component = settingsComponent;
-                if (component == null) {
-                    settingsComponent = component = appComponent.plusSettingsComponent();
-                }
-            }
-        }
-        return component;
     }
 
     public void clearSettingsComponent() {

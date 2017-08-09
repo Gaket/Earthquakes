@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.presentation.common;
+package ru.inno.earthquakes.presentation.common.controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,9 @@ import com.bluelinelabs.conductor.Controller;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**
+ * Extensin of {@link Controller} that binds and unbinds view using {@link ButterKnife}
+ */
 public abstract class ButterKnifeController extends Controller {
 
     private Unbinder unbinder;
@@ -39,5 +42,4 @@ public abstract class ButterKnifeController extends Controller {
         unbinder.unbind();
         unbinder = null;
     }
-
 }

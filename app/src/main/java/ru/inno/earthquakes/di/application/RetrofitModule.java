@@ -27,11 +27,13 @@ import timber.log.Timber;
 @Singleton
 public class RetrofitModule {
 
+    public static final String BASE_URL = "https://earthquake.usgs.gov/";
+
     @Provides
     @Singleton
     Retrofit provideRetrofit(OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
-                .baseUrl("https://earthquake.usgs.gov/")
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
@@ -44,7 +46,7 @@ public class RetrofitModule {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.v(message));
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
         builder.addInterceptor(loggingInterceptor);
         return builder.build();

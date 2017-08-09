@@ -3,6 +3,8 @@ package ru.inno.earthquakes.entities;
 import java.util.Date;
 
 /**
+ * {@link Earthquake} object that has knowledge about distance from user's position
+ *
  * @author Artur Badretdinov (Gaket)
  *         22.07.17
  */
@@ -11,6 +13,9 @@ public class EarthquakeWithDist {
     private Earthquake earthquake;
     private double distance;
     private Location.Coordinates currentPosition;
+
+    public EarthquakeWithDist() {
+    }
 
     public EarthquakeWithDist(Earthquake earthquake, Location.Coordinates currentPosition) {
         this.earthquake = earthquake;

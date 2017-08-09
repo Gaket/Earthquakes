@@ -12,11 +12,11 @@ import io.reactivex.subjects.PublishSubject;
  */
 public class SettingsInteractor {
 
-    private SettingsRepositoryInt repository;
+    private SettingsRepository repository;
     private PublishSubject<Boolean> dataUpdated;
 
     @Inject
-    public SettingsInteractor(SettingsRepositoryInt repository) {
+    public SettingsInteractor(SettingsRepository repository) {
         this.repository = repository;
         dataUpdated = PublishSubject.create();
     }

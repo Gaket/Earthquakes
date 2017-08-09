@@ -7,12 +7,11 @@ import org.mapstruct.factory.Mappers;
 import dagger.Module;
 import dagger.Provides;
 import io.objectbox.BoxStore;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesCache;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesRepository;
 import ru.inno.earthquakes.model.models.db.MyObjectBox;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesApiService;
-import ru.inno.earthquakes.model.earthquakes.EarthquakesCacheBox;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
-import ru.inno.earthquakes.model.earthquakes.EarthquakesRepository;
-import ru.inno.earthquakes.model.earthquakes.EarthquakesRepositoryImpl;
 import ru.inno.earthquakes.model.mappers.EarthquakesMapper;
 import ru.inno.earthquakes.model.settings.SettingsRepository;
 
@@ -32,14 +31,14 @@ public class EarthquakesModule {
 
     @Provides
     @EarthquakesScope
-    EarthquakesRepository provideRepository(EarthquakesApiService apiService, EarthquakesMapper mapper, EarthquakesCacheBox earthquakesCache) {
-        return new EarthquakesRepositoryImpl(apiService, mapper, earthquakesCache);
+    EarthquakesRepository provideRepository(EarthquakesApiService apiService, EarthquakesMapper mapper, EarthquakesCache earthquakesCache) {
+        return new EarthquakesRepository(apiService, mapper, earthquakesCache);
     }
 
     @Provides
     @EarthquakesScope
-    EarthquakesCacheBox provideCache(BoxStore boxStore, EarthquakesMapper mapper) {
-        return new EarthquakesCacheBox(boxStore, mapper);
+    EarthquakesCache provideCache(BoxStore boxStore, EarthquakesMapper mapper) {
+        return new EarthquakesCache(boxStore, mapper);
     }
 
     @Provides

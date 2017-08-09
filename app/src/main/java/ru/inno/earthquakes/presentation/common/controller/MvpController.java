@@ -1,12 +1,16 @@
-package ru.inno.earthquakes.presentation.common;
+package ru.inno.earthquakes.presentation.common.controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.arellomobile.mvp.MvpDelegate;
+import com.bluelinelabs.conductor.Controller;
 
 /**
+ * Extension of  {@link Controller} that works with the Moxy library
+ * to save view state in configuration changes.
+ *
  * @author Artur Badretdinov (Gaket)
  *         08.08.17
  */

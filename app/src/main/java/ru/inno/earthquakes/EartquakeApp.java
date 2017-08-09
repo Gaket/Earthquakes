@@ -54,8 +54,9 @@ public class EartquakeApp extends Application {
     }
 
     private void initLogging() {
-        Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
-
 
 }
