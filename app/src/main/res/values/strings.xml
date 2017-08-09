@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Earthquakes</string>
-    <string name="alert_msg_everything_is_ok">There are no earthquakes \n that satisfy your criteria near you.</string>
-    <string name="alert_msg_earhquake_nearby">Attention!\nAn earthquake found.</string>
+    <string name="alert_msg_everything_is_ok">There are no earthquakes near you.</string>
+    <string name="alert_msg_earhquake_nearby">Attention! An earthquake found.\nThe nearest to you is:</string>
     <string name="alert_show_all_earthquakes">Show all earthquakes</string>
     <string name="error_connection">Connection problems, only cached data is shown. Check the connection or try again later.</string>
     <string name="action_ok">OK</string>
@@ -13,13 +13,13 @@
     <string name="action_save">Save</string>
     <string name="info_product_goal">This app helps you to know if there are some earthquakes near you. You could call your relatives in case of emergency</string>
     <string name="action_got_it">Got it</string>
-    <string name="hint_settings_dist">1000 km</string>
+    <string name="hint_settings_dist">1000</string>
     <string name="error_settings_distance">Enter integer number</string>
     <string name="title_settings">Settings</string>
-    <string name="title_earthquake_list">All eartqhuakes</string>
+    <string name="title_earthquake_list">All earthquakes</string>
     <string name="title_info">About</string>
-    <string name="title_alert">Earthquakes</string>
+    <string name="title_alert">Earthquakes alert</string>
     <string name="error_prohibited_location_access">We show data relatively to the default location, because you prohibited access to location</string>
     <string name="error_no_data">We show data relatively to the default location, because we can\'t get your current position</string>
-
+    <string name="alert_details_no_earthquakes">It means that either it is safe around you or you set too strict filter rules (you can change them in Settings)</string>
 </resources>

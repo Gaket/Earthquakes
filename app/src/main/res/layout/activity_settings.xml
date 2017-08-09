@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingTop="16dp"
+    android:paddingBottom="@dimen/space_normal"
+    android:paddingTop="@dimen/space_normal"
     tools:context="ru.inno.earthquakes.presentation.MainActivity">
 
 
@@ -15,8 +15,8 @@
         android:id="@+id/settings_tv_title_dist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/space_normal"
+        android:layout_marginRight="@dimen/space_normal"
         android:text="@string/title_settings_max_dist" />
 
     <EditText
@@ -24,8 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/settings_tv_title_dist"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/space_normal"
+        android:layout_marginRight="@dimen/space_normal"
         android:hint="@string/hint_settings_dist"
         android:imeOptions="actionDone"
         android:inputType="number"
@@ -47,8 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/settings_tv_title_mag"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/space_normal"
+        android:layout_marginRight="@dimen/space_normal"
         android:text="0"
         android:textColor="@color/textColorPrimary"
         android:textSize="16sp"
@@ -58,11 +58,12 @@
         android:id="@+id/settings_magnitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/settings_tv_title_mag"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginLeft="6dp"
         android:max="95"
-        tools:text="5.0" />
+        tools:text="5.0"
+        android:layout_below="@+id/settings_tv_title_mag"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/settings_bt_save"

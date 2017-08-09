@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="@dimen/space_normal">
 
     <TextView
         android:id="@+id/earthquake_tv_mag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
         android:textColor="@color/textColorPrimary"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -23,7 +21,6 @@
         android:id="@+id/earthquake_tv_place"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginLeft="40dp"
         android:lines="1"
         android:layout_marginTop="0dp"
@@ -33,16 +30,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/earthquake_tv_mag"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/earthquake_tv_mag"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="10 km from Moscow"
-        android:layout_marginRight="0dp"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/earthquake_tv_dist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/textColorSecondary"
         app:layout_constraintLeft_toLeftOf="@+id/earthquake_tv_place"
@@ -54,7 +48,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
         android:textColor="@color/textColorSecondary"
         app:layout_constraintLeft_toRightOf="@+id/earthquake_tv_dist"
         app:layout_constraintTop_toTopOf="@+id/earthquake_tv_dist"

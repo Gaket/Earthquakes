@@ -117,7 +117,7 @@ public class AlertController extends BaseController implements AlertView {
     public void showThereAreNoAlerts() {
         messageView.setText(R.string.alert_msg_everything_is_ok);
         alertImageView.setImageResource(R.drawable.earth_normal);
-        detailsView.setVisibility(View.GONE);
+        detailsView.setText(R.string.alert_details_no_earthquakes);
         distanceView.setVisibility(View.GONE);
         magnitudeView.setVisibility(View.GONE);
     }
@@ -130,7 +130,6 @@ public class AlertController extends BaseController implements AlertView {
         distanceView.setText(String.format("\u2248 %s km from you", Utils.formatDistanceString(earthquake.getDistance())));
         String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquake().getMagnitude());
         magnitudeView.setText(magnitude);
-        detailsView.setVisibility(View.VISIBLE);
         distanceView.setVisibility(View.VISIBLE);
         magnitudeView.setVisibility(View.VISIBLE);
     }

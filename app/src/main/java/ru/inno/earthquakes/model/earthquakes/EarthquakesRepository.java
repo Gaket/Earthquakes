@@ -27,6 +27,11 @@ public class EarthquakesRepository {
         this.earthquakesCache = earthquakesCache;
     }
 
+    /**
+     * Get earthquakes from API, clear cache and put new ones there
+     *
+     * @return list of todays earthquakes
+     */
     Single<List<Earthquake>> getTodaysEarthquakesFromApi() {
         return apiService.getEarthquakes()
                 .map(EarthquakesResponse::getFeatures)
