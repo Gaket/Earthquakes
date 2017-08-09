@@ -58,14 +58,14 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
         private Context context;
         private OnEarthquakeClickListener listener;
 
-        private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm", Locale.GERMANY);
+        private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm", Locale.getDefault());
 
         private TextView magnitude;
         private TextView place;
         private TextView time;
         private TextView dist;
 
-        public EarthquakeViewHolder(View itemView, Context context, OnEarthquakeClickListener listener) {
+        EarthquakeViewHolder(View itemView, Context context, OnEarthquakeClickListener listener) {
             super(itemView);
             magnitude = (TextView) itemView.findViewById(R.id.earthquake_tv_mag);
             place = (TextView) itemView.findViewById(R.id.earthquake_tv_place);
@@ -75,7 +75,7 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
             this.listener = listener;
         }
 
-        public void bind(EarthquakeWithDist model) {
+        void bind(EarthquakeWithDist model) {
             if (model.getMagnitude() >= DANGEROUS_LEVEL) {
                 magnitude.setTextColor(ContextCompat.getColor(context, R.color.colorAlert));
                 magnitude.setAlpha(1);
@@ -83,16 +83,16 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
                 magnitude.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary));
                 magnitude.setAlpha(0.5f);
             }
-            magnitude.setText(String.format(Locale.GERMANY, "%.1f", model.getMagnitude()));
+            magnitude.setText(String.format(Locale.getDefault(), "%.1f", model.getMagnitude()));
             String formattedDist = Utils.formatDistanceString(model.getDistance());
-            dist.setText(String.format(Locale.GERMANY, "%s km from you \u2022", formattedDist));
+            dist.setText(String.format(Locale.getDefault(), context.getString(R.string.earthquake_row_distance), formattedDist));
             place.setText(model.getLocation().getName());
             time.setText(dateFormat.format(model.getTime()));
             itemView.setOnClickListener(v -> listener.onEarthquakeClicked(model));
         }
     }
 
-    public interface OnEarthquakeClickListener {
+    interface OnEarthquakeClickListener {
         void onEarthquakeClicked(EarthquakeWithDist earthquakeWithDist);
     }
 }

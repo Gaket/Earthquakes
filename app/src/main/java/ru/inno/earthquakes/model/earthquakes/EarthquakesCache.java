@@ -24,7 +24,6 @@ public class EarthquakesCache {
     private final Box<EarthquakeDb> earthquakeBox;
     private final EarthquakesMapper earthquakesMapper;
 
-    @Inject
     public EarthquakesCache(BoxStore boxStore, EarthquakesMapper earthquakesMapper) {
         earthquakeBox = boxStore.boxFor(EarthquakeDb.class);
         this.earthquakesMapper = earthquakesMapper;

@@ -2,8 +2,6 @@ package ru.inno.earthquakes.model.settings;
 
 import android.content.SharedPreferences;
 
-import javax.inject.Inject;
-
 /**
  * @author Artur Badretdinov (Gaket)
  *         05.08.17
@@ -15,7 +13,6 @@ public class SettingsRepository {
 
     private SharedPreferences sharedPreferences;
 
-    @Inject
     public SettingsRepository(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }

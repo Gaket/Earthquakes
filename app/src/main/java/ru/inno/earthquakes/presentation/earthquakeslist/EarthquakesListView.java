@@ -14,7 +14,7 @@ import ru.inno.earthquakes.entities.EarthquakeWithDist;
  *         01.08.17
  */
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface EarthquakesListView extends MvpView {
+interface EarthquakesListView extends MvpView {
 
     void showEarthquakes(List<EarthquakeWithDist> earthquakeWithDists);
 

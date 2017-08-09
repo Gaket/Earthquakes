@@ -1,4 +1,4 @@
-package ru.inno.earthquakes.di.settings;
+package ru.inno.earthquakes.di.application;
 
 import android.content.SharedPreferences;
 
@@ -15,7 +15,7 @@ import ru.inno.earthquakes.model.settings.SettingsRepository;
  */
 @Module
 @Singleton
-public class SettingsModule {
+class SettingsModule {
 
     @Provides
     @Singleton

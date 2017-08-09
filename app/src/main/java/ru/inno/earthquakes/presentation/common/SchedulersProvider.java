@@ -5,6 +5,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ * Scheduler provider needed to facilitate testing.
+ *
  * @author Artur Badretdinov (Gaket)
  *         09.08.17
  */

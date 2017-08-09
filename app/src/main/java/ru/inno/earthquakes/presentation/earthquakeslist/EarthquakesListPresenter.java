@@ -1,17 +1,16 @@
 package ru.inno.earthquakes.presentation.earthquakeslist;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
+import ru.inno.earthquakes.presentation.common.BasePresenter;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import timber.log.Timber;
 
@@ -20,18 +19,17 @@ import timber.log.Timber;
  *         01.08.17
  */
 @InjectViewState
-public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> {
+public class EarthquakesListPresenter extends BasePresenter<EarthquakesListView> {
 
     private EarthquakesInteractor earthquakesInteractor;
     private LocationInteractor locationInteractor;
     private SchedulersProvider schedulersProvider;
-    private CompositeDisposable compositeDisposable;
 
     EarthquakesListPresenter(EarthquakesInteractor earthquakesInteractor, LocationInteractor locationInteractor, SchedulersProvider schedulersProvider) {
+        super();
         this.earthquakesInteractor = earthquakesInteractor;
         this.locationInteractor = locationInteractor;
         this.schedulersProvider = schedulersProvider;
-        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -40,12 +38,9 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
         getEarthquakesList();
     }
 
-    @Override
-    public void onDestroy() {
-        compositeDisposable.clear();
-        super.onDestroy();
-    }
-
+    /**
+     * Download earthquakes and inform user about problems, if they were encountered
+     */
     private void getEarthquakesList() {
         Disposable disposable = getSortedEartquakesObservable()
                 .observeOn(schedulersProvider.ui())
@@ -59,7 +54,7 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
                         getViewState().showEarthquakes(earthquakeWithDists.getData());
                     }
                 }, Timber::e);
-        compositeDisposable.add(disposable);
+        unsubscribeOnDestroy(disposable);
     }
 
     private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEartquakesObservable() {

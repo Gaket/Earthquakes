@@ -20,7 +20,7 @@ import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 @Singleton
 public class AppModule {
 
-    public static final String APP_PREFS = "AppPrefs";
+    private static final String APP_PREFS = "AppPrefs";
     private Context context;
 
     public AppModule(Context aContext) {
@@ -50,7 +50,6 @@ public class AppModule {
     RxPermissions provideRxPermissions(Context context) {
         return RxPermissions.getInstance(context);
     }
-
 
     @Provides
     @Singleton

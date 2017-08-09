@@ -25,9 +25,9 @@ import timber.log.Timber;
  */
 @Module
 @Singleton
-public class RetrofitModule {
+class RetrofitModule {
 
-    public static final String BASE_URL = "https://earthquake.usgs.gov/";
+    private static final String BASE_URL = "https://earthquake.usgs.gov/";
 
     @Provides
     @Singleton

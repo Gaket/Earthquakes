@@ -7,7 +7,6 @@ import ru.inno.earthquakes.di.application.AppModule;
 import ru.inno.earthquakes.di.application.DaggerAppComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesModule;
-import ru.inno.earthquakes.di.settings.SettingsComponent;
 
 public class ComponentsManager {
 
@@ -15,7 +14,6 @@ public class ComponentsManager {
 
     private AppComponent appComponent;
     private EarthquakesComponent earthquakesComponent;
-    private SettingsComponent settingsComponent;
 
     public ComponentsManager(Context context) {
         this.context = context.getApplicationContext();
@@ -39,18 +37,7 @@ public class ComponentsManager {
         return earthquakesComponent;
     }
 
-    public SettingsComponent getSettingsComponent() {
-        if (settingsComponent == null) {
-            settingsComponent = appComponent.plusSettingsComponent();
-        }
-        return settingsComponent;
-    }
-
     public void clearEarthquakesComponent() {
         earthquakesComponent = null;
-    }
-
-    public void clearSettingsComponent() {
-        settingsComponent = null;
     }
 }
