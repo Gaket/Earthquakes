@@ -49,7 +49,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
 
         // According to YAGNI, we have only some hardcoded views here.
         // If application becomes more complicated, here should be a RecyclerView with options.
-        distanceView = (EditText) findViewById(R.id.settings_ev_distance);
+        distanceView = (EditText) findViewById(R.id.settings_distance);
         distanceView.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == IME_ACTION_DONE) {
                 saveSettings();
@@ -59,8 +59,8 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
             }
         });
 
-        magnitudeValueView = (TextView) findViewById(R.id.settings_tv_magnitude);
-        magnitudeView = (SeekBar) findViewById(R.id.settings_sb_magnitude);
+        magnitudeValueView = (TextView) findViewById(R.id.settings_magnitude_value);
+        magnitudeView = (SeekBar) findViewById(R.id.settings_magnitude);
         magnitudeView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

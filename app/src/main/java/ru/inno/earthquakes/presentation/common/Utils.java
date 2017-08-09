@@ -17,12 +17,18 @@ public final class Utils {
 
     ;
 
+    /**
+     * Converts values from pixels to density independent pixels
+     */
     public static int dpToPx(Context context, int dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return px;
     }
 
+    /**
+     * Formats doule to {@link String} like "1 220 000"
+     */
     public static String formatDistanceString(Double distance) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator(' ');

@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 /**
+ * Extension of {@link RecyclerView} that automatically shows a view,
+ * given through {@link EmptyRecyclerView#setEmptyViewLayout(int)}
+ *
  * @author Artur Badretdinov (Gaket)
  *         15.01.2017.
  */
@@ -55,16 +58,15 @@ public class EmptyRecyclerView extends FrameLayout {
     }
 
     /**
-     * Inflates the views in the layout.
+     * Add view layout that will be shown when there are no elements in {@link EmptyRecyclerView}
      *
-     * @param context the current context for the view.
+     * @param emptyLayout
      */
-    private void initializeViews(Context context) {
-        recyclerView = new RecyclerView(context);
-        recyclerView.setPadding(0, 0, 0, Utils.dpToPx(getContext(), 16));
-        recyclerView.setClipToPadding(false);
-        this.addView(recyclerView);
-        this.context = context;
+    public void setEmptyViewLayout(@LayoutRes int emptyLayout) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        emptyView = inflater.inflate(emptyLayout, this, false);
+        this.addView(emptyView);
+        checkIfEmpty();
     }
 
     public void setAdapter(RecyclerView.Adapter adapter) {
@@ -81,21 +83,6 @@ public class EmptyRecyclerView extends FrameLayout {
 
     public void setLayoutManager(LinearLayoutManager lm) {
         recyclerView.setLayoutManager(lm);
-    }
-
-    public void setEmptyViewLayout(@LayoutRes int emptyLayout) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        emptyView = inflater.inflate(emptyLayout, this, false);
-        this.addView(emptyView);
-        checkIfEmpty();
-    }
-
-    private void checkIfEmpty() {
-        if (emptyView != null && recyclerView.getAdapter() != null) {
-            final boolean emptyViewVisible = recyclerView.getAdapter().getItemCount() == 0;
-            emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
-            recyclerView.setVisibility(emptyViewVisible ? GONE : VISIBLE);
-        }
     }
 
     public void addOnScrollListener(RecyclerView.OnScrollListener scrollListener) {
@@ -118,4 +105,19 @@ public class EmptyRecyclerView extends FrameLayout {
         recyclerView.scrollToPosition(i);
     }
 
+    private void initializeViews(Context context) {
+        recyclerView = new RecyclerView(context);
+        recyclerView.setPadding(0, 0, 0, Utils.dpToPx(getContext(), 16));
+        recyclerView.setClipToPadding(false);
+        this.addView(recyclerView);
+        this.context = context;
+    }
+
+    private void checkIfEmpty() {
+        if (emptyView != null && recyclerView.getAdapter() != null) {
+            final boolean emptyViewVisible = recyclerView.getAdapter().getItemCount() == 0;
+            emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
+            recyclerView.setVisibility(emptyViewVisible ? GONE : VISIBLE);
+        }
+    }
 }

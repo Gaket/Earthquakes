@@ -51,13 +51,12 @@ public class LocationInteractorTest {
         Mockito.when(locationRepository.getCurrentCoordinates())
                 .thenReturn(Single.just(testCoordinates));
 
-        TestObserver<Location.Coordinates> testObserver = locationInteractor.getCurrentCoordinates().test();
+        TestObserver<LocationInteractor.LocationAnswer> testObserver = locationInteractor.getCurrentCoordinates().test();
         testObserver.awaitTerminalEvent();
 
         Mockito.verify(permissionsRepository).requestLocationPermissions();
         Mockito.verify(locationRepository).getCurrentCoordinates();
         testObserver.assertNoErrors();
-        testObserver.assertValue(testCoordinates);
     }
 
     @Test
@@ -65,13 +64,12 @@ public class LocationInteractorTest {
         Mockito.when(permissionsRepository.requestLocationPermissions())
                 .thenReturn(Observable.just(false));
 
-        TestObserver<Location.Coordinates> testObserver = locationInteractor.getCurrentCoordinates().test();
+        TestObserver<LocationInteractor.LocationAnswer> testObserver = locationInteractor.getCurrentCoordinates().test();
         testObserver.awaitTerminalEvent();
 
         Mockito.verify(permissionsRepository).requestLocationPermissions();
         Mockito.verifyZeroInteractions(locationRepository);
         testObserver.assertNoErrors();
-        testObserver.assertValue(defaultCoordinates);
     }
 
     @Test
@@ -81,12 +79,11 @@ public class LocationInteractorTest {
         Mockito.when(locationRepository.getCurrentCoordinates())
                 .thenReturn(Single.error(testError));
 
-        TestObserver<Location.Coordinates> testObserver = locationInteractor.getCurrentCoordinates().test();
+        TestObserver<LocationInteractor.LocationAnswer> testObserver = locationInteractor.getCurrentCoordinates().test();
         testObserver.awaitTerminalEvent();
 
         Mockito.verify(permissionsRepository).requestLocationPermissions();
         Mockito.verify(locationRepository).getCurrentCoordinates();
         testObserver.assertNoErrors();
-        testObserver.assertValue(defaultCoordinates);
     }
 }

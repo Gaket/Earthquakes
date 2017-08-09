@@ -10,6 +10,9 @@ import ru.inno.earthquakes.model.models.network.EarthquakesResponse;
  */
 public interface EarthquakesApiService {
 
+    /**
+     * @return all earthquakes that happened in this day
+     */
     @GET("earthquakes/feed/v1.0/summary/all_day.geojson")
     Single<EarthquakesResponse> getEarthquakes();
 }

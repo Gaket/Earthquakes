@@ -15,8 +15,8 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
 
     private SettingsInteractor interactor;
 
-    SettingsPresenter(SettingsInteractor interactor) {
-        this.interactor = interactor;
+    public SettingsPresenter(SettingsInteractor settingsInteractor) {
+        this.interactor = settingsInteractor;
     }
 
     @Override

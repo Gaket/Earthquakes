@@ -2,6 +2,7 @@ package ru.inno.earthquakes.presentation.earthquakeslist;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public interface EarthquakesListView extends MvpView {
 
     void showEarthquakes(List<EarthquakeWithDist> earthquakeWithDists);
 
-    // This method better should be in a router. It is here for simplicity now.
-    void navigateToEarthquakesList();
-
     void showNetworkError(boolean show);
 
     void showLoading(boolean show);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void navigateToEarthquakeDetails(EarthquakeWithDist earthquakeWithDist);
 }

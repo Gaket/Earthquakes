@@ -12,29 +12,44 @@ import io.reactivex.subjects.PublishSubject;
  */
 public class SettingsInteractor {
 
-    private SettingsRepositoryInt repository;
+    private SettingsRepository repository;
     private PublishSubject<Boolean> dataUpdated;
 
     @Inject
-    public SettingsInteractor(SettingsRepositoryInt repository) {
+    public SettingsInteractor(SettingsRepository repository) {
         this.repository = repository;
         dataUpdated = PublishSubject.create();
     }
 
+    /**
+     * @return maximal distance to which an Earthquake alert should be shown
+     */
     public double getAlertMaxDistance() {
         return repository.getAlertMaxDistance();
     }
 
+    /**
+     * @return maximal magnitude from which an Earthquake alert should be shown
+     */
     public double getAlertMinMagnitude() {
         return repository.getAlertMinMagnitude();
     }
 
+    /**
+     * Save settings for the alert
+     *
+     * @param maxDistance in meters
+     * @param minMagnitude in Richter scale
+     */
     public void saveAlertSettings(double maxDistance, double minMagnitude) {
         repository.putAlertMaxDistance(maxDistance);
         repository.putAlertMinMagnitude(minMagnitude);
         dataUpdated.onNext(true);
     }
 
+    /**
+     * @return stream which notifies observers when settings are changed
+     */
     public Observable<Boolean> getSettingsChangeObservable() {
         return dataUpdated;
     }

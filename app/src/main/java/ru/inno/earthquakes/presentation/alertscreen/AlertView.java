@@ -12,7 +12,7 @@ import ru.inno.earthquakes.entities.EarthquakeWithDist;
  *         22.07.17
  */
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface AlertView extends MvpView{
+public interface AlertView extends MvpView {
 
     void showThereAreNoAlerts();
 
@@ -22,7 +22,6 @@ public interface AlertView extends MvpView{
 
     void showLoading(boolean show);
 
-    // These methods better should be in a router. They are here for simplicity now.
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToEarthquakesList();
 

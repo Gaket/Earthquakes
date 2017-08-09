@@ -9,7 +9,6 @@ import dagger.Module;
 import dagger.Provides;
 import ru.inno.earthquakes.model.permissions.PermissionsRepository;
 import ru.inno.earthquakes.model.location.LocationInteractor;
-import ru.inno.earthquakes.model.location.LocationRepoAndroid;
 import ru.inno.earthquakes.model.location.LocationRepository;
 
 /**
@@ -29,7 +28,7 @@ public class LocationModule {
     @Provides
     @EarthquakesScope
     LocationRepository provideRepository(FusedLocationProviderClient locationProviderClient) {
-        return new LocationRepoAndroid(locationProviderClient);
+        return new LocationRepository(locationProviderClient);
     }
 
     @Provides

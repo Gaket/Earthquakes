@@ -26,6 +26,7 @@ import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
@@ -44,10 +45,12 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     LocationInteractor locationInteractor;
     @Inject
     SettingsInteractor settinsInteractor;
+    @Inject
+    SchedulersProvider schedulersProvider;
 
     @ProvidePresenter
     AlertPresenter providePresenter() {
-        return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor);
+        return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor, schedulersProvider);
     }
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -64,14 +67,14 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        messageView = (TextView) findViewById(R.id.alert_tv_main);
-        detailsView = (TextView) findViewById(R.id.alert_tv_details);
-        magnitudeView = (TextView) findViewById(R.id.alert_tv_magnitude);
-        distanceView = (TextView) findViewById(R.id.alert_tv_distance);
-        alertImageView = (ImageView) findViewById(R.id.alert_iv_status);
+        messageView = (TextView) findViewById(R.id.alert_message);
+        detailsView = (TextView) findViewById(R.id.alert_details);
+        magnitudeView = (TextView) findViewById(R.id.alert_magnitude);
+        distanceView = (TextView) findViewById(R.id.alert_distance);
+        alertImageView = (ImageView) findViewById(R.id.alert_status);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
-        findViewById(R.id.alert_btn_show_all).setOnClickListener(v -> presenter.onShowAll());
+        findViewById(R.id.alert_show_all).setOnClickListener(v -> presenter.onShowAll());
     }
 
     @Override

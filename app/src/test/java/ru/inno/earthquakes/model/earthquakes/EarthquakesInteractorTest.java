@@ -64,7 +64,7 @@ public class EarthquakesInteractorTest {
     @Test
     public void firstCachedThenActualValuesReturned() throws Exception {
         when(earthquakesRepository.getCachedTodaysEarthquakes()).thenReturn(Single.just(new ArrayList<>()));
-        when(earthquakesRepository.getNetworkTodaysEarthquakes()).thenReturn(Single.just(new ArrayList<>()));
+        when(earthquakesRepository.getTodaysEarthquakesFromApi()).thenReturn(Single.just(new ArrayList<>()));
 
         TestObserver testObserver = interactor.getTodaysEartquakesSortedByLocation(testCoords).test();
         testObserver.awaitTerminalEvent();
@@ -72,13 +72,13 @@ public class EarthquakesInteractorTest {
         testObserver.assertNoErrors();
         testObserver.assertValueCount(2);
         verify(earthquakesRepository).getCachedTodaysEarthquakes();
-        verify(earthquakesRepository).getNetworkTodaysEarthquakes();
+        verify(earthquakesRepository).getTodaysEarthquakesFromApi();
     }
 
     @Test
     public void cachedValuesReturnedIfNetworkError() throws Exception {
         when(earthquakesRepository.getCachedTodaysEarthquakes()).thenReturn(Single.just(new ArrayList<>()));
-        when(earthquakesRepository.getNetworkTodaysEarthquakes()).thenReturn(Single.error(testError));
+        when(earthquakesRepository.getTodaysEarthquakesFromApi()).thenReturn(Single.error(testError));
 
         TestObserver testObserver = interactor.getTodaysEartquakesSortedByLocation(testCoords).test();
         testObserver.awaitTerminalEvent();
@@ -86,12 +86,12 @@ public class EarthquakesInteractorTest {
         testObserver.assertNoErrors();
         testObserver.assertValueCount(2);
         verify(earthquakesRepository).getCachedTodaysEarthquakes();
-        verify(earthquakesRepository).getNetworkTodaysEarthquakes();
+        verify(earthquakesRepository).getTodaysEarthquakesFromApi();
     }
 
     @Test
     public void earthquakeReturnedIfItPassesSettings() throws Exception {
-        when(earthquakesRepository.getNetworkTodaysEarthquakes()).thenReturn(Single.just(Collections.singletonList(testEarthquake)));
+        when(earthquakesRepository.getTodaysEarthquakesFromApi()).thenReturn(Single.just(Collections.singletonList(testEarthquake)));
         when(settingsRepository.getAlertMaxDistance()).thenReturn(HUGE_DISTANCE);
         when(settingsRepository.getAlertMinMagnitude()).thenReturn(0.0);
 
@@ -100,13 +100,13 @@ public class EarthquakesInteractorTest {
 
         testObserver.assertNoErrors();
         testObserver.assertValueCount(1);
-        verify(earthquakesRepository).getNetworkTodaysEarthquakes();
+        verify(earthquakesRepository).getTodaysEarthquakesFromApi();
         testObserver.assertValue(o -> ((EntitiesWrapper<EarthquakeWithDist>) o).getState().equals(EntitiesWrapper.State.SUCCESS));
     }
 
     @Test
     public void earthquakeNotReturnedIfItDoesNotPassMaxDistanceSettings() throws Exception {
-        when(earthquakesRepository.getNetworkTodaysEarthquakes()).thenReturn(Single.just(Collections.singletonList(testEarthquake)));
+        when(earthquakesRepository.getTodaysEarthquakesFromApi()).thenReturn(Single.just(Collections.singletonList(testEarthquake)));
         when(settingsRepository.getAlertMaxDistance()).thenReturn(TINY_DISTANCE);
         when(settingsRepository.getAlertMinMagnitude()).thenReturn(ZERO_MAGNITUDE);
 
@@ -115,13 +115,13 @@ public class EarthquakesInteractorTest {
 
         testObserver.assertNoErrors();
         testObserver.assertValueCount(1);
-        verify(earthquakesRepository).getNetworkTodaysEarthquakes();
+        verify(earthquakesRepository).getTodaysEarthquakesFromApi();
         testObserver.assertValue(o -> ((EntitiesWrapper<EarthquakeWithDist>) o).getState().equals(EntitiesWrapper.State.EMPTY));
     }
 
     @Test
     public void earthquakeNotReturnedIfItDoesNotPassMinMagnitudeSettings() throws Exception {
-        when(earthquakesRepository.getNetworkTodaysEarthquakes()).thenReturn(Single.just(Collections.singletonList(testEarthquake)));
+        when(earthquakesRepository.getTodaysEarthquakesFromApi()).thenReturn(Single.just(Collections.singletonList(testEarthquake)));
         when(settingsRepository.getAlertMaxDistance()).thenReturn(HUGE_DISTANCE);
         when(settingsRepository.getAlertMinMagnitude()).thenReturn(HIGH_MAGNITUDE);
 
@@ -130,7 +130,7 @@ public class EarthquakesInteractorTest {
 
         testObserver.assertNoErrors();
         testObserver.assertValueCount(1);
-        verify(earthquakesRepository).getNetworkTodaysEarthquakes();
+        verify(earthquakesRepository).getTodaysEarthquakesFromApi();
         testObserver.assertValue(o -> ((EntitiesWrapper<EarthquakeWithDist>) o).getState().equals(EntitiesWrapper.State.EMPTY));
     }
 }

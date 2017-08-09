@@ -1,6 +1,8 @@
 package ru.inno.earthquakes.model.location;
 
 /**
+ * Thrown when we can't get location from a device
+ *
  * @author Artur Badretdinov (Gaket)
  *         06.08.17
  */

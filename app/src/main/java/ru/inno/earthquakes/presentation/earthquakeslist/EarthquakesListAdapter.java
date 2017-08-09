@@ -25,11 +25,16 @@ import ru.inno.earthquakes.presentation.common.Utils;
 public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesListAdapter.EarthquakeViewHolder> {
 
     private List<EarthquakeWithDist> items = new ArrayList<>();
+    private OnEarthquakeClickListener listener;
+
+    public EarthquakesListAdapter(OnEarthquakeClickListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public EarthquakeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_earthqake, parent, false);
-        return new EarthquakeViewHolder(v, parent.getContext());
+        return new EarthquakeViewHolder(v, parent.getContext(), listener);
     }
 
     @Override
@@ -51,6 +56,7 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
 
         public static final double DANGEROUS_LEVEL = 4;
         private Context context;
+        private OnEarthquakeClickListener listener;
 
         private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm", Locale.GERMANY);
 
@@ -59,13 +65,14 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
         private TextView time;
         private TextView dist;
 
-        public EarthquakeViewHolder(View itemView, Context context) {
+        public EarthquakeViewHolder(View itemView, Context context, OnEarthquakeClickListener listener) {
             super(itemView);
             magnitude = (TextView) itemView.findViewById(R.id.earthquake_tv_mag);
             place = (TextView) itemView.findViewById(R.id.earthquake_tv_place);
             time = (TextView) itemView.findViewById(R.id.earthquake_tv_time);
             dist = (TextView) itemView.findViewById(R.id.earthquake_tv_dist);
             this.context = context;
+            this.listener = listener;
         }
 
         public void bind(EarthquakeWithDist model) {
@@ -81,8 +88,11 @@ public class EarthquakesListAdapter extends RecyclerView.Adapter<EarthquakesList
             dist.setText(String.format(Locale.GERMANY, "%s km from you \u2022", formattedDist));
             place.setText(model.getLocation().getName());
             time.setText(dateFormat.format(model.getTime()));
+            itemView.setOnClickListener(v -> listener.onEarthquakeClicked(model));
         }
+    }
 
-
+    public interface OnEarthquakeClickListener {
+        void onEarthquakeClicked(EarthquakeWithDist earthquakeWithDist);
     }
 }

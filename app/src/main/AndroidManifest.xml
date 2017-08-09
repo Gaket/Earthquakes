@@ -31,7 +31,8 @@
         <activity
             android:name=".presentation.settings.SettingsActivity"
             android:label="@string/title_settings"
-            android:parentActivityName=".presentation.alertscreen.AlertActivity" />
+            android:parentActivityName=".presentation.alertscreen.AlertActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.info.InfoActivity"
             android:label="@string/title_info"

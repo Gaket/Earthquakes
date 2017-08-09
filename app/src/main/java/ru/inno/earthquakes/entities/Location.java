@@ -9,6 +9,16 @@ public class Location {
     private String name;
     private Coordinates coords;
 
+    // We could calculate the distance using android.Location class,
+    // and here we just show that Entity may contain some business logic inside
+
+    /**
+     * Calculate distance in meters given two {@link Coordinates}
+     *
+     * @param from
+     * @param to
+     * @return distance in meters
+     */
     static double distance(Coordinates from, Coordinates to) {
         return distFrom(from.getLatitude(), from.getLongtitude(), to.getLatitude(), to.getLongtitude());
     }

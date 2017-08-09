@@ -2,6 +2,7 @@ package ru.inno.earthquakes.presentation.earthquakeslist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
@@ -15,10 +16,15 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
+import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.presentation.common.EmptyRecyclerView;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.SmartDividerItemDecoration;
 
 public class EarthquakesListActivity extends MvpAppCompatActivity
@@ -31,6 +37,13 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     private EmptyRecyclerView recyclerView;
     private EarthquakesListAdapter earthquakesListAdapter;
     private Snackbar snackbar;
+
+    @Inject
+    EarthquakesInteractor earthquakesInteractor;
+    @Inject
+    LocationInteractor locationInteractor;
+    @Inject
+    SchedulersProvider schedulersProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,22 +75,18 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
                 .setMarginProvider((position, parent) -> 56)
                 .build();
         recyclerView.addItemDecoration(itemDecoration);
-        earthquakesListAdapter = new EarthquakesListAdapter();
+        earthquakesListAdapter = new EarthquakesListAdapter(earthquakeWithDist -> presenter.onEarthquakeClick(earthquakeWithDist));
         recyclerView.setAdapter(earthquakesListAdapter);
     }
 
     @ProvidePresenter
     EarthquakesListPresenter providePresenter() {
-        return new EarthquakesListPresenter(EartquakeApp.getComponentsManager().getEarthquakesComponent());
+        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
+        return new EarthquakesListPresenter(earthquakesInteractor, locationInteractor, schedulersProvider);
     }
 
     public static Intent getStartIntent(Context callingContext) {
         return new Intent(callingContext, EarthquakesListActivity.class);
-    }
-
-    @Override
-    public void navigateToEarthquakesList() {
-        throw new UnsupportedOperationException("Will be ready soon");
     }
 
     @Override
@@ -97,8 +106,16 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     }
 
     @Override
+    public void navigateToEarthquakeDetails(EarthquakeWithDist earthquakeWithDist) {
+        Uri webpage = Uri.parse(earthquakeWithDist.getDetailsUrl());
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(this.getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    @Override
     public void showEarthquakes(List<EarthquakeWithDist> earthquakeWithDists) {
         earthquakesListAdapter.setItems(earthquakeWithDists);
     }
-
 }

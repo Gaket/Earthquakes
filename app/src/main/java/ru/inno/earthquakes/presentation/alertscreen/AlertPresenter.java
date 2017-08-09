@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
@@ -12,7 +11,10 @@ import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import timber.log.Timber;
+
+import static ru.inno.earthquakes.model.EntitiesWrapper.State.SUCCESS;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -21,25 +23,29 @@ import timber.log.Timber;
 @InjectViewState
 public class AlertPresenter extends MvpPresenter<AlertView> {
 
+    private final SettingsInteractor settingsInteractor;
     private EarthquakesInteractor earthquakesInteractor;
     private LocationInteractor locationInteractor;
+    private SchedulersProvider schedulersProvider;
     private CompositeDisposable compositeDisposable;
 
     AlertPresenter(EarthquakesInteractor earthquakesInteractor,
                    LocationInteractor locationInteractor,
-                   SettingsInteractor settingsInteractor) {
+                   SettingsInteractor settingsInteractor,
+                   SchedulersProvider schedulersProvider) {
 
         compositeDisposable = new CompositeDisposable();
         this.earthquakesInteractor = earthquakesInteractor;
         this.locationInteractor = locationInteractor;
-        Disposable disposable = settingsInteractor.getSettingsChangeObservable()
-                .subscribe(updated -> onRefreshAction(), Timber::e);
-        compositeDisposable.add(disposable);
+        this.schedulersProvider = schedulersProvider;
+        this.settingsInteractor = settingsInteractor;
     }
 
     @Override
-    protected void onFirstViewAttach() {
-        updateCurrentState();
+    protected void onFirstViewAttach() {updateCurrentState();
+        Disposable disposable = settingsInteractor.getSettingsChangeObservable()
+                .subscribe(updated -> onRefreshAction(), Timber::e);
+        compositeDisposable.add(disposable);
     }
 
     @Override
@@ -62,7 +68,7 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
 
     private void updateCurrentState() {
         Disposable disposable = getEarthquakeAlert()
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulersProvider.ui())
                 .doOnSubscribe(disp -> getViewState().showLoading(true))
                 .doAfterTerminate(() -> getViewState().showLoading(false))
                 .subscribe(this::handleEartquakesAnswer, Timber::e);
@@ -77,7 +83,7 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
     private void handleEarthquakeData(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
         if (earthquakeWithDists.getState() == EntitiesWrapper.State.EMPTY) {
             getViewState().showThereAreNoAlerts();
-        } else if (earthquakeWithDists.getState() == EntitiesWrapper.State.SUCCESS) {
+        } else if (earthquakeWithDists.getState() == SUCCESS) {
             getViewState().showEartquakeAlert(earthquakeWithDists.getData());
         }
     }
@@ -85,6 +91,7 @@ public class AlertPresenter extends MvpPresenter<AlertView> {
     private void handleNetworkStateMessage(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
         if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
             getViewState().showNetworkError(true);
+            getViewState().showThereAreNoAlerts();
         } else {
             getViewState().showNetworkError(false);
         }

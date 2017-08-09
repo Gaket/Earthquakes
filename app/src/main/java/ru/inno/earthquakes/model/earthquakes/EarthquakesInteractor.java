@@ -10,6 +10,8 @@ import io.reactivex.Single;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.entities.Location;
 import ru.inno.earthquakes.model.EntitiesWrapper;
+import ru.inno.earthquakes.model.EntitiesWrapper.State;
+import ru.inno.earthquakes.model.settings.SettingsInteractor;
 import ru.inno.earthquakes.model.settings.SettingsRepository;
 
 /**
@@ -29,39 +31,69 @@ public class EarthquakesInteractor {
         distanceComparator = (a, b) -> Double.compare(a.getDistance(), b.getDistance());
     }
 
+    /**
+     * Get the closest to the given position Earthquake that satisfies program settings
+     * (maximal distance and minimal magnitude, details in {@link SettingsInteractor})
+     *
+     * @param coords of user
+     * @return {@link EntitiesWrapper} with different states (see {@link State})
+     * and the closest {@link EarthquakeWithDist} if it was found
+     */
     public Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert(Location.Coordinates coords) {
         return getApiDataSorted(coords, distanceComparator)
-                .map(EntitiesWrapper::getData)
                 .flattenAsObservable(earthquakeWithDists -> earthquakeWithDists)
                 .filter(earthquakeWithDist -> earthquakeWithDist.getDistance() < settingsRepository.getAlertMaxDistance())
                 .filter(earthquakeWithDist -> earthquakeWithDist.getMagnitude() >= settingsRepository.getAlertMinMagnitude())
                 .toList()
                 .map(earthquakeWithDists -> earthquakeWithDists.isEmpty() ?
-                        new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY, null) :
-                        new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.SUCCESS, earthquakeWithDists.get(0)))
-                .onErrorReturnItem(new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.ERROR_NETWORK, null));
+                        new EntitiesWrapper<EarthquakeWithDist>(State.EMPTY, null) :
+                        new EntitiesWrapper<EarthquakeWithDist>(State.SUCCESS, earthquakeWithDists.get(0)))
+                .onErrorReturnItem(new EntitiesWrapper<EarthquakeWithDist>(State.ERROR_NETWORK, null));
     }
 
+    /**
+     * Get all earthquakes sorted by location
+     *
+     * @param coords of user
+     * @return {@link Observable} that first emits cached data, then - actual data
+     * if it is successfully downloaded or an {@link EntitiesWrapper} with an error state otherwise.
+     */
     public Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getTodaysEartquakesSortedByLocation(Location.Coordinates coords) {
-        return getCachedDataSorted(EntitiesWrapper.State.LOADING, coords, distanceComparator)
+        return getCachedDataSorted(coords, distanceComparator)
+                .map(earthquakeWithDists -> new EntitiesWrapper<>(State.LOADING, earthquakeWithDists))
                 .concatWith(getApiDataSorted(coords, distanceComparator)
-                        .onErrorReturnItem(new EntitiesWrapper<>(EntitiesWrapper.State.ERROR_NETWORK, null)))
+                        .map(earthquakeWithDists -> new EntitiesWrapper<>(State.SUCCESS, earthquakeWithDists))
+                        .onErrorReturnItem(new EntitiesWrapper<>(State.ERROR_NETWORK, null)))
                 .toObservable();
     }
 
-    private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getApiDataSorted(Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
-        return earthquakesRepository.getNetworkTodaysEarthquakes()
+    /**
+     * Download earthquakes list from server, calculate distance to the given location,
+     * and return list of {@link EarthquakeWithDist} sorted by distance
+     *
+     * @param coords
+     * @param distanceComparator
+     * @return
+     */
+    private Single<List<EarthquakeWithDist>> getApiDataSorted(Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
+        return earthquakesRepository.getTodaysEarthquakesFromApi()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
-                .toSortedList(distanceComparator)
-                .map(earthquakeWithDists -> new EntitiesWrapper<>(EntitiesWrapper.State.SUCCESS, earthquakeWithDists));
+                .toSortedList(distanceComparator);
     }
 
-    private Single<EntitiesWrapper<List<EarthquakeWithDist>>> getCachedDataSorted(EntitiesWrapper.State state, Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
+    /**
+     * Read earthquakes from cache, calculate distance to the given location,
+     * and return list of {@link EarthquakeWithDist} sorted by distance
+     *
+     * @param coords
+     * @param distanceComparator
+     * @return
+     */
+    private Single<List<EarthquakeWithDist>> getCachedDataSorted(Location.Coordinates coords, Comparator<EarthquakeWithDist> distanceComparator) {
         return earthquakesRepository.getCachedTodaysEarthquakes()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
-                .toSortedList(distanceComparator)
-                .map(earthquakeWithDists -> new EntitiesWrapper<>(state, earthquakeWithDists));
+                .toSortedList(distanceComparator);
     }
 }
