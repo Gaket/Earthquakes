@@ -3,6 +3,7 @@ package ru.inno.earthquakes.presentation.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -94,7 +95,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_info:
                 presenter.onInfoAction();

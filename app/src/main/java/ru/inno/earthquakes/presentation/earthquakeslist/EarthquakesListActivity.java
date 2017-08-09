@@ -32,18 +32,23 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
 
     @InjectPresenter
     EarthquakesListPresenter presenter;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private EmptyRecyclerView recyclerView;
-    private EarthquakesListAdapter earthquakesListAdapter;
-    private Snackbar snackbar;
-
     @Inject
     EarthquakesInteractor earthquakesInteractor;
     @Inject
     LocationInteractor locationInteractor;
     @Inject
     SchedulersProvider schedulersProvider;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private EmptyRecyclerView recyclerView;
+    private EarthquakesListAdapter earthquakesListAdapter;
+    private Snackbar snackbar;
+
+    @ProvidePresenter
+    EarthquakesListPresenter providePresenter() {
+        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
+        return new EarthquakesListPresenter(earthquakesInteractor, locationInteractor, schedulersProvider);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,6 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
         initRecyclerView();
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -79,11 +83,6 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
         recyclerView.setAdapter(earthquakesListAdapter);
     }
 
-    @ProvidePresenter
-    EarthquakesListPresenter providePresenter() {
-        EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
-        return new EarthquakesListPresenter(earthquakesInteractor, locationInteractor, schedulersProvider);
-    }
 
     public static Intent getStartIntent(Context callingContext) {
         return new Intent(callingContext, EarthquakesListActivity.class);

@@ -2,6 +2,7 @@ package ru.inno.earthquakes.presentation.alertscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -37,6 +38,9 @@ import ru.inno.earthquakes.presentation.settings.SettingsActivity;
  */
 public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
+    // Here, and in other controllers, controller works as a root for some model components
+    // dependency tree. As a result, we inject them here and deeper all injections are made
+    // through the constructors.
     @InjectPresenter
     AlertPresenter presenter;
     @Inject
@@ -84,7 +88,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 presenter.onOpenSettings();
@@ -131,7 +135,6 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     public void showLoading(boolean show) {
         swipeRefreshLayout.setRefreshing(show);
     }
-
 
     @Override
     public void navigateToEarthquakesList() {
