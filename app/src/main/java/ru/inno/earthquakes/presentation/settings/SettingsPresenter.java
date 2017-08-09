@@ -1,11 +1,9 @@
 package ru.inno.earthquakes.presentation.settings;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-
-import javax.inject.Inject;
 
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.presentation.common.BasePresenter;
 import ru.inno.earthquakes.presentation.common.Utils;
 
 /**
@@ -13,12 +11,11 @@ import ru.inno.earthquakes.presentation.common.Utils;
  *         05.08.17
  */
 @InjectViewState
-public class SettingsPresenter extends MvpPresenter<SettingsView> {
+public class SettingsPresenter extends BasePresenter<SettingsView> {
 
-    @Inject
-    SettingsInteractor interactor;
+    private SettingsInteractor interactor;
 
-    public SettingsPresenter(SettingsInteractor settingsInteractor) {
+    SettingsPresenter(SettingsInteractor settingsInteractor) {
         this.interactor = settingsInteractor;
     }
 
@@ -29,6 +26,12 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
         getViewState().setMinMagnitude(interactor.getAlertMinMagnitude());
     }
 
+    /**
+     * Save user input
+     *
+     * @param km
+     * @param magnitude
+     */
     void onSave(String km, double magnitude) {
         if (km.isEmpty() || !Utils.isDigitsOnly(km)) {
             getViewState().showDistanceFormatError();
@@ -39,7 +42,7 @@ public class SettingsPresenter extends MvpPresenter<SettingsView> {
         getViewState().close();
     }
 
-    public void onInfoAction() {
+    void onInfoAction() {
         getViewState().navigateToInfo();
     }
 }

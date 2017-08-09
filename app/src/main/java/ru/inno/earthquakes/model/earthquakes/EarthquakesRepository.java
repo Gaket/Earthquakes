@@ -2,8 +2,6 @@ package ru.inno.earthquakes.model.earthquakes;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Single;
 import ru.inno.earthquakes.entities.Earthquake;
 import ru.inno.earthquakes.model.mappers.EarthquakesMapper;
@@ -20,7 +18,6 @@ public class EarthquakesRepository {
     private EarthquakesMapper earthquakesMapper;
     private EarthquakesCache earthquakesCache;
 
-    @Inject
     public EarthquakesRepository(EarthquakesApiService apiService, EarthquakesMapper earthquakesMapper, EarthquakesCache earthquakesCache) {
         this.apiService = apiService;
         this.earthquakesMapper = earthquakesMapper;

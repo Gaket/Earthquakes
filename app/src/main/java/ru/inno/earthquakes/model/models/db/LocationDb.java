@@ -20,7 +20,7 @@ public class LocationDb {
 
     private String name;
     @Relation
-    CoordinatesDb coords;
+    private CoordinatesDb coords;
 
     /** Used to resolve relations */
     @Internal

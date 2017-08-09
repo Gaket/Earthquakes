@@ -1,8 +1,6 @@
 package ru.inno.earthquakes.model.settings;
 
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -15,7 +13,6 @@ public class SettingsInteractor {
     private SettingsRepository repository;
     private PublishSubject<Boolean> dataUpdated;
 
-    @Inject
     public SettingsInteractor(SettingsRepository repository) {
         this.repository = repository;
         dataUpdated = PublishSubject.create();

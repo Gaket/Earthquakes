@@ -1,7 +1,5 @@
 package ru.inno.earthquakes.model.location;
 
-import javax.inject.Inject;
-
 import io.reactivex.Single;
 import ru.inno.earthquakes.entities.Location.Coordinates;
 import ru.inno.earthquakes.model.permissions.PermissionsRepository;
@@ -17,7 +15,6 @@ public class LocationInteractor {
     private LocationRepository repository;
     private PermissionsRepository permissionsRepository;
 
-    @Inject
     public LocationInteractor(LocationRepository repository, PermissionsRepository permissionsRepository) {
         this.repository = repository;
         this.permissionsRepository = permissionsRepository;

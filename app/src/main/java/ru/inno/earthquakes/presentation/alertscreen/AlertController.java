@@ -128,7 +128,7 @@ public class AlertController extends BaseController implements AlertView {
         messageView.setText(R.string.alert_msg_earhquake_nearby);
         detailsView.setText(earthquake.getEarthquake().getTitle());
         distanceView.setText(String.format("\u2248 %s km from you", Utils.formatDistanceString(earthquake.getDistance())));
-        String magnitude = String.format(Locale.GERMANY, "%.2f", earthquake.getEarthquake().getMagnitude());
+        String magnitude = String.format(Locale.getDefault(), "%.2f", earthquake.getEarthquake().getMagnitude());
         magnitudeView.setText(magnitude);
         distanceView.setVisibility(View.VISIBLE);
         magnitudeView.setVisibility(View.VISIBLE);

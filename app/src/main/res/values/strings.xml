@@ -22,4 +22,5 @@
     <string name="error_prohibited_location_access">We show data relatively to the default location, because you prohibited access to location</string>
     <string name="error_no_data">We show data relatively to the default location, because we can\'t get your current position</string>
     <string name="alert_details_no_earthquakes">It means that either it is safe around you or you set too strict filter rules (you can change them in Settings)</string>
+    <string name="earthquake_row_distance">%s km from you •</string>
 </resources>

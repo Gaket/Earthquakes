@@ -10,6 +10,8 @@ import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.presentation.common.controller.BaseController;
 
 /**
+ * Controller that shows that we do not always have to work with presenters and interactors :)
+ *
  * @author Artur Badretdinov (Gaket)
  *         08.08.17
  */

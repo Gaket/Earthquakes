@@ -78,7 +78,7 @@ public class SettingsController extends BaseController implements SettingsView {
 
     @Override
     public void setMaxDistance(Double dist) {
-        distanceView.setText(String.format(Locale.GERMANY, "%.0f", dist));
+        distanceView.setText(String.format(Locale.getDefault(), "%.0f", dist));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class SettingsController extends BaseController implements SettingsView {
                 presenter.onInfoAction();
                 return true;
             case android.R.id.home:
-//                onBackPressed();
+                getRouter().popCurrentController();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -119,7 +119,7 @@ public class SettingsController extends BaseController implements SettingsView {
         magnitudeView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                magnitudeValueView.setText(String.format(Locale.GERMANY, "%.1f", progress / 10.0));
+                magnitudeValueView.setText(String.format(Locale.getDefault(), "%.1f", progress / 10.0));
             }
 
             @Override
@@ -167,5 +167,4 @@ public class SettingsController extends BaseController implements SettingsView {
         InputMethodManager imm = (InputMethodManager) distanceView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(distanceView.getWindowToken(), 0);
     }
-
 }

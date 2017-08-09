@@ -22,7 +22,7 @@ import ru.inno.earthquakes.model.models.network.EarthquakeNetwork;
 @Mapper
 public abstract class EarthquakesMapper {
 
-    public abstract Earthquake earthquakeToEntity(EarthquakeDb car);
+    public abstract Earthquake earthquakeToEntity(EarthquakeDb earthquakeDb);
 
     public abstract EarthquakeDb entityToDb(Earthquake earthquakes);
 
@@ -58,5 +58,5 @@ public abstract class EarthquakesMapper {
             @Mapping(source = "properties.place", target = "location.name"),
             @Mapping(source = "geometry.coordinates", target = "location.coords")
     })
-    public abstract Earthquake earthquakeDataToEntity(EarthquakeNetwork car);
+    public abstract Earthquake earthquakeDataToEntity(EarthquakeNetwork earthquakeNetwork);
 }

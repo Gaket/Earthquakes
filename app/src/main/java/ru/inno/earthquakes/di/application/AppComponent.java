@@ -5,8 +5,6 @@ import javax.inject.Singleton;
 import dagger.Component;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesModule;
-import ru.inno.earthquakes.di.settings.SettingsComponent;
-import ru.inno.earthquakes.di.settings.SettingsModule;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -17,7 +15,4 @@ import ru.inno.earthquakes.di.settings.SettingsModule;
 public interface AppComponent {
 
     EarthquakesComponent plusEarthquakesComponent(EarthquakesModule module);
-
-    SettingsComponent plusSettingsComponent();
-
 }

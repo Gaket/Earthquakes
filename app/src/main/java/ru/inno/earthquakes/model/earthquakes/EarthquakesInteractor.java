@@ -3,8 +3,6 @@ package ru.inno.earthquakes.model.earthquakes;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
@@ -24,7 +22,6 @@ public class EarthquakesInteractor {
     private SettingsRepository settingsRepository;
     private Comparator<EarthquakeWithDist> distanceComparator;
 
-    @Inject
     public EarthquakesInteractor(EarthquakesRepository earthquakesRepository, SettingsRepository settingsRepository) {
         this.earthquakesRepository = earthquakesRepository;
         this.settingsRepository = settingsRepository;
