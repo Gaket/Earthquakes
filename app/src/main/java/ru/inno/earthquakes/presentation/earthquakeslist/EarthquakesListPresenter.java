@@ -70,4 +70,8 @@ public class EarthquakesListPresenter extends MvpPresenter<EarthquakesListView> 
     void onRefreshAction() {
         getEarthquakesList();
     }
+
+    public void onEarthquakeClick(EarthquakeWithDist earthquakeWithDist) {
+        getViewState().navigateToEarthquakeDetails(earthquakeWithDist);
+    }
 }

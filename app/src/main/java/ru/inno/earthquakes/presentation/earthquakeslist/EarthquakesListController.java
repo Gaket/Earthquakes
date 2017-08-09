@@ -1,5 +1,7 @@
 package ru.inno.earthquakes.presentation.earthquakeslist;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
@@ -23,10 +25,10 @@ import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.location.LocationInteractor;
-import ru.inno.earthquakes.presentation.common.controller.BaseController;
 import ru.inno.earthquakes.presentation.common.EmptyRecyclerView;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.SmartDividerItemDecoration;
+import ru.inno.earthquakes.presentation.common.controller.BaseController;
 
 public class EarthquakesListController extends BaseController
         implements EarthquakesListView {
@@ -85,7 +87,7 @@ public class EarthquakesListController extends BaseController
                 .setMarginProvider((position, parent) -> 56)
                 .build();
         earthquakesView.addItemDecoration(itemDecoration);
-        earthquakesListAdapter = new EarthquakesListAdapter();
+        earthquakesListAdapter = new EarthquakesListAdapter(earthquakeWithDist -> presenter.onEarthquakeClick(earthquakeWithDist));
         earthquakesView.setAdapter(earthquakesListAdapter);
     }
 
@@ -105,6 +107,16 @@ public class EarthquakesListController extends BaseController
     @Override
     public void showLoading(boolean show) {
         swipeRefreshLayout.setRefreshing(show);
+    }
+
+    @Override
+    public void navigateToEarthquakeDetails(EarthquakeWithDist earthquakeWithDist) {
+        Uri webpage = Uri.parse(earthquakeWithDist.getDetailsUrl());
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (getActivity() != null
+                && intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     @Override
