@@ -24,6 +24,7 @@ public class EarthquakesListPresenter extends BasePresenter<EarthquakesListView>
     private EarthquakesInteractor earthquakesInteractor;
     private LocationInteractor locationInteractor;
     private SchedulersProvider schedulersProvider;
+    private boolean isAlreadyUpdating;
 
     EarthquakesListPresenter(EarthquakesInteractor earthquakesInteractor, LocationInteractor locationInteractor, SchedulersProvider schedulersProvider) {
         super();
@@ -42,10 +43,17 @@ public class EarthquakesListPresenter extends BasePresenter<EarthquakesListView>
      * Download earthquakes and inform user about problems, if they were encountered
      */
     private void getEarthquakesList() {
-        Disposable disposable = getSortedEartquakesObservable()
+        if (isAlreadyUpdating) {
+            return;
+        }
+        isAlreadyUpdating = true;
+        Disposable disposable = getSortedEarthquakesObservable()
                 .observeOn(schedulersProvider.ui())
                 .doOnSubscribe((s) -> getViewState().showLoading(true))
-                .doAfterTerminate(() -> getViewState().showLoading(false))
+                .doAfterTerminate(() -> {
+                    getViewState().showLoading(false);
+                    isAlreadyUpdating = false;
+                })
                 .subscribe(earthquakeWithDists -> {
                     if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
                         getViewState().showNetworkError(true);
@@ -57,7 +65,7 @@ public class EarthquakesListPresenter extends BasePresenter<EarthquakesListView>
         unsubscribeOnDestroy(disposable);
     }
 
-    private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEartquakesObservable() {
+    private Observable<EntitiesWrapper<List<EarthquakeWithDist>>> getSortedEarthquakesObservable() {
         return locationInteractor.getCurrentCoordinates()
                 .flatMapObservable(locationAnswer -> earthquakesInteractor.getTodaysEartquakesSortedByLocation(locationAnswer.getCoordinates()));
     }
