@@ -1,13 +1,24 @@
 package ru.inno.earthquakes.entities;
 
+import android.support.annotation.Nullable;
+
 /**
  * @author Artur Badretdinov (Gaket)
  *         20.07.17.
  */
 public class Location {
 
+    @Nullable
     private String name;
     private Coordinates coords;
+
+    public Location() {
+    }
+
+    public Location(@Nullable String name, Coordinates coords) {
+        this.name = name;
+        this.coords = coords;
+    }
 
     // We could calculate the distance using android.Location class,
     // and here we just show that Entity may contain some business logic inside

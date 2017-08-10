@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -49,6 +50,8 @@ public class SettingsController extends BaseController implements SettingsView {
     SeekBar magnitudeView;
     @BindView(R.id.settings_magnitude_value)
     TextView magnitudeValueView;
+    @BindView(R.id.settings_default_city)
+    TextView defaultCityView;
 
     @ProvidePresenter
     SettingsPresenter providePresenter() {
@@ -97,6 +100,16 @@ public class SettingsController extends BaseController implements SettingsView {
     @Override
     public void setMinMagnitude(Double mag) {
         magnitudeView.setProgress((int) (mag * 10));
+    }
+
+    @Override
+    public void setDefaultCity(String name) {
+        defaultCityView.setText(name);
+    }
+
+    @Override
+    public void showNotImplementedError() {
+        Toast.makeText(getActivity(), R.string.error_not_implemented, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -149,6 +162,11 @@ public class SettingsController extends BaseController implements SettingsView {
     @OnClick(R.id.settings_bt_save)
     void onSaveSettings() {
         saveSettings();
+    }
+
+    @OnClick(R.id.settings_default_city)
+    void onChangeDefaultCity(){
+        presenter.onChangeDefaultCity();
     }
 
     private void saveSettings() {

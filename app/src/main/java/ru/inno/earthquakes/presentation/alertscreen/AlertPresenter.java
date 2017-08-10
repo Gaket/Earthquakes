@@ -38,10 +38,20 @@ public class AlertPresenter extends BasePresenter<AlertView> {
     }
 
     @Override
-    protected void onFirstViewAttach() {updateCurrentState();
+    protected void onFirstViewAttach() {
+        updateCurrentState();
+
+        // Subscribe to settings updates
         Disposable disposable = settingsInteractor.getSettingsChangeObservable()
                 .subscribe(updated -> onRefreshAction(), Timber::e);
         unsubscribeOnDestroy(disposable);
+
+        // Show a message for users if they don't have Google Api Services needed for program
+        Disposable googleDisposable = locationInteractor.checkLocationServicesAvailability()
+                .filter(available -> !available)
+                .flatMap(available -> locationInteractor.getLocationServicesStatus().toMaybe())
+                .subscribe(status -> getViewState().showGoogleApiMessage(status), Timber::e);
+        unsubscribeOnDestroy(googleDisposable);
     }
 
     void onRefreshAction() {
@@ -77,7 +87,7 @@ public class AlertPresenter extends BasePresenter<AlertView> {
         if (earthquakeWithDists.getState() == EntitiesWrapper.State.EMPTY) {
             getViewState().showThereAreNoAlerts();
         } else if (earthquakeWithDists.getState() == EntitiesWrapper.State.SUCCESS) {
-            getViewState().showEartquakeAlert(earthquakeWithDists.getData());
+            getViewState().showEarthquakeAlert(earthquakeWithDists.getData());
         }
     }
 
@@ -92,8 +102,6 @@ public class AlertPresenter extends BasePresenter<AlertView> {
 
     /**
      * Get earthquake alert and show user if there are any problems
-     *
-     * @return
      */
     private Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert() {
         return locationInteractor.getCurrentCoordinates()

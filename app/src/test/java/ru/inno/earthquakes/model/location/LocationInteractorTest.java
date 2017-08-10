@@ -10,8 +10,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 import ru.inno.earthquakes.entities.Location;
 import ru.inno.earthquakes.model.permissions.PermissionsRepository;
+import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
+
+import static org.mockito.Mockito.when;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -21,21 +26,25 @@ import ru.inno.earthquakes.model.permissions.PermissionsRepository;
 public class LocationInteractorTest {
 
     private LocationInteractor locationInteractor;
-    private Location.Coordinates defaultCoordinates;
     private RuntimeException testError;
 
     @Mock
     LocationRepository locationRepository;
     @Mock
     PermissionsRepository permissionsRepository;
+    @Mock
+    SettingsRepository settingsRepository;
+    @Mock
+    SchedulersProvider schedulersProvider;
 
     private Location.Coordinates testCoordinates = new Location.Coordinates(15, 22.5);
 
     @Before
     public void setUp() throws Exception {
-        locationInteractor = new LocationInteractor(locationRepository, permissionsRepository);
-        defaultCoordinates = new Location.Coordinates(55.755826, 37.6173);
+        locationInteractor = new LocationInteractor(locationRepository, permissionsRepository, settingsRepository, schedulersProvider);
         testError = new RuntimeException("Test error");
+        when(settingsRepository.getDefaultLocation()).thenReturn(new Location());
+        when(schedulersProvider.io()).thenReturn(Schedulers.trampoline());
     }
 
     @Test
@@ -46,9 +55,9 @@ public class LocationInteractorTest {
 
     @Test
     public void correctLocationReturnedIfPermissionIsGiven() throws Exception {
-        Mockito.when(permissionsRepository.requestLocationPermissions())
+        when(permissionsRepository.requestLocationPermissions())
                 .thenReturn(Observable.just(true));
-        Mockito.when(locationRepository.getCurrentCoordinates())
+        when(locationRepository.getCurrentCoordinates())
                 .thenReturn(Single.just(testCoordinates));
 
         TestObserver<LocationInteractor.LocationAnswer> testObserver = locationInteractor.getCurrentCoordinates().test();
@@ -61,7 +70,7 @@ public class LocationInteractorTest {
 
     @Test
     public void defaultLocationReturnedIfPermissionIsNotGiven() throws Exception {
-        Mockito.when(permissionsRepository.requestLocationPermissions())
+        when(permissionsRepository.requestLocationPermissions())
                 .thenReturn(Observable.just(false));
 
         TestObserver<LocationInteractor.LocationAnswer> testObserver = locationInteractor.getCurrentCoordinates().test();
@@ -74,9 +83,9 @@ public class LocationInteractorTest {
 
     @Test
     public void defaultLocationReturnedIfThereAreNoPreviousLocationsInDevice() throws Exception {
-        Mockito.when(permissionsRepository.requestLocationPermissions())
+        when(permissionsRepository.requestLocationPermissions())
                 .thenReturn(Observable.just(true));
-        Mockito.when(locationRepository.getCurrentCoordinates())
+        when(locationRepository.getCurrentCoordinates())
                 .thenReturn(Single.error(testError));
 
         TestObserver<LocationInteractor.LocationAnswer> testObserver = locationInteractor.getCurrentCoordinates().test();

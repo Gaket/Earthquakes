@@ -16,6 +16,11 @@ public interface SettingsView extends MvpView {
 
     void setMinMagnitude(Double mag);
 
+    void setDefaultCity(String name);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showNotImplementedError();
+
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToInfo();
 
@@ -24,4 +29,5 @@ public interface SettingsView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showDistanceFormatError();
+
 }

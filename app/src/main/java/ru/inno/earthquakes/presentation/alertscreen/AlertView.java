@@ -16,11 +16,12 @@ public interface AlertView extends MvpView{
 
     void showThereAreNoAlerts();
 
-    void showEartquakeAlert(EarthquakeWithDist earthquake);
-
-    void showNetworkError(boolean show);
+    void showEarthquakeAlert(EarthquakeWithDist earthquake);
 
     void showLoading(boolean show);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showNetworkError(boolean show);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showPermissionDeniedAlert();
@@ -33,4 +34,7 @@ public interface AlertView extends MvpView{
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToSettings();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showGoogleApiMessage(int status);
 }

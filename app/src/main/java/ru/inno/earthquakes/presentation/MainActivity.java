@@ -1,7 +1,5 @@
 package ru.inno.earthquakes.presentation;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
@@ -17,10 +15,6 @@ import ru.inno.earthquakes.presentation.common.ActionBarProvider;
 public class MainActivity extends MvpAppCompatActivity implements ActionBarProvider {
 
     private Router router;
-
-    public static Intent getStartIntent(Context callingContext) {
-        return new Intent(callingContext, MainActivity.class);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

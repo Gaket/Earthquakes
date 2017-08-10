@@ -24,6 +24,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         super.onFirstViewAttach();
         getViewState().setMaxDistance(interactor.getAlertMaxDistance());
         getViewState().setMinMagnitude(interactor.getAlertMinMagnitude());
+        getViewState().setDefaultCity(interactor.getDefaultLocation().getName());
     }
 
     /**
@@ -44,5 +45,9 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
 
     void onInfoAction() {
         getViewState().navigateToInfo();
+    }
+
+    public void onChangeDefaultCity() {
+        getViewState().showNotImplementedError();
     }
 }

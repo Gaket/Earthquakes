@@ -3,6 +3,7 @@ package ru.inno.earthquakes.di.application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Singleton;
@@ -55,5 +56,11 @@ public class AppModule {
     @Singleton
     SchedulersProvider provideSchedulersProvider() {
         return new SchedulersProvider();
+    }
+
+    @Provides
+    @Singleton
+    GoogleApiAvailability provideGoogleApiAvailability() {
+        return GoogleApiAvailability.getInstance();
     }
 }

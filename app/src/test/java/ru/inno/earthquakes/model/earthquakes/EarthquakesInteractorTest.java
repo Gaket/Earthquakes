@@ -12,11 +12,13 @@ import java.util.Collections;
 
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 import ru.inno.earthquakes.entities.Earthquake;
 import ru.inno.earthquakes.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.entities.Location;
 import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,10 +44,13 @@ public class EarthquakesInteractorTest {
     EarthquakesRepository earthquakesRepository;
     @Mock
     SettingsRepository settingsRepository;
+    @Mock
+    SchedulersProvider schedulersProvider;
 
     @Before
     public void setUp() throws Exception {
-        interactor = new EarthquakesInteractor(earthquakesRepository, settingsRepository);
+        interactor = new EarthquakesInteractor(earthquakesRepository, settingsRepository, schedulersProvider);
+        when(schedulersProvider.io()).thenReturn(Schedulers.trampoline());
         testCoords = new Location.Coordinates(0, 0);
         testError = new RuntimeException("Test error");
         testEarthquake = new Earthquake();
@@ -108,7 +113,6 @@ public class EarthquakesInteractorTest {
     public void earthquakeNotReturnedIfItDoesNotPassMaxDistanceSettings() throws Exception {
         when(earthquakesRepository.getTodaysEarthquakesFromApi()).thenReturn(Single.just(Collections.singletonList(testEarthquake)));
         when(settingsRepository.getAlertMaxDistance()).thenReturn(TINY_DISTANCE);
-        when(settingsRepository.getAlertMinMagnitude()).thenReturn(ZERO_MAGNITUDE);
 
         TestObserver testObserver = interactor.getEarthquakeAlert(testCoords).test();
         testObserver.awaitTerminalEvent();

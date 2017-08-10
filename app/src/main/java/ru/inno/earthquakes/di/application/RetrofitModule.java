@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -28,6 +29,7 @@ import timber.log.Timber;
 class RetrofitModule {
 
     private static final String BASE_URL = "https://earthquake.usgs.gov/";
+    public static final int TIMEOUT = 20;
 
     @Provides
     @Singleton
@@ -44,11 +46,13 @@ class RetrofitModule {
     @Singleton
     OkHttpClient provideOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.v(message));
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-        builder.addInterceptor(loggingInterceptor);
+        builder.addInterceptor(loggingInterceptor)
+                .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(TIMEOUT, TimeUnit.SECONDS);
         return builder.build();
     }
 

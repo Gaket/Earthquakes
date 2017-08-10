@@ -20,6 +20,7 @@ import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.Locale;
 
@@ -58,6 +59,9 @@ public class AlertController extends BaseController implements AlertView {
     SettingsInteractor settingsInteractor;
     @Inject
     SchedulersProvider schedulersProvider;
+    @Inject
+    GoogleApiAvailability googleApiAvailability;
+
 
     @BindView(R.id.alert_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -124,17 +128,17 @@ public class AlertController extends BaseController implements AlertView {
     public void showThereAreNoAlerts() {
         messageView.setText(R.string.alert_msg_everything_is_ok);
         alertImageView.setImageResource(R.drawable.earth_normal);
-        detailsView.setText(R.string.alert_details_no_earthquakes);
         distanceView.setVisibility(View.GONE);
         magnitudeView.setVisibility(View.GONE);
+        detailsView.setText(R.string.alert_details_no_earthquakes);
     }
 
     @Override
-    public void showEartquakeAlert(EarthquakeWithDist earthquake) {
+    public void showEarthquakeAlert(EarthquakeWithDist earthquake) {
         alertImageView.setImageResource(R.drawable.earth_alarm);
-        messageView.setText(R.string.alert_msg_earhquake_nearby);
+        messageView.setText(R.string.alert_msg_earthquake_nearby);
         detailsView.setText(earthquake.getEarthquake().getTitle());
-        distanceView.setText(String.format("\u2248 %s km from you", Utils.formatDistanceString(earthquake.getDistance())));
+        distanceView.setText(getResources().getString(R.string.alert_distance_from_place, Utils.formatDistanceString(earthquake.getDistance())));
         String magnitude = String.format(Locale.getDefault(), "%.2f", earthquake.getEarthquake().getMagnitude());
         magnitudeView.setText(magnitude);
         distanceView.setVisibility(View.VISIBLE);
@@ -189,5 +193,14 @@ public class AlertController extends BaseController implements AlertView {
     @Override
     public void showNoDataAlert() {
         Toast.makeText(getActivity(), R.string.error_no_data, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showGoogleApiMessage(int status) {
+        if (googleApiAvailability.isUserResolvableError(status)) {
+            googleApiAvailability.getErrorDialog(getActivity(), status, 1).show();
+        } else {
+            Snackbar.make(swipeRefreshLayout, R.string.error_google_api_unavailable, Snackbar.LENGTH_INDEFINITE).show();
+        }
     }
 }
