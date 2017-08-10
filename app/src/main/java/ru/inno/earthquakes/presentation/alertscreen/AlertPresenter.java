@@ -50,6 +50,7 @@ public class AlertPresenter extends BasePresenter<AlertView> {
         Disposable googleDisposable = locationInteractor.checkLocationServicesAvailability()
                 .filter(available -> !available)
                 .flatMap(available -> locationInteractor.getLocationServicesStatus().toMaybe())
+                .observeOn(schedulersProvider.ui())
                 .subscribe(status -> getViewState().showGoogleApiMessage(status), Timber::e);
         unsubscribeOnDestroy(googleDisposable);
     }

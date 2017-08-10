@@ -57,7 +57,7 @@ public class SettingsRepository {
 
     /**
      * Get default location to use if there are problems getting user's actual location
-     *
+     *Å
      * @return default location
      */
     public Location getDefaultLocation() {
@@ -77,6 +77,8 @@ public class SettingsRepository {
      * Convenient method to read double without losing precision while converting to float
      */
     private double getDoubleFromLongFromPrefs(String key) {
+        if ( !sharedPreferences.contains(key))
+            return 0;
         return Double.longBitsToDouble(sharedPreferences.getLong(key, 0));
     }
 
