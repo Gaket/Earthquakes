@@ -12,6 +12,15 @@ public class Location {
     // We could calculate the distance using android.Location class,
     // and here we just show that Entity may contain some business logic inside
 
+
+    public Location() {
+    }
+
+    public Location(String name, Coordinates coords) {
+        this.name = name;
+        this.coords = coords;
+    }
+
     /**
      * Calculate distance in meters given two {@link Coordinates}
      *
