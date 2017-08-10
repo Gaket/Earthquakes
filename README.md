@@ -28,3 +28,22 @@ To show some of the nowadays Android developer toolkits and facilitate the devel
 8. [LeakCanary](https://github.com/square/leakcanary) watches for memory leaks.
 9. (Branch `conductor`) [Conductor](https://github.com/bluelinelabs/Conductor) provides a more convenient way to create Android View-based applications.
 10. (Branch `conductor`) [ButterKnife]() tries to reduce the boilerplate needed to inflate views.
+
+## Testing
+
+There are some example tests of Interactors and Presenters that show how we can create local tests without instrumentation. These tests cover the most complex logic in the app.
+
+## Notes
+
+In the example, we have two Dagger components regardless the fact that actually, their lifecycle in the application is the same. This was made for a demo purpose.
+
+## Next steps
+
+There are next features that may be made to do these example even more complete as a Clean Architecture example.
+
+1. Make logic of GPS permissions more complex and suggest user open Settings screen if there are problems with them.
+2. Add possibility to manually change the default location.
+3. Add Android Service or BroadcastListener that will check if there are new earthquakes alerts.
+4. In addition to 3, push a system notification about it.
+5. Show earthquakes on Google Map.
+6. Add filtering to the "All earthquakes" screen.
