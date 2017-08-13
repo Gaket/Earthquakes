@@ -48,6 +48,7 @@ public class AlertPresenterTest {
         when(settingsInteractor.getSettingsChangeObservable()).thenReturn(Observable.empty());
         when(locationInteractor.getCurrentCoordinates()).thenReturn(
                 Single.just(new LocationInteractor.LocationAnswer(testCoords, LocationInteractor.State.SUCCESS)));
+        when(locationInteractor.checkLocationServicesAvailability()).thenReturn(Single.just(true));
         when(earthquakesInteractor.getEarthquakeAlert(testCoords)).thenReturn(Single.just(new EntitiesWrapper<>(EntitiesWrapper.State.SUCCESS, new EarthquakeWithDist())));
         when(schedulersProvider.ui()).thenReturn(Schedulers.trampoline());
         alertPresenter = new AlertPresenter(earthquakesInteractor, locationInteractor, settingsInteractor, schedulersProvider);
@@ -68,7 +69,7 @@ public class AlertPresenterTest {
         verify(alertView).showLoading(true);
         verify(alertView).showLoading(false);
         verify(alertView).showNetworkError(false);
-        verify(alertView).showEartquakeAlert(any());
+        verify(alertView).showEarthquakeAlert(any());
     }
 
     @Test

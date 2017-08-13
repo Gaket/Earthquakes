@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Earthquakes</string>
-    <string name="alert_msg_everything_is_ok">There are no earthquakes near you.</string>
-    <string name="alert_msg_earhquake_nearby">Attention! An earthquake found.\nThe nearest to you is:</string>
+    <string name="alert_msg_everything_is_ok">There are no earthquakes near your position.</string>
+    <string name="alert_msg_earthquake_nearby">Attention! An earthquake found.\nThe nearest to your position is:</string>
     <string name="alert_show_all_earthquakes">Show all earthquakes</string>
     <string name="error_connection">Connection problems, only cached data is shown. Check the connection or try again later.</string>
     <string name="action_ok">OK</string>
@@ -21,6 +21,10 @@
     <string name="title_alert">Earthquakes alert</string>
     <string name="error_prohibited_location_access">We show data relatively to the default location, because you prohibited access to location</string>
     <string name="error_no_data">We show data relatively to the default location, because we can\'t get your current position</string>
-    <string name="alert_details_no_earthquakes">It means that either it is safe around you or you set too strict filter rules (you can change them in Settings)</string>
-    <string name="earthquake_row_distance">%s km from you •</string>
+    <string name="alert_details_no_earthquakes">It means that either it is safe around your position or you set too strict filter rules\n(you can change them in Settings)</string>
+    <string name="earthquake_row_distance">%s km from your position •</string>
+    <string name="error_google_api_unavailable">Google Play Services unavailable. This app will work with default location</string>
+    <string name="alert_distance_from_place">≈ %1$s km from you</string>
+    <string name="settings_default_city_title">Default city (when we can\'t get location)</string>
+    <string name="error_not_implemented">This feature is under development</string>
 </resources>

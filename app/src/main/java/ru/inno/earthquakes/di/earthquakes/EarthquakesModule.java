@@ -14,6 +14,7 @@ import ru.inno.earthquakes.model.earthquakes.EarthquakesApiService;
 import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.model.mappers.EarthquakesMapper;
 import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -25,8 +26,8 @@ public class EarthquakesModule {
 
     @Provides
     @EarthquakesScope
-    EarthquakesInteractor provideInteractor(EarthquakesRepository repository, SettingsRepository settingsRepository){
-        return new EarthquakesInteractor(repository, settingsRepository);
+    EarthquakesInteractor provideInteractor(EarthquakesRepository repository, SettingsRepository settingsRepository, SchedulersProvider schedulersProvider){
+        return new EarthquakesInteractor(repository, settingsRepository, schedulersProvider);
     }
 
     @Provides

@@ -1,5 +1,9 @@
 package ru.inno.earthquakes.model.location;
 
+import android.content.Context;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import io.reactivex.Single;
@@ -12,9 +16,14 @@ import ru.inno.earthquakes.entities.Location;
 public class LocationRepository {
 
     private FusedLocationProviderClient fusedLocationClient;
+    private GoogleApiAvailability googleApiAvailability;
+    private Context context;
+    private boolean isGoogleApiAvailable = true;
 
-    public LocationRepository(FusedLocationProviderClient fusedLocationClient) {
+    public LocationRepository(FusedLocationProviderClient fusedLocationClient, GoogleApiAvailability googleApiAvailability, Context context) {
         this.fusedLocationClient = fusedLocationClient;
+        this.googleApiAvailability = googleApiAvailability;
+        this.context = context;
     }
 
     /**
@@ -27,6 +36,11 @@ public class LocationRepository {
                 .map(location -> new Location.Coordinates(location.getLongitude(), location.getLatitude()));
     }
 
+    /**
+     * Get last known location of the user. If there are no Google services on phone, we will have an error
+     *
+     * @return
+     */
     private Single<android.location.Location> getLastLocation() {
         return Single.create(emitter -> {
             try {
@@ -36,11 +50,11 @@ public class LocationRepository {
                                 return;
                             }
 
-                            // GPS location can be null if GPS is switched off
+                            // GPS location can be null if GPS is switched off or we don't have play services
                             if (location != null) {
                                 emitter.onSuccess(location);
                             } else {
-                                // TODO: add here call for a new location update
+                                // TODO: add here a call for a new location update
                                 emitter.onError(new UnknownLocationException("Last location is unknown"));
                             }
                         })
@@ -49,5 +63,25 @@ public class LocationRepository {
                 emitter.onError(ex);
             }
         });
+    }
+
+    /**
+     * @return if location services, needed for the app are available
+     */
+    boolean checkPlayServicesAvailable() {
+        final int status = googleApiAvailability.isGooglePlayServicesAvailable(context);
+
+        if (status != ConnectionResult.SUCCESS) {
+            isGoogleApiAvailable = false;
+        }
+        return isGoogleApiAvailable;
+    }
+
+
+    /**
+     * @return status code from the location services
+     */
+    int getPlayServicesStatus() {
+        return googleApiAvailability.isGooglePlayServicesAvailable(context);
     }
 }

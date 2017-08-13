@@ -11,6 +11,7 @@ import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.model.EntitiesWrapper.State;
 import ru.inno.earthquakes.model.settings.SettingsInteractor;
 import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -21,10 +22,14 @@ public class EarthquakesInteractor {
     private EarthquakesRepository earthquakesRepository;
     private SettingsRepository settingsRepository;
     private Comparator<EarthquakeWithDist> distanceComparator;
+    private SchedulersProvider schedulersProvider;
 
-    public EarthquakesInteractor(EarthquakesRepository earthquakesRepository, SettingsRepository settingsRepository) {
+    public EarthquakesInteractor(EarthquakesRepository earthquakesRepository, 
+                                 SettingsRepository settingsRepository, 
+                                 SchedulersProvider schedulersProvider) {
         this.earthquakesRepository = earthquakesRepository;
         this.settingsRepository = settingsRepository;
+        this.schedulersProvider = schedulersProvider;
         distanceComparator = (a, b) -> Double.compare(a.getDistance(), b.getDistance());
     }
 
@@ -45,7 +50,8 @@ public class EarthquakesInteractor {
                 .map(earthquakeWithDists -> earthquakeWithDists.isEmpty() ?
                         new EntitiesWrapper<EarthquakeWithDist>(State.EMPTY, null) :
                         new EntitiesWrapper<EarthquakeWithDist>(State.SUCCESS, earthquakeWithDists.get(0)))
-                .onErrorReturnItem(new EntitiesWrapper<EarthquakeWithDist>(State.ERROR_NETWORK, null));
+                .onErrorReturnItem(new EntitiesWrapper<EarthquakeWithDist>(State.ERROR_NETWORK, null))
+                .subscribeOn(schedulersProvider.io());
     }
 
     /**
@@ -61,7 +67,8 @@ public class EarthquakesInteractor {
                 .concatWith(getApiDataSorted(coords, distanceComparator)
                         .map(earthquakeWithDists -> new EntitiesWrapper<>(State.SUCCESS, earthquakeWithDists))
                         .onErrorReturnItem(new EntitiesWrapper<>(State.ERROR_NETWORK, null)))
-                .toObservable();
+                .toObservable()
+                .subscribeOn(schedulersProvider.io());
     }
 
     /**
@@ -76,7 +83,8 @@ public class EarthquakesInteractor {
         return earthquakesRepository.getTodaysEarthquakesFromApi()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
-                .toSortedList(distanceComparator);
+                .toSortedList(distanceComparator)
+                .subscribeOn(schedulersProvider.io());
     }
 
     /**
@@ -91,6 +99,7 @@ public class EarthquakesInteractor {
         return earthquakesRepository.getCachedTodaysEarthquakes()
                 .flattenAsObservable(earthquakes -> earthquakes)
                 .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
-                .toSortedList(distanceComparator);
+                .toSortedList(distanceComparator)
+                .subscribeOn(schedulersProvider.io());
     }
 }

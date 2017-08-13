@@ -12,11 +12,11 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class SchedulersProvider {
 
-    Scheduler io() {
+    public Scheduler io() {
         return Schedulers.io();
     }
 
-    Scheduler computation() {
+    public Scheduler computation() {
         return Schedulers.computation();
     }
 

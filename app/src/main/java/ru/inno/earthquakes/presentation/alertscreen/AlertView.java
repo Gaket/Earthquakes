@@ -12,15 +12,22 @@ import ru.inno.earthquakes.entities.EarthquakeWithDist;
  *         22.07.17
  */
 @StateStrategyType(AddToEndSingleStrategy.class)
-public interface AlertView extends MvpView {
+public interface AlertView extends MvpView{
 
     void showThereAreNoAlerts();
 
-    void showEartquakeAlert(EarthquakeWithDist earthquake);
-
-    void showNetworkError(boolean show);
+    void showEarthquakeAlert(EarthquakeWithDist earthquake);
 
     void showLoading(boolean show);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showNetworkError(boolean show);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showPermissionDeniedAlert();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showNoDataAlert();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void navigateToEarthquakesList();
@@ -29,8 +36,5 @@ public interface AlertView extends MvpView {
     void navigateToSettings();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void showPermissionDeniedAlert();
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showNoDataAlert();
+    void showGoogleApiMessage(int status);
 }

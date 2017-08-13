@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_blue_gradient"
-    tools:context="ru.inno.earthquakes.presentation.info.InfoActivity">
+    android:background="@drawable/bg_blue_gradient">
 
     <ImageView
         android:id="@+id/info_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="@dimen/info_top_margin"
         app:srcCompat="@drawable/logo_color" />
 
     <TextView
@@ -45,9 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
+        android:layout_marginBottom="@dimen/info_bottom_margin"
+        android:paddingEnd="40dp"
+        android:paddingStart="40dp"
         android:text="@string/action_got_it" />
 
 </RelativeLayout>

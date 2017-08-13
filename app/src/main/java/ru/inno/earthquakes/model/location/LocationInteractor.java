@@ -1,9 +1,10 @@
 package ru.inno.earthquakes.model.location;
 
 import io.reactivex.Single;
-import ru.inno.earthquakes.entities.Location;
 import ru.inno.earthquakes.entities.Location.Coordinates;
 import ru.inno.earthquakes.model.permissions.PermissionsRepository;
+import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 /**
  * @author Artur Badretdinov (Gaket)
@@ -11,14 +12,19 @@ import ru.inno.earthquakes.model.permissions.PermissionsRepository;
  */
 public class LocationInteractor {
 
-    // Return Moscow coordinates by default
-    private final Coordinates DEFAULT_COORDINATES = new Coordinates(55.755826, 37.6173);
-    private LocationRepository repository;
-    private PermissionsRepository permissionsRepository;
+    private final LocationRepository repository;
+    private final PermissionsRepository permissionsRepository;
+    private final SettingsRepository settingsRepository;
+    private final SchedulersProvider schedulersProvider;
 
-    public LocationInteractor(LocationRepository repository, PermissionsRepository permissionsRepository) {
+    public LocationInteractor(LocationRepository repository,
+                              PermissionsRepository permissionsRepository,
+                              SettingsRepository settingsRepository,
+                              SchedulersProvider schedulersProvider) {
         this.repository = repository;
         this.permissionsRepository = permissionsRepository;
+        this.settingsRepository = settingsRepository;
+        this.schedulersProvider = schedulersProvider;
     }
 
     /**
@@ -36,19 +42,35 @@ public class LocationInteractor {
                     if (permGiven) {
                         return repository.getCurrentCoordinates()
                                 .map(coordinates -> new LocationAnswer(coordinates, State.SUCCESS))
-                                .onErrorReturnItem(new LocationAnswer(DEFAULT_COORDINATES, State.NO_DATA));
+                                .onErrorReturnItem(new LocationAnswer(settingsRepository.getDefaultLocation().getCoords(), State.NO_DATA));
                     } else {
-                        return Single.just(new LocationAnswer(DEFAULT_COORDINATES, State.PERMISSION_DENIED));
+                        return Single.just(new LocationAnswer(settingsRepository.getDefaultLocation().getCoords(), State.PERMISSION_DENIED));
                     }
-                });
+                })
+                .subscribeOn(schedulersProvider.io());
+    }
+
+    /**
+     * @return if location services, needed for the app are available
+     */
+    public Single<Boolean> checkLocationServicesAvailability() {
+        return Single.just(repository.checkPlayServicesAvailable())
+                .subscribeOn(schedulersProvider.io());
+    }
+
+    /**
+     * @return status code from the location services
+     */
+    public Single<Integer> getLocationServicesStatus() {
+        return Single.just(repository.getPlayServicesStatus())
+                .subscribeOn(schedulersProvider.io());
     }
 
     /**
      * Class containing coordinates and their state
      */
     public static class LocationAnswer {
-
-        private Location.Coordinates coordinates;
+        private Coordinates coordinates;
         private State state;
 
         public LocationAnswer(Coordinates coordinates, State state) {
@@ -56,7 +78,7 @@ public class LocationInteractor {
             this.state = state;
         }
 
-        public Location.Coordinates getCoordinates() {
+        public Coordinates getCoordinates() {
             return coordinates;
         }
 
