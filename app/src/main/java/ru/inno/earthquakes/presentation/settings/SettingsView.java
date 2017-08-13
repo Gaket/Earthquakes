@@ -6,28 +6,27 @@ import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 /**
- * @author Artur Badretdinov (Gaket)
- *         05.08.17
+ * @author Artur Badretdinov (Gaket) 05.08.17
  */
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SettingsView extends MvpView {
 
-    void setMaxDistance(Double dist);
+  void setMaxDistance(Double dist);
 
-    void setMinMagnitude(Double mag);
+  void setMinMagnitude(Double mag);
 
-    void setDefaultCity(String name);
+  void setDefaultCity(String name);
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showNotImplementedError();
+  @StateStrategyType(OneExecutionStateStrategy.class)
+  void showNotImplementedError();
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void navigateToInfo();
+  @StateStrategyType(OneExecutionStateStrategy.class)
+  void navigateToInfo();
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void close();
+  @StateStrategyType(OneExecutionStateStrategy.class)
+  void close();
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void showDistanceFormatError();
+  @StateStrategyType(OneExecutionStateStrategy.class)
+  void showDistanceFormatError();
 
 }

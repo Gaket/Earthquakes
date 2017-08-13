@@ -50,6 +50,7 @@ dependencies {
     compile 'io.objectbox:objectbox-android:0.9.13'
     compile 'io.objectbox:objectbox-rxjava:0.9.8'
     compile 'org.mapstruct:mapstruct:1.1.0.Final'
+    compile 'nl.littlerobots.rxlint:rxlint:1.4'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'

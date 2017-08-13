@@ -1,106 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:focusable="true"
+  android:orientation="vertical"
+  android:paddingBottom="@dimen/space_normal"
+  android:paddingTop="@dimen/space_normal"
+  tools:context="ru.inno.earthquakes.presentation.MainActivity">
+
+  <TextView
+    android:id="@+id/settings_tv_title_dist"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/space_normal"
+    android:layout_marginStart="@dimen/space_normal"
+    android:text="@string/title_settings_max_dist" />
+
+  <EditText
+    android:id="@+id/settings_distance"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/space_normal"
-    android:paddingTop="@dimen/space_normal"
-    tools:context="ru.inno.earthquakes.presentation.MainActivity">
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/space_normal"
+    android:layout_marginStart="@dimen/space_normal"
+    android:hint="@string/hint_settings_dist"
+    android:imeOptions="actionDone"
+    android:inputType="number"
+    android:maxLength="8"
+    tools:text="300" />
+
+  <!-- This layout is a static screen that is not in RecyclerView -->
+  <!-- So this is not a huge problem to have to layouts one in another -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/settings_tv_title_dist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/space_normal"
-        android:layout_marginStart="@dimen/space_normal"
-        android:text="@string/title_settings_max_dist" />
-
-    <EditText
-        android:id="@+id/settings_distance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/space_normal"
-        android:layout_marginStart="@dimen/space_normal"
-        android:hint="@string/hint_settings_dist"
-        android:imeOptions="actionDone"
-        android:inputType="number"
-        android:maxLength="8"
-        tools:text="300" />
-
-    <!-- This layout is a static screen that is not in RecyclerView -->
-    <!-- So this is not a huge problem to have to layouts one in another -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/settings_tv_title_mag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/space_normal"
-            android:layout_marginStart="@dimen/space_normal"
-            android:text="@string/title_settings_min_mag" />
-
-        <TextView
-            android:id="@+id/settings_magnitude_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/space_normal"
-            android:layout_marginStart="@dimen/space_normal"
-            android:gravity="end"
-            android:text="0"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <SeekBar
-        android:id="@+id/settings_magnitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:layout_marginStart="6dp"
-        android:max="95"
-        tools:text="5.0" />
+      android:id="@+id/settings_tv_title_mag"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/space_normal"
+      android:layout_marginStart="@dimen/space_normal"
+      android:text="@string/title_settings_min_mag" />
 
     <TextView
-        android:id="@+id/settings_default_city_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/space_normal"
-        android:layout_marginStart="@dimen/space_normal"
-        android:layout_marginTop="20dp"
-        android:text="@string/settings_default_city_title" />
+      android:id="@+id/settings_magnitude_value"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/space_normal"
+      android:layout_marginStart="@dimen/space_normal"
+      android:gravity="end"
+      android:text="0"
+      android:textColor="@color/textColorPrimary"
+      android:textSize="16sp"
+      android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/settings_default_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/space_normal"
-        android:layout_marginStart="@dimen/space_normal"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:text="Moscow" />
+  </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+  <SeekBar
+    android:id="@+id/settings_magnitude"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="6dp"
+    android:layout_marginStart="6dp"
+    android:max="95"
+    tools:text="5.0" />
 
-    <Button
-        android:id="@+id/settings_bt_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingStart="80dp"
-        android:paddingEnd="80dp"
-        android:text="@string/action_save" />
+  <TextView
+    android:id="@+id/settings_default_city_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/space_normal"
+    android:layout_marginStart="@dimen/space_normal"
+    android:layout_marginTop="20dp"
+    android:text="@string/settings_default_city_title" />
+
+  <TextView
+    android:id="@+id/settings_default_city"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/space_normal"
+    android:layout_marginStart="@dimen/space_normal"
+    android:textColor="@color/textColorPrimary"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    tools:text="Moscow" />
+
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1" />
+
+  <Button
+    android:id="@+id/settings_bt_save"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingStart="80dp"
+    android:paddingEnd="80dp"
+    android:text="@string/action_save" />
 
 </LinearLayout>
