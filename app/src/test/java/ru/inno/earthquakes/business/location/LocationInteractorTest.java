@@ -15,6 +15,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import ru.inno.earthquakes.models.entities.Location;
 import ru.inno.earthquakes.data.permissions.PermissionsRepository;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
+import ru.inno.earthquakes.repositories.location.LocationRepository;
+import ru.inno.earthquakes.repositories.settings.SettingsRepository;
 
 /**
  * @author Artur Badretdinov (Gaket) 07.08.17

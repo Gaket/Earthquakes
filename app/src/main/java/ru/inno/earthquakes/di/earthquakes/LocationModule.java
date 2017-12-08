@@ -9,6 +9,8 @@ import dagger.Provides;
 import ru.inno.earthquakes.business.location.LocationInteractor;
 import ru.inno.earthquakes.data.permissions.PermissionsRepository;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
+import ru.inno.earthquakes.repositories.location.LocationRepository;
+import ru.inno.earthquakes.repositories.settings.SettingsRepository;
 
 /**
  * @author Artur Badretdinov (Gaket) 22.07.17.

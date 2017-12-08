@@ -14,11 +14,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import ru.inno.earthquakes.models.EntitiesWrapper;
 import ru.inno.earthquakes.models.entities.Earthquake;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.models.entities.Location;
-import ru.inno.earthquakes.model.EntitiesWrapper;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
+import ru.inno.earthquakes.repositories.earthquakes.EarthquakesRepository;
+import ru.inno.earthquakes.repositories.settings.SettingsRepository;
 
 /**
  * @author Artur Badretdinov (Gaket) 07.08.17

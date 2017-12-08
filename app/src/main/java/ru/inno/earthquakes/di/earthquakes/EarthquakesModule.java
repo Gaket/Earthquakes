@@ -11,6 +11,8 @@ import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.models.mappers.EarthquakesMapper;
 import ru.inno.earthquakes.models.db.MyObjectBox;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
+import ru.inno.earthquakes.repositories.earthquakes.EarthquakesRepository;
+import ru.inno.earthquakes.repositories.settings.SettingsRepository;
 
 /**
  * @author Artur Badretdinov (Gaket) 22.07.17.
