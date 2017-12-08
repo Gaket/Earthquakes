@@ -13,12 +13,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ru.inno.earthquakes.entities.EarthquakeWithDist;
-import ru.inno.earthquakes.entities.Location;
+import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.models.entities.Location;
 import ru.inno.earthquakes.model.EntitiesWrapper;
-import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
-import ru.inno.earthquakes.model.location.LocationInteractor;
-import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
+import ru.inno.earthquakes.business.location.LocationInteractor;
+import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 /**

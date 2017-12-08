@@ -9,17 +9,21 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
+
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import java.util.List;
+
 import javax.inject.Inject;
+
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.entities.EarthquakeWithDist;
-import ru.inno.earthquakes.model.earthquakes.EarthquakesInteractor;
-import ru.inno.earthquakes.model.location.LocationInteractor;
-import ru.inno.earthquakes.presentation.common.EmptyRecyclerView;
+import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
+import ru.inno.earthquakes.business.location.LocationInteractor;
+import ru.inno.earthquakes.presentation.common.views.EmptyRecyclerView;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.SmartDividerItemDecoration;
 

@@ -7,7 +7,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
-import ru.inno.earthquakes.model.permissions.PermissionsRepository;
+import ru.inno.earthquakes.data.permissions.PermissionsRepository;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 /**

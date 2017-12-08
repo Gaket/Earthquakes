@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.entities.EarthquakeWithDist;
+import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.presentation.common.Utils;
 
 /**

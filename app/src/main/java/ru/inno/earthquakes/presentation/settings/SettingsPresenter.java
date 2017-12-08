@@ -1,7 +1,7 @@
 package ru.inno.earthquakes.presentation.settings;
 
 import com.arellomobile.mvp.InjectViewState;
-import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.common.BasePresenter;
 import ru.inno.earthquakes.presentation.common.Utils;
 

@@ -4,8 +4,7 @@ import android.content.SharedPreferences;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
-import ru.inno.earthquakes.model.settings.SettingsInteractor;
-import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.business.settings.SettingsInteractor;
 
 /**
  * @author Artur Badretdinov (Gaket) 22.07.17.

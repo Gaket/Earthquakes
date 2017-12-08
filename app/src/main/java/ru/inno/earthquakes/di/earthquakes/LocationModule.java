@@ -6,10 +6,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import dagger.Module;
 import dagger.Provides;
-import ru.inno.earthquakes.model.location.LocationInteractor;
-import ru.inno.earthquakes.model.location.LocationRepository;
-import ru.inno.earthquakes.model.permissions.PermissionsRepository;
-import ru.inno.earthquakes.model.settings.SettingsRepository;
+import ru.inno.earthquakes.business.location.LocationInteractor;
+import ru.inno.earthquakes.data.permissions.PermissionsRepository;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 
 /**

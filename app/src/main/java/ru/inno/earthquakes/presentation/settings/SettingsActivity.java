@@ -19,7 +19,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.model.settings.SettingsInteractor;
+import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.info.InfoActivity;
 
 public class SettingsActivity extends MvpAppCompatActivity implements SettingsView {

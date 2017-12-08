@@ -2,6 +2,7 @@ package ru.inno.earthquakes.presentation.common;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
@@ -12,8 +13,6 @@ public final class Utils {
 
   private Utils() {
   }
-
-  ;
 
   /**
    * Converts values from pixels to density independent pixels
