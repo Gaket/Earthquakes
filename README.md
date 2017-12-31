@@ -6,6 +6,8 @@ Demo app, that helps you to be aware of earthquakes nearby. Based on data from h
 
 The app demonstrates principles of Clean Architecture in Android. You can read [the original post](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) from Uncle Bob or one of the first [thoughts about it in Android](https://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/). MVP pattern is used for the presentation layer.
 
+The app was written as an example for a talk about Clean Architecture, given in Russian language: https://youtu.be/MYXt_9d_2ps
+
 ## Features
 
 1. The main screen notifies users if there are any earthquakes with given from settings magnitude and distance from them. If there is more than one earthquake satisfying settings, only the closest one is shown.
