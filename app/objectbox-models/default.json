@@ -4,79 +4,79 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:271876208955194436",
-      "lastPropertyId": "3:1893130249495729472",
+      "id": "1:4339548666790554571",
+      "lastPropertyId": "3:6187210234546921933",
       "name": "CoordinatesDb",
       "properties": [
         {
-          "id": "1:1937211434339614357",
+          "id": "1:1162574599099165347",
           "name": "id"
         },
         {
-          "id": "2:5208619898520384269",
+          "id": "2:7913114012143929904",
           "name": "longtitude"
         },
         {
-          "id": "3:1893130249495729472",
+          "id": "3:6187210234546921933",
           "name": "latitude"
         }
       ]
     },
     {
-      "id": "2:918920610361233571",
-      "lastPropertyId": "6:2877306657793352847",
-      "name": "EarthquakeDb",
+      "id": "2:416021924143453111",
+      "lastPropertyId": "3:1332829342287249031",
+      "name": "LocationDb",
       "properties": [
         {
-          "id": "1:3034737791162039259",
+          "id": "1:4842851072069906344",
           "name": "id"
         },
         {
-          "id": "2:6162608250199753390",
-          "name": "title"
+          "id": "2:955931732776638187",
+          "name": "name"
         },
         {
-          "id": "3:6763102049366565531",
-          "name": "magnitude"
-        },
-        {
-          "id": "4:7231023264041835852",
-          "name": "time"
-        },
-        {
-          "id": "5:7941623713892061363",
-          "name": "detailsUrl"
-        },
-        {
-          "id": "6:2877306657793352847",
-          "indexId": "1:2316960434809665735",
-          "name": "locationId"
+          "id": "3:1332829342287249031",
+          "indexId": "1:5262427168081846721",
+          "name": "coordsId"
         }
       ]
     },
     {
-      "id": "3:6420799052385946556",
-      "lastPropertyId": "3:3810178754723094442",
-      "name": "LocationDb",
+      "id": "3:2875922959323423926",
+      "lastPropertyId": "6:8597845860981585306",
+      "name": "EarthquakeDb",
       "properties": [
         {
-          "id": "1:6125687092545580459",
+          "id": "1:7671563869988883192",
           "name": "id"
         },
         {
-          "id": "2:4450289910207372740",
-          "name": "name"
+          "id": "2:224302599031203251",
+          "name": "title"
         },
         {
-          "id": "3:3810178754723094442",
-          "indexId": "2:3848983530218571282",
-          "name": "coordsId"
+          "id": "3:2949783299445948897",
+          "name": "magnitude"
+        },
+        {
+          "id": "4:416627502948666059",
+          "name": "time"
+        },
+        {
+          "id": "5:8317420086093910242",
+          "name": "detailsUrl"
+        },
+        {
+          "id": "6:8597845860981585306",
+          "indexId": "2:8532054138642266025",
+          "name": "locationId"
         }
       ]
     }
   ],
-  "lastEntityId": "3:6420799052385946556",
-  "lastIndexId": "2:3848983530218571282",
+  "lastEntityId": "3:2875922959323423926",
+  "lastIndexId": "2:8532054138642266025",
   "lastSequenceId": "0:0",
   "modelVersion": 2,
   "retiredEntityUids": [],
