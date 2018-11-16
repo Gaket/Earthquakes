@@ -1,6 +1,12 @@
 package ru.inno.earthquakes.presentation.alertscreen;
 
+import static ru.inno.earthquakes.business.location.LocationInteractor.State.NO_DATA;
+import static ru.inno.earthquakes.business.location.LocationInteractor.State.PERMISSION_DENIED;
+import static ru.inno.earthquakes.business.location.LocationInteractor.State.SUCCESS;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -13,25 +19,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
+import ru.inno.earthquakes.business.location.LocationInteractor.LocationAnswer;
+import ru.inno.earthquakes.data.network.EarthquakesApiService;
 import ru.inno.earthquakes.models.EntitiesWrapper;
+import ru.inno.earthquakes.models.EntitiesWrapper.State;
+import ru.inno.earthquakes.models.entities.Earthquake;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
-import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.business.location.LocationInteractor;
 import ru.inno.earthquakes.business.settings.SettingsInteractor;
+import ru.inno.earthquakes.models.entities.Location;
+import ru.inno.earthquakes.models.entities.Location.Coordinates;
+import ru.inno.earthquakes.models.mappers.EarthquakesMapper;
+import ru.inno.earthquakes.models.network.EarthquakesResponse;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
+import ru.inno.earthquakes.repositories.earthquakes.EarthquakesCache;
+import ru.inno.earthquakes.repositories.location.UnknownLocationException;
 import timber.log.Timber;
 
 /**
@@ -39,22 +59,30 @@ import timber.log.Timber;
  */
 public class AlertActivity extends MvpAppCompatActivity {
 
-  // Here, and in other controllers, controller works as a root for some model components
-  // dependency tree. As a result, we inject them here and deeper all injections are made
-  // through the constructors.
-  @Inject
-  EarthquakesInteractor earthquakesInteractor;
-  @Inject
-  LocationInteractor locationInteractor;
+  private static final String KEY_MAX_DIST = "ru.inno.earthquakes.business.settings.max_dist";
+  private static final String KEY_MIN_MAG = "ru.inno.earthquakes.business.settings.min_mag";
+  private static final String APP_PREFS = "AppPrefs";
+
+  // Return Moscow coordinates by default. Later we can create a feature where user enters it
+  private final String DEFAULT_CITY = "Moscow";
+  private final Location.Coordinates DEFAULT_COORDINATES = new Location.Coordinates(55.755826,
+      37.6173);
+
   @Inject
   SettingsInteractor settinsInteractor;
   @Inject
   SchedulersProvider schedulersProvider;
   @Inject
   GoogleApiAvailability googleApiAvailability;
-
+  @Inject
+  EarthquakesApiService apiService;
+  @Inject
+  EarthquakesMapper earthquakesMapper;
+  @Inject
+  EarthquakesCache earthquakesCache;
+  Comparator<EarthquakeWithDist> distanceComparator = (a, b) -> Double
+      .compare(a.getDistance(), b.getDistance());
   private CompositeDisposable compositeDisposable;
-
   private SwipeRefreshLayout swipeRefreshLayout;
   private TextView messageView;
   private TextView detailsView;
@@ -62,6 +90,10 @@ public class AlertActivity extends MvpAppCompatActivity {
   private TextView distanceView;
   private ImageView alertImageView;
   private Snackbar snackbar;
+  private RxPermissions rxPermissions;
+  private SharedPreferences sharedPreferences;
+  private FusedLocationProviderClient fusedLocationClient;
+  private boolean isGoogleApiAvailable = true;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +102,18 @@ public class AlertActivity extends MvpAppCompatActivity {
     compositeDisposable = new CompositeDisposable();
 
     setContentView(R.layout.activity_main);
-    messageView = (TextView) findViewById(R.id.alert_message);
-    detailsView = (TextView) findViewById(R.id.alert_details);
-    magnitudeView = (TextView) findViewById(R.id.alert_magnitude);
-    distanceView = (TextView) findViewById(R.id.alert_distance);
-    alertImageView = (ImageView) findViewById(R.id.alert_status);
-    swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
+    messageView = findViewById(R.id.alert_message);
+    detailsView = findViewById(R.id.alert_details);
+    magnitudeView = findViewById(R.id.alert_magnitude);
+    distanceView = findViewById(R.id.alert_distance);
+    alertImageView = findViewById(R.id.alert_status);
+    swipeRefreshLayout = findViewById(R.id.alert_swipe_refresh);
     swipeRefreshLayout.setOnRefreshListener(() -> onRefreshAction());
     findViewById(R.id.alert_show_all).setOnClickListener(v -> onShowAll());
+
+    sharedPreferences = getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    rxPermissions = RxPermissions.getInstance(this);
 
     onFirstViewAttach();
   }
@@ -171,9 +207,9 @@ public class AlertActivity extends MvpAppCompatActivity {
     unsubscribeOnDestroy(disposable);
 
     // Show a message for users if they don't have Google Api Services needed for program
-    Disposable googleDisposable = locationInteractor.checkLocationServicesAvailability()
+    Disposable googleDisposable = checkLocationServicesAvailability()
         .filter(available -> !available)
-        .flatMap(available -> locationInteractor.getLocationServicesStatus().toMaybe())
+        .flatMap(available -> getLocationServicesStatus().toMaybe())
         .observeOn(schedulersProvider.ui())
         .subscribe(status -> showGoogleApiMessage(status), Timber::e);
     unsubscribeOnDestroy(googleDisposable);
@@ -229,7 +265,7 @@ public class AlertActivity extends MvpAppCompatActivity {
    * Get earthquake alert and show user if there are any problems
    */
   private Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert() {
-    return locationInteractor.getCurrentCoordinates()
+    return getCurrentCoordinatesBus()
         .doOnSuccess(locationAnswer -> {
           switch (locationAnswer.getState()) {
             case SUCCESS:
@@ -243,8 +279,58 @@ public class AlertActivity extends MvpAppCompatActivity {
               break;
           }
         })
-        .flatMap(locationAnswer -> earthquakesInteractor
-            .getEarthquakeAlert(locationAnswer.getCoordinates()));
+        .flatMap(locationAnswer -> getEarthquakeAlert(locationAnswer.getCoordinates()));
+  }
+
+  /**
+   * Check for permission and get current coordinates. Use states to show if location found
+   * successfully, or permission denied.
+   *
+   * @return state of request and current {@link Coordinates}. In case of problems, default
+   * coordinates are returned. In this case, coordinates of Moscow, Russia
+   */
+  public Single<LocationAnswer> getCurrentCoordinatesBus() {
+    return requestLocationPermissions()
+        .first(false)
+        .flatMap(permGiven -> {
+          if (permGiven) {
+            return getCurrentCoordinates()
+                .map(coordinates -> new LocationAnswer(coordinates,
+                    LocationInteractor.State.SUCCESS))
+                .onErrorReturnItem(
+                    new LocationAnswer(getDefaultLocation().getCoords(),
+                        LocationInteractor.State.NO_DATA));
+          } else {
+            return Single.just(
+                new LocationAnswer(getDefaultLocation().getCoords(),
+                    LocationInteractor.State.PERMISSION_DENIED));
+          }
+        })
+        .subscribeOn(schedulersProvider.io());
+  }
+
+  /**
+   * Get the closest to the given position Earthquake that satisfies program settings (maximal
+   * distance and minimal magnitude, details in {@link SettingsInteractor})
+   *
+   * @param coords of user
+   * @return {@link EntitiesWrapper} with different states (see {@link State}) and the closest
+   * {@link EarthquakeWithDist} if it was found
+   */
+  public Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlertBusiness(
+      Location.Coordinates coords) {
+    return getApiDataSorted(coords, distanceComparator)
+        .flattenAsObservable(earthquakeWithDists -> earthquakeWithDists)
+        .filter(earthquakeWithDist -> earthquakeWithDist.getDistance() < getAlertMaxDistance())
+        .filter(earthquakeWithDist -> earthquakeWithDist.getMagnitude() >= getAlertMinMagnitude())
+        .toList()
+        .map(earthquakeWithDists -> earthquakeWithDists.isEmpty() ?
+            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY, null) :
+            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY.SUCCESS,
+                earthquakeWithDists.get(0)))
+        .onErrorReturnItem(
+            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.ERROR_NETWORK, null))
+        .subscribeOn(schedulersProvider.io());
   }
 
   protected void unsubscribeOnDestroy(Disposable disposable) {
@@ -255,5 +341,180 @@ public class AlertActivity extends MvpAppCompatActivity {
   public void onDestroy() {
     super.onDestroy();
     compositeDisposable.clear();
+  }
+
+  /**
+   * Get the closest to the given position Earthquake that satisfies program settings (maximal
+   * distance and minimal magnitude, details in {@link SettingsInteractor})
+   *
+   * @param coords of user
+   * @return {@link EntitiesWrapper} with different states (see {@link State}) and the closest
+   * {@link EarthquakeWithDist} if it was found
+   */
+  public Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert(
+      Location.Coordinates coords) {
+    return getApiDataSorted(coords, distanceComparator)
+        .flattenAsObservable(earthquakeWithDists -> earthquakeWithDists)
+        .filter(earthquakeWithDist -> earthquakeWithDist.getDistance() < getAlertMaxDistance())
+        .filter(earthquakeWithDist -> earthquakeWithDist.getMagnitude() >= getAlertMinMagnitude())
+        .toList()
+        .map(earthquakeWithDists -> earthquakeWithDists.isEmpty() ?
+            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY, null) :
+            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.SUCCESS, earthquakeWithDists.get(0)))
+        .onErrorReturnItem(new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.ERROR_NETWORK, null))
+        .subscribeOn(schedulersProvider.io());
+  }
+
+  /**
+   * Download earthquakes list from server, calculate distance to the given location, and return
+   * list of {@link EarthquakeWithDist} sorted by distance
+   */
+  private Single<List<EarthquakeWithDist>> getApiDataSorted(Location.Coordinates coords,
+      Comparator<EarthquakeWithDist> distanceComparator) {
+    return getTodaysEarthquakesFromApi()
+        .flattenAsObservable(earthquakes -> earthquakes)
+        .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
+        .toSortedList(distanceComparator)
+        .subscribeOn(schedulersProvider.io());
+  }
+
+  /**
+   * Get earthquakes from API, clear cache and put new ones there
+   *
+   * @return list of todays earthquakes
+   */
+  public Single<List<Earthquake>> getTodaysEarthquakesFromApi() {
+    return apiService.getEarthquakes()
+        .map(EarthquakesResponse::getFeatures)
+        .flattenAsObservable(items -> items)
+        .map(earthquakesMapper::earthquakeDataToEntity)
+        .toList()
+        .doOnSuccess(earthquakeEntities -> {
+          earthquakesCache.clearCache();
+          earthquakesCache.putEarthquakes(earthquakeEntities);
+        })
+        .doOnSuccess(earthquakeEntities -> Timber
+            .d("%d entities came from server", earthquakeEntities.size()));
+  }
+
+  /**
+   * @return maximal distance to which an Earthquake alert should be shown
+   */
+  public double getAlertMaxDistance() {
+    return getDoubleFromLongFromPrefs(KEY_MAX_DIST);
+  }
+
+  /**
+   * Convenient method to read double without losing precision while converting to float
+   */
+  private double getDoubleFromLongFromPrefs(String key) {
+    if (!sharedPreferences.contains(key)) {
+      return 0;
+    }
+    return Double.longBitsToDouble(sharedPreferences.getLong(key, 0));
+  }
+
+  /**
+   * @return maximal magnitude from which an Earthquake alert should be shown
+   */
+  public double getAlertMinMagnitude() {
+    return getDoubleFromLongFromPrefs(KEY_MIN_MAG);
+  }
+
+  /**
+   * @return if location services, needed for the app are available
+   */
+  public Single<Boolean> checkLocationServicesAvailability() {
+    return Single.just(checkPlayServicesAvailable())
+        .subscribeOn(schedulersProvider.io());
+  }
+
+  /**
+   * @return if location services, needed for the app are available
+   */
+  public boolean checkPlayServicesAvailable() {
+    final int status = googleApiAvailability.isGooglePlayServicesAvailable(this);
+
+    if (status != ConnectionResult.SUCCESS) {
+      isGoogleApiAvailable = false;
+    }
+    return isGoogleApiAvailable;
+  }
+
+  /**
+   * @return status code from the location services
+   */
+  public Single<Integer> getLocationServicesStatus() {
+    return Single.just(getPlayServicesStatus())
+        .subscribeOn(schedulersProvider.io());
+  }
+
+  /**
+   * @return Current coordinates, taken from the Android system
+   * @throws {@link UnknownLocationException} if the last position is unknown
+   * @throws {@link SecurityException} if we try to get position without permissions
+   */
+  public Single<Location.Coordinates> getCurrentCoordinates() {
+    return getLastLocation()
+        .map(location -> new Location.Coordinates(location.getLongitude(), location.getLatitude()));
+  }
+
+  /**
+   * Get last known location of the user. If there are no Google services on phone, we will have an
+   * error
+   */
+  private Single<android.location.Location> getLastLocation() {
+    return Single.create(emitter -> {
+      try {
+        fusedLocationClient.getLastLocation()
+            .addOnSuccessListener(location -> {
+              if (emitter.isDisposed()) {
+                return;
+              }
+
+              // GPS location can be null if GPS is switched off or we don't have play services
+              if (location != null) {
+                emitter.onSuccess(location);
+              } else {
+                // TODO: add here a call for a new location update
+                emitter.onError(new UnknownLocationException("Last location is unknown"));
+              }
+            })
+            .addOnFailureListener(emitter::onError);
+      } catch (SecurityException ex) {
+        emitter.onError(ex);
+      }
+    });
+  }
+
+  /**
+   * @return status code from the location services
+   */
+  public int getPlayServicesStatus() {
+    return googleApiAvailability.isGooglePlayServicesAvailable(this);
+  }
+
+  /**
+   * Checks if the location permissions are given
+   *
+   * @return true if permission granted
+   */
+  public Observable<Boolean> requestLocationPermissions() {
+    return rxPermissions.request(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+  }
+
+  /**
+   * Get default location to use if there are problems getting user's actual location Å
+   *
+   * @return default location
+   */
+  public Location getDefaultLocation() {
+    return new Location(DEFAULT_CITY, DEFAULT_COORDINATES);
+  }
+
+  public enum State {
+    SUCCESS,
+    PERMISSION_DENIED,
+    NO_DATA
   }
 }
