@@ -1,9 +1,5 @@
 package ru.inno.earthquakes.presentation.alertscreen;
 
-import static ru.inno.earthquakes.business.location.LocationInteractor.State.NO_DATA;
-import static ru.inno.earthquakes.business.location.LocationInteractor.State.PERMISSION_DENIED;
-import static ru.inno.earthquakes.business.location.LocationInteractor.State.SUCCESS;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,21 +19,42 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import dagger.Provides;
+import io.objectbox.Box;
+import io.objectbox.BoxStore;
+import io.objectbox.query.Query;
+import io.objectbox.rx.RxQuery;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
+import javax.inject.Singleton;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import org.mapstruct.factory.Mappers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.business.location.LocationInteractor.LocationAnswer;
 import ru.inno.earthquakes.data.network.EarthquakesApiService;
 import ru.inno.earthquakes.models.EntitiesWrapper;
 import ru.inno.earthquakes.models.EntitiesWrapper.State;
+import ru.inno.earthquakes.models.db.EarthquakeDb;
+import ru.inno.earthquakes.models.db.MyObjectBox;
 import ru.inno.earthquakes.models.entities.Earthquake;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.business.location.LocationInteractor;
@@ -59,10 +76,11 @@ import timber.log.Timber;
  */
 public class AlertActivity extends MvpAppCompatActivity {
 
+  public static final int TIMEOUT = 20;
   private static final String KEY_MAX_DIST = "ru.inno.earthquakes.business.settings.max_dist";
   private static final String KEY_MIN_MAG = "ru.inno.earthquakes.business.settings.min_mag";
   private static final String APP_PREFS = "AppPrefs";
-
+  private static final String BASE_URL = "https://earthquake.usgs.gov/";
   // Return Moscow coordinates by default. Later we can create a feature where user enters it
   private final String DEFAULT_CITY = "Moscow";
   private final Location.Coordinates DEFAULT_COORDINATES = new Location.Coordinates(55.755826,
@@ -70,16 +88,10 @@ public class AlertActivity extends MvpAppCompatActivity {
 
   @Inject
   SettingsInteractor settinsInteractor;
-  @Inject
   SchedulersProvider schedulersProvider;
-  @Inject
   GoogleApiAvailability googleApiAvailability;
-  @Inject
   EarthquakesApiService apiService;
-  @Inject
   EarthquakesMapper earthquakesMapper;
-  @Inject
-  EarthquakesCache earthquakesCache;
   Comparator<EarthquakeWithDist> distanceComparator = (a, b) -> Double
       .compare(a.getDistance(), b.getDistance());
   private CompositeDisposable compositeDisposable;
@@ -94,6 +106,7 @@ public class AlertActivity extends MvpAppCompatActivity {
   private SharedPreferences sharedPreferences;
   private FusedLocationProviderClient fusedLocationClient;
   private boolean isGoogleApiAvailable = true;
+  private Box<EarthquakeDb> earthquakeBox;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +127,17 @@ public class AlertActivity extends MvpAppCompatActivity {
     sharedPreferences = getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
     fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     rxPermissions = RxPermissions.getInstance(this);
+    earthquakeBox = MyObjectBox.builder()
+        .androidContext(this)
+        .buildDefault()
+        .boxFor(EarthquakeDb.class);
+    earthquakesMapper = Mappers.getMapper(EarthquakesMapper.class);
+    schedulersProvider = new SchedulersProvider();
+    googleApiAvailability = GoogleApiAvailability.getInstance();
+    OkHttpClient client = provideOkHttpClient();
+    Gson gson = provideGson();
+    Retrofit retrofit = provideRetrofit(client, gson);
+    apiService = provideApiService(retrofit);
 
     onFirstViewAttach();
   }
@@ -239,6 +263,31 @@ public class AlertActivity extends MvpAppCompatActivity {
     unsubscribeOnDestroy(disposable);
   }
 
+  /**
+   * Remove all {@link EarthquakeDb from cache}
+   */
+  public void clearCache() {
+    earthquakeBox.removeAll();
+  }
+
+  /**
+   * @param earthquakeEntities to store
+   */
+  public void putEarthquakes(List<Earthquake> earthquakeEntities) {
+    earthquakeBox.put(earthquakesMapper.entitiesToDb(earthquakeEntities));
+  }
+
+  /**
+   * @return all {@link EarthquakeDb} from the cache
+   */
+  public Single<List<EarthquakeDb>> getEarthquakes() {
+    Query<EarthquakeDb> query = earthquakeBox.query().build();
+    return RxQuery.observable(query)
+        .first(new ArrayList<>())
+        .doOnSuccess(
+            earthquakeEntities -> Timber.d("%d entities are in cache", earthquakeEntities.size()));
+  }
+
   private void handleEartquakesAnswer(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
     handleNetworkStateMessage(earthquakeWithDists);
     handleEarthquakeData(earthquakeWithDists);
@@ -360,8 +409,10 @@ public class AlertActivity extends MvpAppCompatActivity {
         .toList()
         .map(earthquakeWithDists -> earthquakeWithDists.isEmpty() ?
             new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.EMPTY, null) :
-            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.SUCCESS, earthquakeWithDists.get(0)))
-        .onErrorReturnItem(new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.ERROR_NETWORK, null))
+            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.SUCCESS,
+                earthquakeWithDists.get(0)))
+        .onErrorReturnItem(
+            new EntitiesWrapper<EarthquakeWithDist>(EntitiesWrapper.State.ERROR_NETWORK, null))
         .subscribeOn(schedulersProvider.io());
   }
 
@@ -390,8 +441,8 @@ public class AlertActivity extends MvpAppCompatActivity {
         .map(earthquakesMapper::earthquakeDataToEntity)
         .toList()
         .doOnSuccess(earthquakeEntities -> {
-          earthquakesCache.clearCache();
-          earthquakesCache.putEarthquakes(earthquakeEntities);
+          clearCache();
+          putEarthquakes(earthquakeEntities);
         })
         .doOnSuccess(earthquakeEntities -> Timber
             .d("%d entities came from server", earthquakeEntities.size()));
@@ -510,6 +561,40 @@ public class AlertActivity extends MvpAppCompatActivity {
    */
   public Location getDefaultLocation() {
     return new Location(DEFAULT_CITY, DEFAULT_COORDINATES);
+  }
+
+  Retrofit provideRetrofit(OkHttpClient client, Gson gson) {
+    return new Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+        .build();
+  }
+
+  OkHttpClient provideOkHttpClient() {
+    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(
+        message -> Timber.v(message));
+    loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+    builder.addInterceptor(loggingInterceptor)
+        .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+        .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+        .connectTimeout(TIMEOUT, TimeUnit.SECONDS);
+    return builder.build();
+  }
+
+  Gson provideGson() {
+    return new GsonBuilder()
+        .registerTypeAdapter(Date.class,
+            (JsonDeserializer<Date>) (json, typeOfT, context)
+                -> new Date(json.getAsJsonPrimitive().getAsLong()))
+        .create();
+  }
+
+  EarthquakesApiService provideApiService(Retrofit retrofit) {
+    return retrofit.create(EarthquakesApiService.class);
   }
 
   public enum State {
