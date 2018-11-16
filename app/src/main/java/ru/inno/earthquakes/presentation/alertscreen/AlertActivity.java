@@ -16,10 +16,14 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.gms.common.GoogleApiAvailability;
+import io.reactivex.Single;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import java.util.Locale;
 import javax.inject.Inject;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
+import ru.inno.earthquakes.models.EntitiesWrapper;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.business.location.LocationInteractor;
@@ -28,17 +32,16 @@ import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
+import timber.log.Timber;
 
 /**
  * @author Artur Badretdinov (Gaket) 22.07.17
  */
-public class AlertActivity extends MvpAppCompatActivity implements AlertView {
+public class AlertActivity extends MvpAppCompatActivity {
 
   // Here, and in other controllers, controller works as a root for some model components
   // dependency tree. As a result, we inject them here and deeper all injections are made
   // through the constructors.
-  @InjectPresenter
-  AlertPresenter presenter;
   @Inject
   EarthquakesInteractor earthquakesInteractor;
   @Inject
@@ -50,11 +53,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
   @Inject
   GoogleApiAvailability googleApiAvailability;
 
-  @ProvidePresenter
-  AlertPresenter providePresenter() {
-    return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor,
-        schedulersProvider);
-  }
+  private CompositeDisposable compositeDisposable;
 
   private SwipeRefreshLayout swipeRefreshLayout;
   private TextView messageView;
@@ -68,6 +67,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
   protected void onCreate(Bundle savedInstanceState) {
     EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
     super.onCreate(savedInstanceState);
+    compositeDisposable = new CompositeDisposable();
 
     setContentView(R.layout.activity_main);
     messageView = (TextView) findViewById(R.id.alert_message);
@@ -76,8 +76,10 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     distanceView = (TextView) findViewById(R.id.alert_distance);
     alertImageView = (ImageView) findViewById(R.id.alert_status);
     swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
-    swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
-    findViewById(R.id.alert_show_all).setOnClickListener(v -> presenter.onShowAll());
+    swipeRefreshLayout.setOnRefreshListener(() -> onRefreshAction());
+    findViewById(R.id.alert_show_all).setOnClickListener(v -> onShowAll());
+
+    onFirstViewAttach();
   }
 
   @Override
@@ -90,14 +92,13 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     switch (item.getItemId()) {
       case R.id.action_settings:
-        presenter.onOpenSettings();
+        onOpenSettings();
         return true;
       default:
         return super.onOptionsItemSelected(item);
     }
   }
 
-  @Override
   public void showThereAreNoAlerts() {
     messageView.setText(R.string.alert_msg_everything_is_ok);
     alertImageView.setImageResource(R.drawable.earth_normal);
@@ -106,7 +107,6 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     detailsView.setText(R.string.alert_details_no_earthquakes);
   }
 
-  @Override
   public void showEarthquakeAlert(EarthquakeWithDist earthquake) {
     alertImageView.setImageResource(R.drawable.earth_alarm);
     messageView.setText(R.string.alert_msg_earthquake_nearby);
@@ -120,7 +120,6 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     magnitudeView.setVisibility(View.VISIBLE);
   }
 
-  @Override
   public void showNetworkError(boolean show) {
     if (show) {
       snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection,
@@ -132,34 +131,28 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     }
   }
 
-  @Override
   public void showLoading(boolean show) {
     swipeRefreshLayout.setRefreshing(show);
   }
 
-  @Override
   public void navigateToEarthquakesList() {
     Intent intent = EarthquakesListActivity.getStartIntent(this);
     startActivity(intent);
   }
 
-  @Override
   public void navigateToSettings() {
     Intent intent = SettingsActivity.getStartIntent(this);
     startActivity(intent);
   }
 
-  @Override
   public void showPermissionDeniedAlert() {
     Toast.makeText(this, R.string.error_prohibited_location_access, Toast.LENGTH_LONG).show();
   }
 
-  @Override
   public void showNoDataAlert() {
     Toast.makeText(this, R.string.error_no_data, Toast.LENGTH_LONG).show();
   }
 
-  @Override
   public void showGoogleApiMessage(int status) {
     if (googleApiAvailability.isUserResolvableError(status)) {
       googleApiAvailability.getErrorDialog(this, status, 1).show();
@@ -167,5 +160,100 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
       Snackbar.make(swipeRefreshLayout, R.string.error_google_api_unavailable,
           Snackbar.LENGTH_INDEFINITE).show();
     }
+  }
+
+  protected void onFirstViewAttach() {
+    updateCurrentState();
+
+    // Subscribe to settings updates
+    Disposable disposable = settinsInteractor.getSettingsChangeObservable()
+        .subscribe(updated -> onRefreshAction(), Timber::e);
+    unsubscribeOnDestroy(disposable);
+
+    // Show a message for users if they don't have Google Api Services needed for program
+    Disposable googleDisposable = locationInteractor.checkLocationServicesAvailability()
+        .filter(available -> !available)
+        .flatMap(available -> locationInteractor.getLocationServicesStatus().toMaybe())
+        .observeOn(schedulersProvider.ui())
+        .subscribe(status -> showGoogleApiMessage(status), Timber::e);
+    unsubscribeOnDestroy(googleDisposable);
+  }
+
+  void onRefreshAction() {
+    updateCurrentState();
+  }
+
+  void onShowAll() {
+    navigateToEarthquakesList();
+  }
+
+  void onOpenSettings() {
+    navigateToSettings();
+  }
+
+  /**
+   * Call to update current data
+   */
+  private void updateCurrentState() {
+    Disposable disposable = getEarthquakeAlert()
+        .observeOn(schedulersProvider.ui())
+        .doOnSubscribe(disp -> showLoading(true))
+        .doAfterTerminate(() -> showLoading(false))
+        .subscribe(this::handleEartquakesAnswer, Timber::e);
+    unsubscribeOnDestroy(disposable);
+  }
+
+  private void handleEartquakesAnswer(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
+    handleNetworkStateMessage(earthquakeWithDists);
+    handleEarthquakeData(earthquakeWithDists);
+  }
+
+  private void handleEarthquakeData(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
+    if (earthquakeWithDists.getState() == EntitiesWrapper.State.EMPTY) {
+      showThereAreNoAlerts();
+    } else if (earthquakeWithDists.getState() == EntitiesWrapper.State.SUCCESS) {
+      showEarthquakeAlert(earthquakeWithDists.getData());
+    }
+  }
+
+  private void handleNetworkStateMessage(EntitiesWrapper<EarthquakeWithDist> earthquakeWithDists) {
+    if (earthquakeWithDists.getState() == EntitiesWrapper.State.ERROR_NETWORK) {
+      showNetworkError(true);
+      showThereAreNoAlerts();
+    } else {
+      showNetworkError(false);
+    }
+  }
+
+  /**
+   * Get earthquake alert and show user if there are any problems
+   */
+  private Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert() {
+    return locationInteractor.getCurrentCoordinates()
+        .doOnSuccess(locationAnswer -> {
+          switch (locationAnswer.getState()) {
+            case SUCCESS:
+              // do nothing
+              break;
+            case PERMISSION_DENIED:
+              showPermissionDeniedAlert();
+              break;
+            case NO_DATA:
+              showNoDataAlert();
+              break;
+          }
+        })
+        .flatMap(locationAnswer -> earthquakesInteractor
+            .getEarthquakeAlert(locationAnswer.getCoordinates()));
+  }
+
+  protected void unsubscribeOnDestroy(Disposable disposable) {
+    compositeDisposable.add(disposable);
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    compositeDisposable.clear();
   }
 }
