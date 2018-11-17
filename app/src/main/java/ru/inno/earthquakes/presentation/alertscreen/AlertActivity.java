@@ -1,5 +1,6 @@
 package ru.inno.earthquakes.presentation.alertscreen;
 
+import android.Manifest.permission;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -88,12 +89,13 @@ public class AlertActivity extends MvpAppCompatActivity {
 
   @Inject
   SettingsInteractor settinsInteractor;
+  @Inject
+  BoxStore boxStore;
   SchedulersProvider schedulersProvider;
   GoogleApiAvailability googleApiAvailability;
   EarthquakesApiService apiService;
   EarthquakesMapper earthquakesMapper;
-  Comparator<EarthquakeWithDist> distanceComparator = (a, b) -> Double
-      .compare(a.getDistance(), b.getDistance());
+  Comparator<EarthquakeWithDist> distanceComparator = (a, b) -> Double.compare(a.getDistance(), b.getDistance());
   private CompositeDisposable compositeDisposable;
   private SwipeRefreshLayout swipeRefreshLayout;
   private TextView messageView;
@@ -127,10 +129,7 @@ public class AlertActivity extends MvpAppCompatActivity {
     sharedPreferences = getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE);
     fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     rxPermissions = RxPermissions.getInstance(this);
-    earthquakeBox = MyObjectBox.builder()
-        .androidContext(this)
-        .buildDefault()
-        .boxFor(EarthquakeDb.class);
+    earthquakeBox = boxStore.boxFor(EarthquakeDb.class);
     earthquakesMapper = Mappers.getMapper(EarthquakesMapper.class);
     schedulersProvider = new SchedulersProvider();
     googleApiAvailability = GoogleApiAvailability.getInstance();
@@ -332,11 +331,11 @@ public class AlertActivity extends MvpAppCompatActivity {
   }
 
   /**
-   * Check for permission and get current coordinates. Use states to show if location found
-   * successfully, or permission denied.
+   * Check for permission and get current coordinates. Use states to show if location found successfully, or permission
+   * denied.
    *
-   * @return state of request and current {@link Coordinates}. In case of problems, default
-   * coordinates are returned. In this case, coordinates of Moscow, Russia
+   * @return state of request and current {@link Coordinates}. In case of problems, default coordinates are returned. In
+   * this case, coordinates of Moscow, Russia
    */
   public Single<LocationAnswer> getCurrentCoordinatesBus() {
     return requestLocationPermissions()
@@ -359,12 +358,12 @@ public class AlertActivity extends MvpAppCompatActivity {
   }
 
   /**
-   * Get the closest to the given position Earthquake that satisfies program settings (maximal
-   * distance and minimal magnitude, details in {@link SettingsInteractor})
+   * Get the closest to the given position Earthquake that satisfies program settings (maximal distance and minimal
+   * magnitude, details in {@link SettingsInteractor})
    *
    * @param coords of user
-   * @return {@link EntitiesWrapper} with different states (see {@link State}) and the closest
-   * {@link EarthquakeWithDist} if it was found
+   * @return {@link EntitiesWrapper} with different states (see {@link State}) and the closest {@link
+   * EarthquakeWithDist} if it was found
    */
   public Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlertBusiness(
       Location.Coordinates coords) {
@@ -393,12 +392,12 @@ public class AlertActivity extends MvpAppCompatActivity {
   }
 
   /**
-   * Get the closest to the given position Earthquake that satisfies program settings (maximal
-   * distance and minimal magnitude, details in {@link SettingsInteractor})
+   * Get the closest to the given position Earthquake that satisfies program settings (maximal distance and minimal
+   * magnitude, details in {@link SettingsInteractor})
    *
    * @param coords of user
-   * @return {@link EntitiesWrapper} with different states (see {@link State}) and the closest
-   * {@link EarthquakeWithDist} if it was found
+   * @return {@link EntitiesWrapper} with different states (see {@link State}) and the closest {@link
+   * EarthquakeWithDist} if it was found
    */
   public Single<EntitiesWrapper<EarthquakeWithDist>> getEarthquakeAlert(
       Location.Coordinates coords) {
@@ -417,8 +416,8 @@ public class AlertActivity extends MvpAppCompatActivity {
   }
 
   /**
-   * Download earthquakes list from server, calculate distance to the given location, and return
-   * list of {@link EarthquakeWithDist} sorted by distance
+   * Download earthquakes list from server, calculate distance to the given location, and return list of {@link
+   * EarthquakeWithDist} sorted by distance
    */
   private Single<List<EarthquakeWithDist>> getApiDataSorted(Location.Coordinates coords,
       Comparator<EarthquakeWithDist> distanceComparator) {
@@ -511,8 +510,7 @@ public class AlertActivity extends MvpAppCompatActivity {
   }
 
   /**
-   * Get last known location of the user. If there are no Google services on phone, we will have an
-   * error
+   * Get last known location of the user. If there are no Google services on phone, we will have an error
    */
   private Single<android.location.Location> getLastLocation() {
     return Single.create(emitter -> {
@@ -551,7 +549,7 @@ public class AlertActivity extends MvpAppCompatActivity {
    * @return true if permission granted
    */
   public Observable<Boolean> requestLocationPermissions() {
-    return rxPermissions.request(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+    return rxPermissions.request(permission.ACCESS_FINE_LOCATION);
   }
 
   /**
