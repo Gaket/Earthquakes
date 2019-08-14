@@ -2,6 +2,12 @@
 
 ## About
 
+
+<b>This branch was used for a demo purposes for a Clean Architecture workshop: https://www.youtube.com/watch?v=8ATEB0ZzelQ</b>
+
+
+
+
 Demo app, that helps you to be aware of earthquakes nearby. Based on data from http://earthquake.usgs.gov/
 
 The app demonstrates principles of Clean Architecture in Android. You can read [the original post](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) from Uncle Bob or one of the first [thoughts about it in Android](https://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/). MVP pattern is used for the presentation layer.
