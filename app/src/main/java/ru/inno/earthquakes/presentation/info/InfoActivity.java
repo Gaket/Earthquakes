@@ -3,9 +3,11 @@ package ru.inno.earthquakes.presentation.info;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import ru.inno.earthquakes.R;
 
 public class InfoActivity extends AppCompatActivity {

@@ -18,7 +18,6 @@ import ru.inno.earthquakes.repositories.settings.SettingsRepository;
  * @author Artur Badretdinov (Gaket) 22.07.17.
  */
 @Module
-@EarthquakesScope
 public class EarthquakesModule {
 
   @Provides

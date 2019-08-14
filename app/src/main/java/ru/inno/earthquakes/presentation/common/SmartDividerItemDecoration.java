@@ -1,19 +1,21 @@
 package ru.inno.earthquakes.presentation.common;
 
-import static android.support.v7.widget.RecyclerView.NO_POSITION;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 /**
  * Divider item decoration that is able to:

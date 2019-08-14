@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
     setContentView(R.layout.activity_earth_quakes_list);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.earthquakes_swipe_refresh);
+    swipeRefreshLayout = findViewById(R.id.earthquakes_swipe_refresh);
     swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
     initRecyclerView();
   }
@@ -94,7 +94,7 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
   public void showNetworkError(boolean show) {
     if (show) {
       snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection,
-          BaseTransientBottomBar.LENGTH_INDEFINITE)
+          Snackbar.LENGTH_INDEFINITE)
           .setAction(R.string.action_ok, (d) -> snackbar.dismiss());
       snackbar.show();
     } else if (snackbar != null) {

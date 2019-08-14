@@ -21,7 +21,6 @@ import timber.log.Timber;
  * @author Artur Badretdinov (Gaket) 21.07.17.
  */
 @Module
-@Singleton
 class RetrofitModule {
 
   private static final String BASE_URL = "https://earthquake.usgs.gov/";

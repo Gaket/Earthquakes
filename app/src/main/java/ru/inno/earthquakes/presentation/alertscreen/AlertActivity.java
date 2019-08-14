@@ -2,10 +2,9 @@ package ru.inno.earthquakes.presentation.alertscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +15,8 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Locale;
 import javax.inject.Inject;
 import ru.inno.earthquakes.EartquakeApp;
@@ -70,9 +71,9 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_main);
-    messageView = (TextView) findViewById(R.id.alert_message);
-    detailsView = (TextView) findViewById(R.id.alert_details);
-    magnitudeView = (TextView) findViewById(R.id.alert_magnitude);
+    messageView = findViewById(R.id.alert_message);
+    detailsView = findViewById(R.id.alert_details);
+    magnitudeView = findViewById(R.id.alert_magnitude);
     distanceView = (TextView) findViewById(R.id.alert_distance);
     alertImageView = (ImageView) findViewById(R.id.alert_status);
     swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
@@ -124,7 +125,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
   public void showNetworkError(boolean show) {
     if (show) {
       snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection,
-          BaseTransientBottomBar.LENGTH_INDEFINITE)
+          Snackbar.LENGTH_INDEFINITE)
           .setAction(R.string.action_ok, (d) -> snackbar.dismiss());
       snackbar.show();
     } else if (snackbar != null) {

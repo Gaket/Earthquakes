@@ -1,6 +1,6 @@
 package ru.inno.earthquakes.models.entities;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * @author Artur Badretdinov (Gaket) 20.07.17.

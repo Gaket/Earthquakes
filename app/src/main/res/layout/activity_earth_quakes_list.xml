@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <android.support.v4.widget.SwipeRefreshLayout
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     android:id="@+id/earthquakes_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,6 +12,6 @@
       android:id="@+id/earthquakes_recycler"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
-  </android.support.v4.widget.SwipeRefreshLayout>
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

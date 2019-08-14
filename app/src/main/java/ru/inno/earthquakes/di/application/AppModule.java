@@ -14,7 +14,6 @@ import ru.inno.earthquakes.presentation.common.SchedulersProvider;
  * @author Artur Badretdinov (Gaket) 21.07.17.
  */
 @Module
-@Singleton
 public class AppModule {
 
   private static final String APP_PREFS = "AppPrefs";
