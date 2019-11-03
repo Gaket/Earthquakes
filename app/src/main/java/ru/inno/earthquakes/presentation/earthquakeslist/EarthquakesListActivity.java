@@ -73,7 +73,7 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
   }
 
   private void initRecyclerView() {
-    recyclerView = (EmptyRecyclerView) findViewById(R.id.earthquakes_recycler);
+    recyclerView = findViewById(R.id.earthquakes_recycler);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setEmptyViewLayout(R.layout.empty_earthquakes);
     SmartDividerItemDecoration itemDecoration = new SmartDividerItemDecoration.Builder(this)

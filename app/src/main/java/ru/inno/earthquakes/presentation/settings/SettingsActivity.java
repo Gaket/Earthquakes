@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -48,10 +50,11 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
     setContentView(R.layout.activity_settings);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
     // According to YAGNI, we have only some hardcoded views here.
     // If application becomes more complicated, here should be a RecyclerView with options.
-    defaultCityView = (TextView) findViewById(R.id.settings_default_city);
-    distanceView = (EditText) findViewById(R.id.settings_distance);
+    defaultCityView = findViewById(R.id.settings_default_city);
+    distanceView = findViewById(R.id.settings_distance);
     distanceView.setOnEditorActionListener((v, actionId, event) -> {
       if (actionId == IME_ACTION_DONE) {
         saveSettings();
@@ -61,8 +64,8 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
       }
     });
 
-    magnitudeValueView = (TextView) findViewById(R.id.settings_magnitude_value);
-    magnitudeView = (SeekBar) findViewById(R.id.settings_magnitude);
+    magnitudeValueView = findViewById(R.id.settings_magnitude_value);
+    magnitudeView = findViewById(R.id.settings_magnitude);
     magnitudeView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

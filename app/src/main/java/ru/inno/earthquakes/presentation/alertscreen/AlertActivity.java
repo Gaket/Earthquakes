@@ -3,6 +3,8 @@ package ru.inno.earthquakes.presentation.alertscreen;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.Menu;
@@ -69,14 +71,14 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
   protected void onCreate(Bundle savedInstanceState) {
     EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_container);
 
-    setContentView(R.layout.activity_main);
     messageView = findViewById(R.id.alert_message);
     detailsView = findViewById(R.id.alert_details);
     magnitudeView = findViewById(R.id.alert_magnitude);
-    distanceView = (TextView) findViewById(R.id.alert_distance);
-    alertImageView = (ImageView) findViewById(R.id.alert_status);
-    swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
+    distanceView = findViewById(R.id.alert_distance);
+    alertImageView = findViewById(R.id.alert_status);
+    swipeRefreshLayout = findViewById(R.id.alert_swipe_refresh);
     swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
     findViewById(R.id.alert_show_all).setOnClickListener(v -> presenter.onShowAll());
   }
