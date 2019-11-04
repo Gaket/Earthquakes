@@ -35,4 +35,7 @@ public interface AlertView extends MvpView {
 
   @StateStrategyType(OneExecutionStateStrategy.class)
   void showGoogleApiMessage(int status);
+
+  @StateStrategyType(OneExecutionStateStrategy.class)
+  void navigateToNews();
 }

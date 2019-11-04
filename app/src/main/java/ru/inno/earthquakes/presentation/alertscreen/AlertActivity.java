@@ -74,11 +74,13 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
     messageView = findViewById(R.id.alert_message);
     detailsView = findViewById(R.id.alert_details);
     magnitudeView = findViewById(R.id.alert_magnitude);
-    distanceView = (TextView) findViewById(R.id.alert_distance);
-    alertImageView = (ImageView) findViewById(R.id.alert_status);
-    swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.alert_swipe_refresh);
+    distanceView = findViewById(R.id.alert_distance);
+    alertImageView = findViewById(R.id.alert_status);
+    swipeRefreshLayout = findViewById(R.id.alert_swipe_refresh);
     swipeRefreshLayout.setOnRefreshListener(() -> presenter.onRefreshAction());
+
     findViewById(R.id.alert_show_all).setOnClickListener(v -> presenter.onShowAll());
+    findViewById(R.id.alert_earthquake_news).setOnClickListener(v -> presenter.onShowNews());
   }
 
   @Override
@@ -168,5 +170,11 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
       Snackbar.make(swipeRefreshLayout, R.string.error_google_api_unavailable,
           Snackbar.LENGTH_INDEFINITE).show();
     }
+  }
+
+  @Override
+  public void navigateToNews() {
+    Intent intent = EarthquakesListActivity.getStartIntent(this);
+    startActivity(intent);
   }
 }

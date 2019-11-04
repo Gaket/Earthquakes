@@ -3,6 +3,7 @@
   <string name="alert_msg_everything_is_ok">There are no earthquakes near your position.</string>
   <string name="alert_msg_earthquake_nearby">Attention! An earthquake found.\nThe nearest to your position is:</string>
   <string name="alert_show_all_earthquakes">Show all earthquakes</string>
+  <string name="alert_show_news">Show news</string>
   <string name="error_connection">Connection problems, only cached data is shown. Check the connection or try again later.</string>
   <string name="action_ok">OK</string>
   <string name="title_settings_max_dist">Maximal distance to earthquake, km</string>
@@ -27,4 +28,6 @@
   <string name="alert_distance_from_place">≈ %1$s km from you</string>
   <string name="settings_default_city_title">Default city (when we can\'t get location)</string>
   <string name="error_not_implemented">This feature is under development</string>
+  <string name="content_app_logo">App logo</string>
+  <string name="content_news_picture">News picture</string>
 </resources>

@@ -61,6 +61,10 @@ public class AlertPresenter extends BasePresenter<AlertView> {
     getViewState().navigateToEarthquakesList();
   }
 
+  void onShowNews() {
+    getViewState().navigateToNews();
+  }
+
   void onOpenSettings() {
     getViewState().navigateToSettings();
   }
@@ -120,4 +124,6 @@ public class AlertPresenter extends BasePresenter<AlertView> {
         .flatMap(locationAnswer -> earthquakesInteractor
             .getEarthquakeAlert(locationAnswer.getCoordinates()));
   }
+
+
 }

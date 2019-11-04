@@ -6,6 +6,8 @@ import ru.inno.earthquakes.di.application.AppModule;
 import ru.inno.earthquakes.di.application.DaggerAppComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesModule;
+import ru.inno.earthquakes.di.news.NewsComponent;
+import ru.inno.earthquakes.di.news.NewsModule;
 
 public class ComponentsManager {
 
@@ -13,6 +15,7 @@ public class ComponentsManager {
 
   private AppComponent appComponent;
   private EarthquakesComponent earthquakesComponent;
+  private NewsComponent newsComponent;
 
   public ComponentsManager(Context context) {
     this.context = context.getApplicationContext();
@@ -36,7 +39,18 @@ public class ComponentsManager {
     return earthquakesComponent;
   }
 
+  public NewsComponent getNewsComponent() {
+    if (newsComponent == null) {
+      newsComponent = appComponent.plusNewsComponent();
+    }
+    return newsComponent;
+  }
+
   public void clearEarthquakesComponent() {
     earthquakesComponent = null;
+  }
+
+  public void clearNewsComponent() {
+    newsComponent = null;
   }
 }

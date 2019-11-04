@@ -17,18 +17,51 @@
       android:orientation="vertical"
       tools:context="ru.inno.earthquakes.presentation.alertscreen.AlertActivity">
 
+
+      <ImageView
+        android:id="@+id/alert_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/alert_show_all"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alert_distance"
+        app:layout_constraintVertical_bias="0.504"
+        tools:src="@drawable/earth_alarm" />
+
+      <TextView
+        android:id="@+id/alert_magnitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/alert_details"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alert_message"
+        tools:text="0.2" />
+
       <TextView
         android:id="@+id/alert_details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="40dp"
         android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/alert_distance"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alert_magnitude"
-        tools:text="Some details here"/>
+        tools:text="Some details here" />
 
 
       <TextView
@@ -36,71 +69,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_normal"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/alert_magnitude"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/alert_msg_everything_is_ok"/>
-
-      <TextView
-        android:id="@+id/alert_magnitude"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="64sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alert_message"
-        tools:text="0.2"/>
-
-      <ImageView
-        android:id="@+id/alert_status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/alert_show_all"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alert_distance"
-        app:layout_constraintVertical_bias="0.504"
-        tools:src="@drawable/earth_alarm"/>
-
-
-      <Button
-        android:id="@+id/alert_show_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/alert_show_all_earthquakes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="@string/alert_msg_everything_is_ok" />
 
       <TextView
         android:id="@+id/alert_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@id/alert_status"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alert_details"
-        tools:text="±1000 km"/>
+        tools:text="±1000 km" />
+
+      <Button
+        android:id="@+id/alert_show_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/alert_show_all_earthquakes"
+        app:layout_constraintBottom_toTopOf="@id/alert_earthquake_news"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+      <Button
+        android:id="@+id/alert_earthquake_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/alert_show_news"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,6 +4,7 @@ import dagger.Component;
 import javax.inject.Singleton;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesModule;
+import ru.inno.earthquakes.di.news.NewsComponent;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
 
 /**
@@ -14,6 +15,8 @@ import ru.inno.earthquakes.presentation.settings.SettingsActivity;
 public interface AppComponent {
 
   EarthquakesComponent plusEarthquakesComponent(EarthquakesModule module);
+
+  NewsComponent plusNewsComponent();
 
   void inject(SettingsActivity settingsActivity);
 }
