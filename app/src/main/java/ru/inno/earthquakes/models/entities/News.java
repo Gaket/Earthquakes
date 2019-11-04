@@ -12,6 +12,10 @@ public class News {
   private String picture;
   private String url;
 
+  public News() {
+    
+  }
+
   public News(String title, String description, String picture, String url) {
     this.title = title;
     this.description = description;
@@ -33,5 +37,21 @@ public class News {
 
   public String getUrl() {
     return url;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public void setPicture(String picture) {
+    this.picture = picture;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 }

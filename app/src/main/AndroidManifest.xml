@@ -35,6 +35,11 @@
       android:parentActivityName=".presentation.alertscreen.AlertActivity"
       android:windowSoftInputMode="adjustResize" />
     <activity
+      android:name=".presentation.newsscreen.NewsActivity"
+      android:label="@string/title_news"
+      android:parentActivityName=".presentation.alertscreen.AlertActivity"
+      android:windowSoftInputMode="adjustResize" />
+    <activity
       android:name=".presentation.info.InfoActivity"
       android:label="@string/title_info"
       android:theme="@style/AppTheme.Fullscreen" />

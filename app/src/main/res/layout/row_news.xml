@@ -4,27 +4,36 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content">
+  android:layout_height="wrap_content"
+  android:layout_marginLeft="@dimen/space_normal"
+  android:layout_marginTop="@dimen/space_medium"
+  android:layout_marginRight="@dimen/space_normal"
+  android:layout_marginBottom="@dimen/space_medium"
+  app:cardCornerRadius="6dp"
+  app:cardElevation="4dp">
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/space_normal">
+    android:paddingBottom="16dp">
 
     <ImageView
       android:id="@+id/news_item_picture"
       android:layout_width="match_parent"
       android:layout_height="180dp"
+      android:adjustViewBounds="true"
+      android:contentDescription="@string/content_news_picture"
+      android:scaleType="centerCrop"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:src="@drawable/bg_blue_gradient"
-      android:contentDescription="@string/content_news_picture" />
+      tools:src="@drawable/bg_blue_gradient" />
 
     <TextView
       android:id="@+id/news_item_title"
       style="@style/TextAppearance.AppCompat.Title"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
+      android:layout_marginHorizontal="16dp"
       android:layout_marginTop="8dp"
       android:ellipsize="end"
       android:maxLines="2"
@@ -39,6 +48,7 @@
       android:id="@+id/news_item_description"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
+      android:layout_marginHorizontal="16dp"
       android:layout_marginTop="8dp"
       android:ellipsize="end"
       android:maxLines="5"

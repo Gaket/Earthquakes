@@ -21,6 +21,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import ru.inno.earthquakes.EartquakeApp;
 import ru.inno.earthquakes.R;
+import ru.inno.earthquakes.data.network.NewsApiService;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.business.location.LocationInteractor;
@@ -28,6 +29,7 @@ import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.Utils;
 import ru.inno.earthquakes.presentation.earthquakeslist.EarthquakesListActivity;
+import ru.inno.earthquakes.presentation.newsscreen.NewsActivity;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
 
 /**
@@ -174,7 +176,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
   @Override
   public void navigateToNews() {
-    Intent intent = EarthquakesListActivity.getStartIntent(this);
+    Intent intent = NewsActivity.getStartIntent(this);
     startActivity(intent);
   }
 }

@@ -19,7 +19,7 @@
     android:layout_margin="40dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/msg_empty_earthquakes"
+    android:text="@string/msg_empty_news"
     android:gravity="center" />
 
 </LinearLayout>
