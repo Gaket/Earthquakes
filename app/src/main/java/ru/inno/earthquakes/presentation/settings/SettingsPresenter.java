@@ -1,6 +1,8 @@
 package ru.inno.earthquakes.presentation.settings;
 
+import android.content.Context;
 import com.arellomobile.mvp.InjectViewState;
+import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.common.BasePresenter;
 import ru.inno.earthquakes.presentation.common.Utils;
@@ -30,7 +32,7 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
    */
   void onSave(String km, double magnitude) {
     if (km.isEmpty() || !Utils.isDigitsOnly(km)) {
-      getViewState().showDistanceFormatError();
+      getViewState().showError("Enter integer number");
       return;
     }
 

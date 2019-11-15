@@ -24,7 +24,7 @@ import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.info.InfoActivity;
 
-public class SettingsActivity extends MvpAppCompatActivity implements SettingsView {
+public class SettingsActivity extends MvpAppCompatActivity implements SettingsView, ResourceFactory {
 
   @InjectPresenter
   SettingsPresenter presenter;
@@ -123,6 +123,11 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
   @Override
   public void showDistanceFormatError() {
     distanceView.setError(getResources().getString(R.string.error_settings_distance));
+  }
+
+  @Override
+  public void showError(String errorMsg) {
+    Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
   }
 
   @Override

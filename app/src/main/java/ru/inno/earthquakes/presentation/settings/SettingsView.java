@@ -17,16 +17,17 @@ public interface SettingsView extends MvpView {
 
   void setDefaultCity(String name);
 
-  @StateStrategyType(OneExecutionStateStrategy.class)
   void showNotImplementedError();
 
-  @StateStrategyType(OneExecutionStateStrategy.class)
   void navigateToInfo();
 
-  @StateStrategyType(OneExecutionStateStrategy.class)
   void close();
 
-  @StateStrategyType(OneExecutionStateStrategy.class)
   void showDistanceFormatError();
 
+  // ===
+  // Methods for today's lesson
+  // ===
+
+  void showError(String errorMsg);
 }
