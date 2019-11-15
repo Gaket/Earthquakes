@@ -131,6 +131,16 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
   }
 
   @Override
+  public void showError(SettingsMessage distanceError) {
+    Toast.makeText(this, distanceError.getResId(), Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void showError(int resId) {
+    Toast.makeText(this, resId, Toast.LENGTH_LONG).show();
+  }
+
+  @Override
   public void setDefaultCity(String name) {
     defaultCityView.setText(name);
   }

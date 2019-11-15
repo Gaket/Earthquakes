@@ -32,7 +32,17 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
    */
   void onSave(String km, double magnitude) {
     if (km.isEmpty() || !Utils.isDigitsOnly(km)) {
+
+      // TODO: show distance error in some way
+
       getViewState().showError("Enter integer number");
+
+//      getViewState().showError(SettingsMessage.DISTANCE_ERROR);
+//      getViewState().showError(R.string.error_settings_distance);
+//      getViewState().showError(context.getString(R.string.error_settings_distance));
+//      getViewState().showError(resourceFactory.getString(R.string.error_settings_distance));
+//      getViewState().showDistanceFormatError();
+
       return;
     }
 
@@ -45,6 +55,8 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
   }
 
   public void onChangeDefaultCity() {
-    getViewState().showNotImplementedError();
+    // TODO: show not implemented error in some way (R.string.error_not_implemented)
   }
+
+
 }

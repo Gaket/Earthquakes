@@ -10,7 +10,7 @@ public enum SettingsMessage {
   DISTANCE_ERROR(R.string.error_settings_distance),
   NOT_READY_ERROR(R.string.error_not_implemented);
 
-  int resId;
+  private int resId;
 
   SettingsMessage(int resId) {
     this.resId = resId;
