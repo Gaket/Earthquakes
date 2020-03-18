@@ -1,22 +1,23 @@
 package ru.inno.earthquakes.business.location;
 
-import static org.mockito.Mockito.when;
-
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import ru.inno.earthquakes.models.entities.Location;
+
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 import ru.inno.earthquakes.data.permissions.PermissionsRepository;
+import ru.inno.earthquakes.models.entities.Location;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.repositories.location.LocationRepository;
 import ru.inno.earthquakes.repositories.settings.SettingsRepository;
+
+import static org.mockito.Mockito.when;
 
 /**
  * @author Artur Badretdinov (Gaket) 07.08.17

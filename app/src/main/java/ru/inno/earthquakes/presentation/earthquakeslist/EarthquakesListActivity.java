@@ -18,14 +18,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import ru.inno.earthquakes.EartquakeApp;
+import ru.inno.earthquakes.EarthquakesApp;
 import ru.inno.earthquakes.R;
-import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.business.location.LocationInteractor;
-import ru.inno.earthquakes.presentation.common.views.EmptyRecyclerView;
+import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.presentation.common.SmartDividerItemDecoration;
+import ru.inno.earthquakes.presentation.common.views.EmptyRecyclerView;
 
 public class EarthquakesListActivity extends MvpAppCompatActivity
     implements EarthquakesListView {
@@ -40,15 +40,13 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
   SchedulersProvider schedulersProvider;
 
   private SwipeRefreshLayout swipeRefreshLayout;
-  private EmptyRecyclerView recyclerView;
   private EarthquakesListAdapter earthquakesListAdapter;
   private Snackbar snackbar;
 
   @ProvidePresenter
   EarthquakesListPresenter providePresenter() {
-    EartquakeApp.getComponentsManager().getEarthquakesComponent().inject(this);
-    return new EarthquakesListPresenter(earthquakesInteractor, locationInteractor,
-        schedulersProvider);
+    EarthquakesApp.getComponentsManager().getEarthquakesComponent().inject(this);
+    return new EarthquakesListPresenter(earthquakesInteractor, locationInteractor, schedulersProvider);
   }
 
   @Override
@@ -73,7 +71,7 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
   }
 
   private void initRecyclerView() {
-    recyclerView = findViewById(R.id.earthquakes_recycler);
+    EmptyRecyclerView recyclerView = findViewById(R.id.earthquakes_recycler);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setEmptyViewLayout(R.layout.empty_earthquakes);
     SmartDividerItemDecoration itemDecoration = new SmartDividerItemDecoration.Builder(this)
@@ -93,9 +91,8 @@ public class EarthquakesListActivity extends MvpAppCompatActivity
   @Override
   public void showNetworkError(boolean show) {
     if (show) {
-      snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection,
-          Snackbar.LENGTH_INDEFINITE)
-          .setAction(R.string.action_ok, (d) -> snackbar.dismiss());
+      snackbar = Snackbar.make(swipeRefreshLayout, R.string.error_connection, Snackbar.LENGTH_INDEFINITE)
+          .setAction(R.string.action_ok, d -> snackbar.dismiss());
       snackbar.show();
     } else if (snackbar != null) {
       snackbar.dismiss();

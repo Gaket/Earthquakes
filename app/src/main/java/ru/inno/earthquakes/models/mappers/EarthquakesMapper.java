@@ -1,14 +1,16 @@
 package ru.inno.earthquakes.models.mappers;
 
-import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import ru.inno.earthquakes.models.entities.Earthquake;
-import ru.inno.earthquakes.models.entities.Location;
+
+import java.util.List;
+
 import ru.inno.earthquakes.models.db.CoordinatesDb;
 import ru.inno.earthquakes.models.db.EarthquakeDb;
 import ru.inno.earthquakes.models.db.LocationDb;
+import ru.inno.earthquakes.models.entities.Earthquake;
+import ru.inno.earthquakes.models.entities.Location;
 import ru.inno.earthquakes.models.network.EarthquakeNetwork;
 
 /**

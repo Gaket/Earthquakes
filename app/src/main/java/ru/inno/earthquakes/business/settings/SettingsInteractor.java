@@ -36,7 +36,7 @@ public class SettingsInteractor {
   /**
    * Save settings for the alert
    *
-   * @param maxDistance in meters
+   * @param maxDistance  in meters
    * @param minMagnitude in Richter scale
    */
   public void saveAlertSettings(double maxDistance, double minMagnitude) {

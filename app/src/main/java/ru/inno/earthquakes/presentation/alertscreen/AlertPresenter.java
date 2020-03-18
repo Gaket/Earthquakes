@@ -1,13 +1,14 @@
 package ru.inno.earthquakes.presentation.alertscreen;
 
 import com.arellomobile.mvp.InjectViewState;
+
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import ru.inno.earthquakes.models.EntitiesWrapper;
-import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.business.location.LocationInteractor;
 import ru.inno.earthquakes.business.settings.SettingsInteractor;
+import ru.inno.earthquakes.models.EntitiesWrapper;
+import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.presentation.common.BasePresenter;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import timber.log.Timber;
@@ -24,9 +25,9 @@ public class AlertPresenter extends BasePresenter<AlertView> {
   private SchedulersProvider schedulersProvider;
 
   AlertPresenter(EarthquakesInteractor earthquakesInteractor,
-      LocationInteractor locationInteractor,
-      SettingsInteractor settingsInteractor,
-      SchedulersProvider schedulersProvider) {
+                 LocationInteractor locationInteractor,
+                 SettingsInteractor settingsInteractor,
+                 SchedulersProvider schedulersProvider) {
 
     super();
     this.earthquakesInteractor = earthquakesInteractor;
@@ -117,7 +118,6 @@ public class AlertPresenter extends BasePresenter<AlertView> {
               break;
           }
         })
-        .flatMap(locationAnswer -> earthquakesInteractor
-            .getEarthquakeAlert(locationAnswer.getCoordinates()));
+        .flatMap(locationAnswer -> earthquakesInteractor.getEarthquakeAlert(locationAnswer.getCoordinates()));
   }
 }

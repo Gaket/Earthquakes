@@ -1,19 +1,18 @@
 package ru.inno.earthquakes.business.earthquakes;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import io.reactivex.Single;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.Schedulers;
-import java.util.ArrayList;
-import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import io.reactivex.Single;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 import ru.inno.earthquakes.models.EntitiesWrapper;
 import ru.inno.earthquakes.models.entities.Earthquake;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
@@ -21,6 +20,9 @@ import ru.inno.earthquakes.models.entities.Location;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.repositories.earthquakes.EarthquakesRepository;
 import ru.inno.earthquakes.repositories.settings.SettingsRepository;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Artur Badretdinov (Gaket) 07.08.17

@@ -2,11 +2,14 @@ package ru.inno.earthquakes.di.application;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 import ru.inno.earthquakes.data.permissions.PermissionsRepository;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 

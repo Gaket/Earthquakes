@@ -2,15 +2,17 @@ package ru.inno.earthquakes;
 
 import android.app.Application;
 import android.content.Context;
+
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+
 import ru.inno.earthquakes.di.ComponentsManager;
 import timber.log.Timber;
 
 /**
  * @author Artur Badretdinov (Gaket) 21.07.17.
  */
-public class EartquakeApp extends Application {
+public class EarthquakesApp extends Application {
 
   private static ComponentsManager componentsManager;
   private RefWatcher refWatcher;
@@ -29,7 +31,7 @@ public class EartquakeApp extends Application {
   }
 
   public static RefWatcher getRefWatcher(Context context) {
-    EartquakeApp application = (EartquakeApp) context.getApplicationContext();
+    EarthquakesApp application = (EarthquakesApp) context.getApplicationContext();
     return application.refWatcher;
   }
 

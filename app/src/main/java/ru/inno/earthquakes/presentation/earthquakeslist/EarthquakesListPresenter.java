@@ -1,13 +1,15 @@
 package ru.inno.earthquakes.presentation.earthquakeslist;
 
 import com.arellomobile.mvp.InjectViewState;
+
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import java.util.List;
-import ru.inno.earthquakes.models.EntitiesWrapper;
-import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.business.earthquakes.EarthquakesInteractor;
 import ru.inno.earthquakes.business.location.LocationInteractor;
+import ru.inno.earthquakes.models.EntitiesWrapper;
+import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.presentation.common.BasePresenter;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import timber.log.Timber;
@@ -24,7 +26,7 @@ public class EarthquakesListPresenter extends BasePresenter<EarthquakesListView>
   private boolean isAlreadyUpdating;
 
   EarthquakesListPresenter(EarthquakesInteractor earthquakesInteractor,
-      LocationInteractor locationInteractor, SchedulersProvider schedulersProvider) {
+                           LocationInteractor locationInteractor, SchedulersProvider schedulersProvider) {
     super();
     this.earthquakesInteractor = earthquakesInteractor;
     this.locationInteractor = locationInteractor;

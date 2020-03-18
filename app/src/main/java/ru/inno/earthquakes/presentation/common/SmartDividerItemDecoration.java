@@ -5,13 +5,13 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -39,7 +39,6 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
   public static final int HORIZONTAL = 1;
 
   private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
-  private boolean mShowLastDivider;
 
   private Drawable divider;
   private int leftMargin;
@@ -57,11 +56,11 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
    * Creates a divider {@link RecyclerView.ItemDecoration} that can be used with a
    * {@link LinearLayoutManager}.
    *
-   * @param context Current context, it will be used to access resources.
+   * @param context     Current context, it will be used to access resources.
    * @param orientation Divider orientation. Should be {@link #HORIZONTAL} or {@link #VERTICAL}.
    */
   SmartDividerItemDecoration(Context context, int orientation, MarginProvider marginProvider,
-      VisibilityProvider visibilityProvider) {
+                             VisibilityProvider visibilityProvider) {
     final TypedArray a = context.obtainStyledAttributes(ATTRS);
     divider = a.getDrawable(0);
     a.recycle();
@@ -106,13 +105,6 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
     leftMargin = Utils.dpToPx(mContext, margin);
   }
 
-  /**
-   * Sets if we should draw divider for the last element in list
-   */
-  public void setShowLastDivider(boolean show) {
-    this.mShowLastDivider = show;
-  }
-
   @Override
   public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
     int childCount = parent.getChildCount();
@@ -147,7 +139,7 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
 
   @Override
   public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-      RecyclerView.State state) {
+                             RecyclerView.State state) {
     if (orientation == VERTICAL) {
       outRect.set(0, 0, 0, divider.getIntrinsicHeight());
     } else {
@@ -161,7 +153,7 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
      * Returns left margin for a divider in dp
      *
      * @param position of item to decorate
-     * @param parent RecyclerView
+     * @param parent   RecyclerView
      * @return left margin in dp
      */
     int getMargin(int position, RecyclerView parent);
@@ -173,7 +165,7 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
      * Returns if a divider should be shown
      *
      * @param position of item to decorate
-     * @param parent RecyclerView
+     * @param parent   RecyclerView
      * @return true if it should be visible, false otherwise
      */
     boolean getVisibility(int position, RecyclerView parent);
@@ -237,8 +229,6 @@ public class SmartDividerItemDecoration extends RecyclerView.ItemDecoration {
       return new SmartDividerItemDecoration(context, orientationMode, marginProvider,
           visibilityProvider);
     }
-
-
   }
 }
 

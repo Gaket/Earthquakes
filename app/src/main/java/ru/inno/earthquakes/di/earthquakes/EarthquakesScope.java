@@ -2,6 +2,7 @@ package ru.inno.earthquakes.di.earthquakes;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
 import javax.inject.Scope;
 
 /**

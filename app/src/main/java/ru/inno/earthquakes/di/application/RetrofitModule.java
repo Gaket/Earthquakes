@@ -3,12 +3,15 @@ package ru.inno.earthquakes.di.application;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.schedulers.Schedulers;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -57,8 +60,7 @@ class RetrofitModule {
   Gson provideGson() {
     return new GsonBuilder()
         .registerTypeAdapter(Date.class,
-            (JsonDeserializer<Date>) (json, typeOfT, context)
-                -> new Date(json.getAsJsonPrimitive().getAsLong()))
+            (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()))
         .create();
   }
 
