@@ -20,7 +20,7 @@ public class LocationRepository {
   private boolean isGoogleApiAvailable = true;
 
   public LocationRepository(FusedLocationProviderClient fusedLocationClient,
-      GoogleApiAvailability googleApiAvailability, Context context) {
+                            GoogleApiAvailability googleApiAvailability, Context context) {
     this.fusedLocationClient = fusedLocationClient;
     this.googleApiAvailability = googleApiAvailability;
     this.context = context;

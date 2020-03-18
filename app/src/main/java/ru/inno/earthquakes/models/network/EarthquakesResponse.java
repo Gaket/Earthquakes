@@ -1,6 +1,7 @@
 package ru.inno.earthquakes.models.network;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**

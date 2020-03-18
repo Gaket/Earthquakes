@@ -16,8 +16,7 @@ public class SettingsRepository {
 
   // Return Moscow coordinates by default. Later we can create a feature where user enters it
   private final String DEFAULT_CITY = "Moscow";
-  private final Location.Coordinates DEFAULT_COORDINATES = new Location.Coordinates(55.755826,
-      37.6173);
+  private final Location.Coordinates DEFAULT_COORDINATES = new Location.Coordinates(55.755826, 37.6173);
 
   public SettingsRepository(SharedPreferences sharedPreferences) {
     this.sharedPreferences = sharedPreferences;

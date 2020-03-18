@@ -1,7 +1,5 @@
 package ru.inno.earthquakes.presentation.settings;
 
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,17 +12,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import java.util.Locale;
+
 import javax.inject.Inject;
-import ru.inno.earthquakes.EartquakeApp;
+
+import ru.inno.earthquakes.EarthquakesApp;
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.info.InfoActivity;
+
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 public class SettingsActivity extends MvpAppCompatActivity implements SettingsView {
 
@@ -40,7 +41,7 @@ public class SettingsActivity extends MvpAppCompatActivity implements SettingsVi
 
   @ProvidePresenter
   SettingsPresenter providePresenter() {
-    EartquakeApp.getComponentsManager().getAppComponent().inject(this);
+    EarthquakesApp.getComponentsManager().getAppComponent().inject(this);
     return new SettingsPresenter(settingsInteractor);
   }
 

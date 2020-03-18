@@ -1,8 +1,8 @@
 package ru.inno.earthquakes.business.location;
 
 import io.reactivex.Single;
-import ru.inno.earthquakes.models.entities.Location.Coordinates;
 import ru.inno.earthquakes.data.permissions.PermissionsRepository;
+import ru.inno.earthquakes.models.entities.Location.Coordinates;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.repositories.location.LocationRepository;
 import ru.inno.earthquakes.repositories.settings.SettingsRepository;
@@ -18,9 +18,9 @@ public class LocationInteractor {
   private final SchedulersProvider schedulersProvider;
 
   public LocationInteractor(LocationRepository repository,
-      PermissionsRepository permissionsRepository,
-      SettingsRepository settingsRepository,
-      SchedulersProvider schedulersProvider) {
+                            PermissionsRepository permissionsRepository,
+                            SettingsRepository settingsRepository,
+                            SchedulersProvider schedulersProvider) {
     this.repository = repository;
     this.permissionsRepository = permissionsRepository;
     this.settingsRepository = settingsRepository;
@@ -43,12 +43,10 @@ public class LocationInteractor {
             return repository.getCurrentCoordinates()
                 .map(coordinates -> new LocationAnswer(coordinates, State.SUCCESS))
                 .onErrorReturnItem(
-                    new LocationAnswer(settingsRepository.getDefaultLocation().getCoords(),
-                        State.NO_DATA));
+                    new LocationAnswer(settingsRepository.getDefaultLocation().getCoords(), State.NO_DATA));
           } else {
             return Single.just(
-                new LocationAnswer(settingsRepository.getDefaultLocation().getCoords(),
-                    State.PERMISSION_DENIED));
+                new LocationAnswer(settingsRepository.getDefaultLocation().getCoords(), State.PERMISSION_DENIED));
           }
         })
         .subscribeOn(schedulersProvider.io());

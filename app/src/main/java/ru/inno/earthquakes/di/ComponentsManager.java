@@ -1,6 +1,7 @@
 package ru.inno.earthquakes.di;
 
 import android.content.Context;
+
 import ru.inno.earthquakes.di.application.AppComponent;
 import ru.inno.earthquakes.di.application.AppModule;
 import ru.inno.earthquakes.di.application.DaggerAppComponent;

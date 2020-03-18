@@ -1,6 +1,7 @@
 package ru.inno.earthquakes.data.permissions;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import io.reactivex.Observable;
 
 /**

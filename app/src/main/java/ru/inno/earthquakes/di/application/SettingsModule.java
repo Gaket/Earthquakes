@@ -1,9 +1,11 @@
 package ru.inno.earthquakes.di.application;
 
 import android.content.SharedPreferences;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.repositories.settings.SettingsRepository;
 

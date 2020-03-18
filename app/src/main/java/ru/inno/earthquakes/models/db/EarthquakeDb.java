@@ -1,5 +1,7 @@
 package ru.inno.earthquakes.models.db;
 
+import java.util.Date;
+
 import io.objectbox.BoxStore;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Generated;
@@ -7,7 +9,6 @@ import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Relation;
 import io.objectbox.annotation.apihint.Internal;
 import io.objectbox.relation.ToOne;
-import java.util.Date;
 
 /**
  * @author Artur Badretdinov (Gaket) 20.07.17.

@@ -11,6 +11,7 @@
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="@dimen/info_top_margin"
+    android:contentDescription="@string/content_app_logo"
     app:srcCompat="@drawable/logo_color" />
 
   <TextView
@@ -44,8 +45,8 @@
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="@dimen/info_bottom_margin"
-    android:paddingEnd="40dp"
     android:paddingStart="40dp"
+    android:paddingEnd="40dp"
     android:text="@string/action_got_it" />
 
 </RelativeLayout>

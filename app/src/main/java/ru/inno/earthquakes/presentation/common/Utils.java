@@ -19,12 +19,13 @@ public final class Utils {
    */
   public static int dpToPx(Context context, int dp) {
     DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+    //noinspection UnnecessaryLocalVariable
     int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     return px;
   }
 
   /**
-   * Formats doule to {@link String} like "1 220 000"
+   * Formats double to {@link String} like "1 220 000"
    */
   public static String formatDistanceString(Double distance) {
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();

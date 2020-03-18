@@ -1,14 +1,15 @@
 package ru.inno.earthquakes.business.earthquakes;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import java.util.Comparator;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.models.EntitiesWrapper;
 import ru.inno.earthquakes.models.EntitiesWrapper.State;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.models.entities.Location;
-import ru.inno.earthquakes.business.settings.SettingsInteractor;
 import ru.inno.earthquakes.presentation.common.SchedulersProvider;
 import ru.inno.earthquakes.repositories.earthquakes.EarthquakesRepository;
 import ru.inno.earthquakes.repositories.settings.SettingsRepository;
@@ -24,8 +25,8 @@ public class EarthquakesInteractor {
   private SchedulersProvider schedulersProvider;
 
   public EarthquakesInteractor(EarthquakesRepository earthquakesRepository,
-      SettingsRepository settingsRepository,
-      SchedulersProvider schedulersProvider) {
+                               SettingsRepository settingsRepository,
+                               SchedulersProvider schedulersProvider) {
     this.earthquakesRepository = earthquakesRepository;
     this.settingsRepository = settingsRepository;
     this.schedulersProvider = schedulersProvider;
@@ -44,10 +45,8 @@ public class EarthquakesInteractor {
       Location.Coordinates coords) {
     return getApiDataSorted(coords, distanceComparator)
         .flattenAsObservable(earthquakeWithDists -> earthquakeWithDists)
-        .filter(earthquakeWithDist -> earthquakeWithDist.getDistance() < settingsRepository
-            .getAlertMaxDistance())
-        .filter(earthquakeWithDist -> earthquakeWithDist.getMagnitude() >= settingsRepository
-            .getAlertMinMagnitude())
+        .filter(earthquakeWithDist -> earthquakeWithDist.getDistance() < settingsRepository.getAlertMaxDistance())
+        .filter(earthquakeWithDist -> earthquakeWithDist.getMagnitude() >= settingsRepository.getAlertMinMagnitude())
         .toList()
         .map(earthquakeWithDists -> earthquakeWithDists.isEmpty() ?
             new EntitiesWrapper<EarthquakeWithDist>(State.EMPTY, null) :
@@ -79,7 +78,7 @@ public class EarthquakesInteractor {
    * and return list of {@link EarthquakeWithDist} sorted by distance
    */
   private Single<List<EarthquakeWithDist>> getApiDataSorted(Location.Coordinates coords,
-      Comparator<EarthquakeWithDist> distanceComparator) {
+                                                            Comparator<EarthquakeWithDist> distanceComparator) {
     return earthquakesRepository.getTodaysEarthquakesFromApi()
         .flattenAsObservable(earthquakes -> earthquakes)
         .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))
@@ -92,7 +91,7 @@ public class EarthquakesInteractor {
    * and return list of {@link EarthquakeWithDist} sorted by distance
    */
   private Single<List<EarthquakeWithDist>> getCachedDataSorted(Location.Coordinates coords,
-      Comparator<EarthquakeWithDist> distanceComparator) {
+                                                               Comparator<EarthquakeWithDist> distanceComparator) {
     return earthquakesRepository.getCachedTodaysEarthquakes()
         .flattenAsObservable(earthquakes -> earthquakes)
         .map(earthquakeEntity -> new EarthquakeWithDist(earthquakeEntity, coords))

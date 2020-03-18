@@ -1,9 +1,11 @@
 package ru.inno.earthquakes.di.earthquakes;
 
 import android.content.Context;
+
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
 import dagger.Module;
 import dagger.Provides;
 import ru.inno.earthquakes.business.location.LocationInteractor;
@@ -21,16 +23,17 @@ public class LocationModule {
   @Provides
   @EarthquakesScope
   LocationInteractor provideInteractor(LocationRepository repository,
-      PermissionsRepository permissionsRepository, SettingsRepository settingsRepository,
-      SchedulersProvider schedulersProvider) {
-    return new LocationInteractor(repository, permissionsRepository, settingsRepository,
-        schedulersProvider);
+                                       PermissionsRepository permissionsRepository,
+                                       SettingsRepository settingsRepository,
+                                       SchedulersProvider schedulersProvider) {
+    return new LocationInteractor(repository, permissionsRepository, settingsRepository, schedulersProvider);
   }
 
   @Provides
   @EarthquakesScope
   LocationRepository provideRepository(FusedLocationProviderClient locationProviderClient,
-      GoogleApiAvailability googleApiAvailability, Context context) {
+                                       GoogleApiAvailability googleApiAvailability,
+                                       Context context) {
     return new LocationRepository(locationProviderClient, googleApiAvailability, context);
   }
 

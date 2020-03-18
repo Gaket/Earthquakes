@@ -1,15 +1,16 @@
 package ru.inno.earthquakes.repositories.earthquakes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import io.objectbox.query.Query;
 import io.objectbox.rx.RxQuery;
 import io.reactivex.Single;
-import java.util.ArrayList;
-import java.util.List;
+import ru.inno.earthquakes.models.db.EarthquakeDb;
 import ru.inno.earthquakes.models.entities.Earthquake;
 import ru.inno.earthquakes.models.mappers.EarthquakesMapper;
-import ru.inno.earthquakes.models.db.EarthquakeDb;
 import timber.log.Timber;
 
 /**
@@ -48,7 +49,6 @@ public class EarthquakesCache {
     Query<EarthquakeDb> query = earthquakeBox.query().build();
     return RxQuery.observable(query)
         .first(new ArrayList<>())
-        .doOnSuccess(
-            earthquakeEntities -> Timber.d("%d entities are in cache", earthquakeEntities.size()));
+        .doOnSuccess(earthquakeEntities -> Timber.d("%d entities are in cache", earthquakeEntities.size()));
   }
 }

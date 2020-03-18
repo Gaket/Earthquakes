@@ -19,7 +19,7 @@ public class EarthquakesRepository {
   private EarthquakesCache earthquakesCache;
 
   public EarthquakesRepository(EarthquakesApiService apiService,
-      EarthquakesMapper earthquakesMapper, EarthquakesCache earthquakesCache) {
+                               EarthquakesMapper earthquakesMapper, EarthquakesCache earthquakesCache) {
     this.apiService = apiService;
     this.earthquakesMapper = earthquakesMapper;
     this.earthquakesCache = earthquakesCache;
@@ -40,8 +40,8 @@ public class EarthquakesRepository {
           earthquakesCache.clearCache();
           earthquakesCache.putEarthquakes(earthquakeEntities);
         })
-        .doOnSuccess(earthquakeEntities -> Timber
-            .d("%d entities came from server", earthquakeEntities.size()));
+        .doOnSuccess(earthquakeEntities ->
+            Timber.d("%d entities came from server", earthquakeEntities.size()));
   }
 
   /**

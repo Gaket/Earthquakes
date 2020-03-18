@@ -5,24 +5,25 @@
   android:layout_height="match_parent"
   android:focusable="true"
   android:orientation="vertical"
-  android:paddingBottom="@dimen/space_normal"
   android:paddingTop="@dimen/space_normal"
-  tools:context="ru.inno.earthquakes.presentation.MainActivity">
+  android:paddingBottom="@dimen/space_normal"
+  tools:context="ru.inno.earthquakes.presentation.alertscreen.AlertActivity">
 
   <TextView
     android:id="@+id/settings_tv_title_dist"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/space_normal"
     android:layout_marginStart="@dimen/space_normal"
+    android:layout_marginEnd="@dimen/space_normal"
     android:text="@string/title_settings_max_dist" />
 
   <EditText
     android:id="@+id/settings_distance"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/space_normal"
     android:layout_marginStart="@dimen/space_normal"
+    android:layout_marginEnd="@dimen/space_normal"
+    android:autofillHints="no"
     android:hint="@string/hint_settings_dist"
     android:imeOptions="actionDone"
     android:inputType="number"
@@ -41,18 +42,18 @@
       android:id="@+id/settings_tv_title_mag"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="@dimen/space_normal"
       android:layout_marginStart="@dimen/space_normal"
+      android:layout_marginEnd="@dimen/space_normal"
       android:text="@string/title_settings_min_mag" />
 
     <TextView
       android:id="@+id/settings_magnitude_value"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="@dimen/space_normal"
       android:layout_marginStart="@dimen/space_normal"
+      android:layout_marginEnd="@dimen/space_normal"
       android:gravity="end"
-      android:text="0"
+      android:text="@string/zero_number"
       android:textColor="@color/textColorPrimary"
       android:textSize="16sp"
       android:textStyle="bold" />
@@ -63,8 +64,8 @@
     android:id="@+id/settings_magnitude"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="6dp"
     android:layout_marginStart="6dp"
+    android:layout_marginEnd="6dp"
     android:max="95"
     tools:text="5.0" />
 
@@ -72,17 +73,17 @@
     android:id="@+id/settings_default_city_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/space_normal"
     android:layout_marginStart="@dimen/space_normal"
     android:layout_marginTop="20dp"
+    android:layout_marginEnd="@dimen/space_normal"
     android:text="@string/settings_default_city_title" />
 
   <TextView
     android:id="@+id/settings_default_city"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/space_normal"
     android:layout_marginStart="@dimen/space_normal"
+    android:layout_marginEnd="@dimen/space_normal"
     android:textColor="@color/textColorPrimary"
     android:textSize="16sp"
     android:textStyle="bold"

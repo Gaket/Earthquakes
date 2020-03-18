@@ -27,4 +27,7 @@
   <string name="alert_distance_from_place">≈ %1$s km from you</string>
   <string name="settings_default_city_title">Default city (when we can\'t get location)</string>
   <string name="error_not_implemented">This feature is under development</string>
+  <string name="content_app_logo">app logo</string>
+  <string name="content_status_of_alert">status of alert</string>
+  <string name="zero_number">0</string>
 </resources>

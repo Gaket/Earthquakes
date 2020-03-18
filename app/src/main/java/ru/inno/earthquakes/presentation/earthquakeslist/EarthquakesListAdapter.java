@@ -1,18 +1,20 @@
 package ru.inno.earthquakes.presentation.earthquakeslist;
 
 import android.content.Context;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import ru.inno.earthquakes.R;
 import ru.inno.earthquakes.models.entities.EarthquakeWithDist;
 import ru.inno.earthquakes.presentation.common.Utils;
@@ -86,9 +88,7 @@ public class EarthquakesListAdapter extends
       }
       magnitude.setText(String.format(Locale.getDefault(), "%.1f", model.getMagnitude()));
       String formattedDist = Utils.formatDistanceString(model.getDistance());
-      dist.setText(String
-          .format(Locale.getDefault(), context.getString(R.string.earthquake_row_distance),
-              formattedDist));
+      dist.setText(String.format(Locale.getDefault(), context.getString(R.string.earthquake_row_distance), formattedDist));
       place.setText(model.getLocation().getName());
       time.setText(dateFormat.format(model.getTime()));
       itemView.setOnClickListener(v -> listener.onEarthquakeClicked(model));

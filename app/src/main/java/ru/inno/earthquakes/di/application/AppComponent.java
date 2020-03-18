@@ -1,7 +1,8 @@
 package ru.inno.earthquakes.di.application;
 
-import dagger.Component;
 import javax.inject.Singleton;
+
+import dagger.Component;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesComponent;
 import ru.inno.earthquakes.di.earthquakes.EarthquakesModule;
 import ru.inno.earthquakes.presentation.settings.SettingsActivity;
