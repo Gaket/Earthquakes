@@ -1,5 +1,7 @@
 # Earthquakes Alert
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4ed364e0d38c4f88a7730d4c3dad2270)](https://app.codacy.com/manual/Gaket/Earthquakes?utm_source=github.com&utm_medium=referral&utm_content=Gaket/Earthquakes&utm_campaign=Badge_Grade_Dashboard)
+
 ## About
 
 Demo app, that helps you to be aware of earthquakes nearby. Based on data from http://earthquake.usgs.gov/
