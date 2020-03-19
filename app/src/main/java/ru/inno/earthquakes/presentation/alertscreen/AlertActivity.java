@@ -56,8 +56,7 @@ public class AlertActivity extends MvpAppCompatActivity implements AlertView {
 
   @ProvidePresenter
   AlertPresenter providePresenter() {
-    return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor,
-        schedulersProvider);
+    return new AlertPresenter(earthquakesInteractor, locationInteractor, settinsInteractor, schedulersProvider);
   }
 
   private SwipeRefreshLayout swipeRefreshLayout;
