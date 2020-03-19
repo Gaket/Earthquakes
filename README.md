@@ -1,5 +1,6 @@
 # Earthquakes Alert
 
+[![Code maintainability](https://api.codeclimate.com/v1/badges/8f23bcaf17afbb3dcbf1/maintainability)](https://codeclimate.com/github/Gaket/Earthquakes/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4ed364e0d38c4f88a7730d4c3dad2270)](https://app.codacy.com/manual/Gaket/Earthquakes?utm_source=github.com&utm_medium=referral&utm_content=Gaket/Earthquakes&utm_campaign=Badge_Grade_Dashboard)
 
 ## About
